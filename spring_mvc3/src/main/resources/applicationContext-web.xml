@@ -34,10 +34,10 @@
 	</bean>
 	
 	<!-- 上傳文件 -->
-<!--     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/> -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
     <!-- 拦截器 -->
-<!--     <mvc:interceptors> -->
-<!--         <bean class="springmvc.interceptor.SpringMVCInterceptor"></bean> -->
-<!--     </mvc:interceptors> -->
+    <mvc:interceptors>
+        <bean class="spring_mvc3.web.interceptor.SpringMVCInterceptor"></bean>
+    </mvc:interceptors>
 </beans>
