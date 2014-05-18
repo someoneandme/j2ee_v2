@@ -20,6 +20,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <a href="<%=basePath%>hello/forward_to_listcars" target="_blank">服务器端跳转到list_cars</a>
     </p>
     
+    <h3>velocity演示</h3>
+    <p>
+       <a href="<%=basePath%>velocity_index" target="_blank">basic</a>
+    </p>
+    
     <h3>演示依赖注入</h3>
     <p><a href="<%=basePath%>list_cars" target="_blank">carList</a></p>
     

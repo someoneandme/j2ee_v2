@@ -31,7 +31,20 @@
 		-->
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
+		<property name="order" value="2" /> <!-- 多个viewResolver时配置 -->
 	</bean>
+	
+    <!-- 配置Velocity引擎 -->
+	<bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/velocity/" />
+    </bean>
+    
+    <!-- 解析Velocity视图 -->
+    <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="cache" value="true" />
+        <property name="suffix" value=".vm" />
+        <property name="order" value="1" /> <!-- 多个viewResolver时配置，order越小越优先匹配到 -->
+    </bean>
 	
 	<!-- 上傳文件 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>

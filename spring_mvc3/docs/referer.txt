@@ -1,3 +1,6 @@
 [Spring 3 MVC Hello World Example]
 http://www.mkyong.com/spring3/spring-3-mvc-hello-world-example/
 
+[Spring mvc test example]
+http://www.cnblogs.com/zemliu/p/3366273.html
+https://github.com/pkainulainen/spring-mvc-test-examples
