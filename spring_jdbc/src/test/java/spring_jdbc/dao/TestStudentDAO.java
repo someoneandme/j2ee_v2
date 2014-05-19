@@ -1,6 +1,8 @@
 package spring_jdbc.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.Test;
@@ -41,6 +43,31 @@ public class TestStudentDAO {
 		student.setName("nick");
 
 		studentDAO.insert(student);
+	}
+	
+	/**
+	 * 这个测试是特殊的，由于两个student的主键相同，所以它们应该无法插入数据库
+	 * 而由于insertAtomicity是事务的，所以两个student要么全部插入，要么全部插不入数据库
+	 * @throws SQLException
+	 */
+	@Test
+	@Rollback(false)
+	public void testInsertStuduentAtomicity() throws SQLException {
+		List<Student> students = new ArrayList<Student>();
+		
+		Student student1 = new Student();
+		student1.setId(3L);
+		student1.setAge(26);
+		student1.setName("nick");
+		students.add(student1);
+		
+		Student student2 = new Student();
+		student2.setId(3L);
+		student2.setAge(26);
+		student2.setName("nick");
+		students.add(student2);
+		
+		studentDAO.insertAtomicity(students);
 	}
 	
 	/**

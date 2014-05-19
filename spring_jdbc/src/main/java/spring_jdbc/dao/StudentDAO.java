@@ -18,6 +18,13 @@ public interface StudentDAO {
 	public void insert(Student student) throws SQLException;
 	
 	/**
+	 * 原子性插入全部，要么全部成功，要么全部失败
+	 * @param students
+	 * @throws SQLException
+	 */
+	public void insertAtomicity(List<Student> students) throws SQLException;
+	
+	/**
 	 * 根据student的Id获得student对象
 	 * @param id
 	 * @return

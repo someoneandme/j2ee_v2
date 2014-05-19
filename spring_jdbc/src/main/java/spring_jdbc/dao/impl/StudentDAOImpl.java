@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.jdbc.core.RowMapper;
 
 import spring_jdbc.dao.StudentDAO;
@@ -52,6 +53,20 @@ public class StudentDAOImpl implements StudentDAO {
 			}
 		});
 		return list;
+	}
+
+	/**
+	 * 这里使用@Transactional注解，使得这个方法的执行是原子性的，会自动安排好事务
+	 */
+	@Transactional
+	public void insertAtomicity(List<Student> students) throws SQLException {
+		if(students == null || students.isEmpty()) {
+			return;
+		}
+		for(Student student : students) {
+			jdbcTemplate.update("insert into student(id,name,age) values(?,?,?)",
+					student.getId(), student.getName(), student.getAge());
+		}
 	}
 
 }
