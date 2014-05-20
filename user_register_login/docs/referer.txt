@@ -1,0 +1,5 @@
+http://my.oschina.net/uniquejava/blog/83657
+http://www.sivalabs.in/2011/06/authentication-checking-using-springmvc.html
+
+[关于Web登录的讨论文章，比较全面]
+http://coolshell.cn/articles/5353.html
