@@ -3,5 +3,5 @@ CREATE TABLE `Student` (
 `name`  varchar(32) NOT NULL ,
 `age`  int NULL ,
 PRIMARY KEY (`id`)
-)
+) CHARSET=utf8
 ;

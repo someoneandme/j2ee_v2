@@ -40,7 +40,7 @@ public class TestStudentDAO {
 		Student student = new Student();
 		student.setId((long) new Random().nextInt());
 		student.setAge(26);
-		student.setName("nick");
+		student.setName("测试名称");
 
 		studentDAO.insert(student);
 	}
