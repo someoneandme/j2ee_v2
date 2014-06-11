@@ -51,6 +51,7 @@
         <property name="suffix" value=".vm" />
         <property name="contentType" value="text/html;charset=UTF-8" />
         <property name="order" value="1" /> <!-- 多个viewResolver时配置，order越小越优先匹配到 -->
+        <property name="toolboxConfigLocation" value="/WEB-INF/classes/vm_toolbox.xml" />
     </bean>
 	
 	<!-- 上傳文件 -->
