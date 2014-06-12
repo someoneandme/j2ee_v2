@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>条件测试</title>
+    </head>
+    <body>
+        #if($userName)
+          你定义了userName:$userName
+        #else
+          你没有定义userName
+        #end
+    </body>
+</html>

@@ -24,5 +24,10 @@
             $velocityCount
             This is $element.<br/>
         #end
+        
+        <p>
+            <a href="./velocity_condition">条件演示</a><br/>
+            <a href="./velocity_loop">循环演示</a>
+        </p>
     </body>
 </html>
