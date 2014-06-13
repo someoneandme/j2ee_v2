@@ -1,0 +1,19 @@
+2014年6月13日 23:36:22
+今天晚上遇到传递get中文参数时，后台获取到的数据乱码，经检查是latin1编码。
+由于latin1透传信息，因此页面透传数据没有乱码，但是后台数据乱了。
+
+经搜索资料，发现这篇可以完全解决问题：
+http://blog.csdn.net/jimmy609/article/details/7546960
+
+问题的根源在于tomcat对GET和POST编码的处理不同，解决方法：
+修改tomcat的server.xml文件：
+<Connector connectionTimeout="20000" 
+    port="8080" protocol="HTTP/1.1" redirectPort="8443"
+    useBodyEncodingForURI="true"/>
+这里加上useBodyEncodingForURI="true"就可以了。
+
+注：对于eclipse里server集成的tomcat，需要同时修改：
+workspace\Servers\Tomcat v7.0 Server at localhost-config\server.xml
+和
+workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\conf\server.xml
+两个文件。

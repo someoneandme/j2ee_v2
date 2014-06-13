@@ -8,6 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   </head>
   
   <body>
@@ -18,6 +19,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <a href="<%=basePath%>hello/hello_world?egg=egg" target="_blank">hello_world?egg=egg</a><br/>
        <a href="<%=basePath%>hello/redirect_to_helloworld" target="_blank">浏览器端跳转到hello_world</a><br/>
        <a href="<%=basePath%>hello/forward_to_listcars" target="_blank">服务器端跳转到list_cars</a>
+    </p>
+    
+    <h3>演示中文传参并吐出json</h3>
+    <p>
+        <a href="<%=basePath%>chinese_json?name=测试" target="_blank">中文传参</a>
     </p>
     
     <h3>velocity演示</h3>
