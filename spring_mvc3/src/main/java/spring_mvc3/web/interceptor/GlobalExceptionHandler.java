@@ -15,6 +15,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * 如果只需要某个controller的异常处理：
  * 那么只需要把@ExceptionHandler放在某个Controller中
  * 同时不需要@ControllerAdvice和@EnableWebMvc
+ * 
+ * 【重点】
+ * 测试Test需要加上注解：@WebAppConfiguration
  */
 @ControllerAdvice
 @EnableWebMvc
