@@ -22,14 +22,35 @@ public class Sender {
 			connection = Utils.getConnection();
 			connection.start();
 			
-			Session session = connection.createSession(Boolean.TRUE,
+			/**
+			 * 参数设定参考：http://riddickbryant.iteye.com/blog/441890
+			 * 第一个参数指定session是否事务，当true时第二参数无用，true时要求消息就通过确认和校正，以保证消息一定到达
+			 * 当第一个参数是false时，第二个参数有如下选择：
+			 * 1) AUTO_ACKNOWLEDGE 接收方session将自动地确认收到的一则消息
+			 * 2) CLIENT_ACKNOWLEDGE 客户端程序将确认收到的一则消息，调用这则消息的确认方法
+			 * 3) DUPS_OK_ACKNOWLEDGE 自动批量确认。当JMS出问题时，客户端可能收到重复的消息，这就要求客户端能容忍重复消息
+			 * 
+			 * 保证有保障的消息：http://www2.sys-con.com/itsg/virtualcd/java/archives/0604/chappell/index.html
+			 * http://shift-alt-ctrl.iteye.com/blog/2020182
+			 */
+			Session session = connection.createSession(true,
 					Session.AUTO_ACKNOWLEDGE);
 			
 			// 指定队列FirstQueue
 			Destination destination = session.createQueue("FirstQueue");
 			MessageProducer producer = session.createProducer(destination);
 			
-			// 设置不持久化，此处学习，实际根据项目决定
+			/**
+			 * 设置持久化
+			 * 
+			 * DeliveryMode.NON_PERSISTENT
+			 * 没有持久化，意味着当JMS重启时，数据将丢失，而【不是】
+			 * http://riddickbryant.iteye.com/blog/441890
+			 * 中说的标记为NON_PERSISTENT的消息最多传递一次
+			 * 
+			 * DeliveryMode.PERSISTENT
+			 * 意味着JMS重启后，数据还存在。
+			 */
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 			
 			for(int i = 0; i < 5; i++) {
