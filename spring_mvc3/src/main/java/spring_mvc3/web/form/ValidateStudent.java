@@ -7,9 +7,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class ValidateStudent {
 
 	@NotEmpty(message = "姓名不能为空")
-	@Length(min=2,max=10,message="姓名长度必须在2到10之间")
+	@Length(min = 2, max = 10, message = "姓名长度必须在2到10之间")
 	private String name;
-	
+
 	@NotEmpty(message = "邮箱不能为空")
 	@Email(message = "邮箱格式不正确")
 	private String email;
@@ -29,5 +29,5 @@ public class ValidateStudent {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 }
