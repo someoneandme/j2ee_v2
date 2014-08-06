@@ -1,0 +1,10 @@
+filter的调用是栈式的，在servlet处理之前调用，在servlet处理之后也调用。
+
+filter可以指定对哪些url生效（支持通配符），或者对哪些servlet生效。
+
+一个filter 包括: 
+1. 在servlet被调用之前截获; 
+2. 在servlet被调用之前检查servlet request; 
+3. 根据需要修改request头和request数据; 
+4. 根据需要修改response头和response数据; 
+5. 在servlet被调用之后截获. 

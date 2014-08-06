@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+  <listener>
+      <listener-class>listener.ServletContextListenerImpl</listener-class>
+  </listener>
+  
+  <listener>
+      <listener-class>listener.HttpSessionListenerImpl</listener-class>
+  </listener>
+  
+  <listener>
+      <listener-class>listener.ServletContextAttributeListenerImpl</listener-class>
+  </listener>
+  
+  <listener>
+      <listener-class>listener.ServletRequestAttributeListenerImpl</listener-class>
+  </listener>
+  
+  <listener>
+      <listener-class>listener.ServletRequestListenerImpl</listener-class>
+  </listener>
+  
+  <listener>
+      <listener-class>listener.HttpSessionAttributeListenerImpl</listener-class>
+  </listener>
+  
+  <!-- 设置session超时时间为20分钟，默认是30分钟，也可以调用session.setMaxInactiveInterval动态设置 -->
+  <session-config>
+      <session-timeout>20</session-timeout>
+  </session-config>
+  
+  <filter>
+      <filter-name>TimerFilter</filter-name>
+      <filter-class>filter.TimerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+      <filter-name>TimerFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <servlet>
+      <servlet-name>hello</servlet-name>
+      <servlet-class>servlet.HelloServlet</servlet-class>
+      <!-- 配置tomcat启动时实例化servlet，此时init也会被调用 -->
+      <!--  <load-on-startup>1</load-on-startup> -->
+      <init-param>
+          <param-name>a</param-name>
+          <param-value>valueA</param-value>
+      </init-param>
+      <init-param>
+          <param-name>b</param-name>
+          <param-value>valueB</param-value>
+      </init-param>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>hello</servlet-name>
+      <url-pattern>/hello</url-pattern> <!-- 这里是支持通配符的 -->
+  </servlet-mapping>
+  
+  <!-- 把一个jsp文件映射到servlet -->
+  <servlet>
+      <servlet-name>Index</servlet-name>
+      <jsp-file>/index.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>Index</servlet-name>
+      <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+	
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+</web-app>

@@ -1,0 +1,13 @@
+【servlet监听器】
+它配置在web.xml中，充当的是拦截器和事件驱动的角色。
+listener是全局生效的。listener是观察者模型。
+
+Listener有两种类型：
+- EventListeners 由某个事件触发的
+-- ServletContextAttributeListener
+-- ServletRequestAttributeListener
+-- ServletRequestListener
+-- HttpSessionAttributeListener
+- LifecycleListener 生命周期中不同状态触发
+-- ServletContextListener 创建Context是触发
+-- HttpSessionListener 创建session时触发
