@@ -20,7 +20,7 @@
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	
 	<!-- 配置靜態文件夹 -->
 	<servlet-mapping>
         <servlet-name>default</servlet-name>
@@ -31,6 +31,27 @@
         <url-pattern>*.jpg</url-pattern>
         <url-pattern>*.gif</url-pattern>
     </servlet-mapping>
+    
+    <!-- 一个独立的servlet -->
+    <servlet>
+        <servlet-name>helloServlet</servlet-name>
+        <servlet-class>servlet.HelloServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>helloServlet</servlet-name>
+        <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+    
+    <!-- 配置root application context，从而可以在普通servlet中获取到spring context -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- 如果有多个配置文件，用逗号隔开 -->
+		<param-value>classpath:applicationContext-*.xml</param-value>
+	</context-param>
 
 	<!-- Spring MVC Servlet配置 -->
 	<servlet>
@@ -38,13 +59,13 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>
-			        	classpath:applicationContext-*.xml
-			        	<!-- 如果有多个配置文件，用逗号隔开 -->
-			</param-value>
+			<!-- 如果有多个配置文件，用逗号隔开 -->
+			<!-- TODO 虽然context-param已经定义了，但是由于listener的存在，导致servlet又读取不到 -->
+			<param-value>classpath:applicationContext-*.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<!--
