@@ -37,8 +37,10 @@ public class HelloServlet extends HttpServlet {
 				.getRequiredWebApplicationContext(getServletContext());
 		System.out.println("context:" + context);
 		
+		// 测试从容器中获取bean
+		System.out.println("brandManager:" + context.getBean("brandManager"));
+		
 		resp.getWriter().write("hello,world");
-
 	}
 
 }
