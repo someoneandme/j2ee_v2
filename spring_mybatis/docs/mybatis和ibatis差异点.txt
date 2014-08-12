@@ -1,0 +1,7 @@
+ibatis到2010年就不再更新了，而且spring3不直接支持ibatis，因此新项目应该都用mybatis。
+
+ibatis和mybatis使用细节区别（不包括全部）：
+
+1) ibatis的sql语句中，注入参数是用#param#，而mybatis中是用#{param}，表名则是${table}
+
+2) mybatis的参数注入有parameterType和parameterClass两种。

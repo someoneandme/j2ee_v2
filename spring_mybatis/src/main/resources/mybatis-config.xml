@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+    
+    <!-- 类型映射，ibatis是写在各个mapper.xml里面的，mybatis提取出来写在全局，这样更直观 -->
+	<typeAliases>
+		<typeAlias type="com.pugwoo.practice.spring_mybatis.entity.Student" 
+		           alias="Student" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mybatis_mapper/StudentMapper.xml" />
+	</mappers>
+	
+</configuration>
