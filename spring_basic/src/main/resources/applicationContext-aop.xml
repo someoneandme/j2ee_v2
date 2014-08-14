@@ -14,7 +14,7 @@
     <!-- 注解，Aspect类要增加@Component -->
     <context:component-scan base-package="*" />
 	
-	<!-- 启用AspectJ对Annotation的支持 -->
+	<!-- 启动 @AspectJ注解的支持 --> 
 	<aop:aspectj-autoproxy />
 
 </beans>
