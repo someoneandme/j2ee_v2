@@ -1,5 +1,7 @@
 package spring_basic.aop;
 
+import java.sql.SQLException;
+
 public interface CustomerBo {
 
 	void addCustomer();
@@ -9,5 +11,7 @@ public interface CustomerBo {
 	void addCustomerThrowException() throws Exception;
 
 	void addCustomerAround(String name);
+	
+	public String sayHello(String name) throws SQLException;
 	
 }

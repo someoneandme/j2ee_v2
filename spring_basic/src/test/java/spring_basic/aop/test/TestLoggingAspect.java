@@ -1,5 +1,7 @@
 package spring_basic.aop.test;
 
+import java.sql.SQLException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,13 @@ public class TestLoggingAspect {
 	private CustomerBo customerBo;
 	
 	@Test
-	public void testBefore() {
+	public void testAOP() throws SQLException {
 		System.out.println(customerBo);
-		customerBo.addCustomer();
+		customerBo.sayHello("nick");
+		
+		// class com.sun.proxy.$Proxy11 可以拿出spring aop默认用jvm的动态代理
+		// 如果是GCLib的话
+		System.out.println("class:" + customerBo.getClass());
 	}
 	
 }
