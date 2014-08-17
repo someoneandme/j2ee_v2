@@ -9,7 +9,7 @@
 
 	<settings cacheModelsEnabled="true" enhancementEnabled="true"
 		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
-		maxTransactions="5" useStatementNamespaces="false" />
+		maxTransactions="5" useStatementNamespaces="true" />
 
 	<!-- Configure a built-in transaction manager. If you're using an app server, 
 		you probably want to use its transaction manager and a managed datasource -->
