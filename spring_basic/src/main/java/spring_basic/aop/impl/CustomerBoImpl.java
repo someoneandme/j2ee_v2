@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 
 import spring_basic.aop.CustomerBo;
 
+/**
+ * 接口的实现，未入侵任何的AOP代码。
+ * 注解@Component只是让spring加载入spring世界中，和xml配置效果等同，不代表入侵AOP.
+ */
 @Component
 public class CustomerBoImpl implements CustomerBo {
 
