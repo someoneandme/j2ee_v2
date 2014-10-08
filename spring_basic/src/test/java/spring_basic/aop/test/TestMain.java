@@ -26,5 +26,14 @@ public class TestMain {
 		System.out.println(map);
 		// 这里可以看到，尽管有AOP，但是该类型最终在spring容器中的对象只有一个，就是AOP处理后的那个
 		System.out.println("customerBO num:" + map.size());
+		
+		// 获得spring容器中所有定义的bean
+		System.out.println("==============================");
+		String beanNames[] = context.getBeanDefinitionNames();
+		for(String beanName : beanNames) {
+			System.out.print(beanName);
+			Object obj = context.getBean(beanName);
+			System.out.println(":" + obj.getClass());
+		}
 	}
 }
