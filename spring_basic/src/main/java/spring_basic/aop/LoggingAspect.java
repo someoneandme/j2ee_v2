@@ -3,6 +3,7 @@ package spring_basic.aop;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,13 +15,19 @@ import org.springframework.stereotype.Component;
 @Component // 用于注解自动加载，注释掉这行就取消掉这个Aspect的作用
 @Aspect
 public class LoggingAspect {
+	
+	// 可以定义一个可复用的切点，其它@Before之类的注解就写pointcut()
+	@Pointcut("execution(* CustomerBo.sayHello(..))")
+	public void pointcut() {
+	}
 
 	/**
 	 * 前置通知
 	 * 
 	 * 关于execution表达式：
 	 * 1) 如果只写类名，那么所有包下类名相同的类都会发生作用。
-	 * 
+	 * 2) 左边的*表示匹配任何类型的返回值
+	 * 3) 参数中..表示匹配任何的参数
 	 * @param joinPoint
 	 */
 	@Before("execution(* CustomerBo.sayHello(..))")
@@ -48,4 +55,11 @@ public class LoggingAspect {
 	 * AfterThrowing 异常时执行
 	 */
 	
+	// 关于连接点表达式 2014年10月10日 23:41:20
+	/**
+	 * 常用的还有：
+	 * && within(包名.*) 指定只处理指定包下面的类
+	 * && bean(spring中bean名称) 指定spring中指定的bean，!bean()也常用
+	 * 
+	 */
 }
