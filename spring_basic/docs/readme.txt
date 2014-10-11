@@ -12,3 +12,9 @@ AOP: 切面注入，特别适合于对既有系统的改造。
 
 例子：
 [http://www.mkyong.com/spring3/spring-aop-aspectj-annotation-example/]
+
+
+【发现一个重要问题】
+如果我把LoggingAspect移动到例如pakage aaaa下时，
+就会出现java.lang.IllegalArgumentException: warning no match for this type name: CustomerBo
+这就要求LoggingAspect必须和CustomerBO放在同一个包下!!!
