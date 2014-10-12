@@ -26,6 +26,9 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 		<property name="initialSize" value="8" /><!-- 初始连接池大小 -->
+		<property name="maxActive" value="20" /><!-- 最大活动连接数 -->
+		<property name="validationQuery" value="SELECT 1" /> <!-- validationQuery和testOnBorrow是重连用 -->
+		<property name="testOnBorrow" value="true" />
 	</bean>
 	
 	<!-- 配置JdbcTemplate -->
