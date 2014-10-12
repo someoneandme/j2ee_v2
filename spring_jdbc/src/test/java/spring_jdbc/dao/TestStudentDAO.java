@@ -35,7 +35,7 @@ public class TestStudentDAO {
 	private StudentDAO studentDAO;
 	
 	@Test
-	@Rollback(true) // 改成false会对数据库有实质修改
+	@Rollback(false) // 改成false会对数据库有实质修改
 	public void testInsertStudent() throws SQLException {
 		Student student = new Student();
 		student.setId((long) new Random().nextInt());

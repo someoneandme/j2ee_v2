@@ -2,14 +2,17 @@ package spring_jdbc.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.jdbc.core.RowMapper;
 
 import spring_jdbc.dao.StudentDAO;
 import spring_jdbc.entity.Student;
@@ -22,13 +25,26 @@ public class StudentDAOImpl implements StudentDAO {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public void insert(Student student) throws SQLException {
-		jdbcTemplate.update("insert into student(id,name,age) values(?,?,?)",
-				student.getId(), student.getName(), student.getAge());
+//		jdbcTemplate.update("insert into student(id,name,age) values(?,?,?)",
+//				student.getId(), student.getName(), student.getAge());
 		// 最后3个参数这样也行：new Object[] { student.getId(), student.getName(),
 		// student.getAge() });
 		// jdbcTemplate不支持save(Object obj)这样的类似hibernate的ORM方法
+		
+		// jdbcTemplate也支持name参数，这样就不用维护参数的顺序了
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", student.getId());
+		params.put("name", student.getName());
+		params.put("age", student.getAge());
+		
+		namedParameterJdbcTemplate.update(
+				"insert into student(id,name,age) values(:id,:name,:age)",
+				params);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
