@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!-- 注意这里的url是写死的，这里后续得看看怎样做成运行时动态指定的 -->
+    <!-- 此外，这个url和web容器相关，ip port webapp_name，怎样动态获得？ -->
+	<bean id="userService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl"
+			value="http://localhost:8080/spring_remote/api/service/userService" />
+		<property name="serviceInterface"
+			value="spring_remote.api.service.IUserService" />
+	</bean>
+</beans>
