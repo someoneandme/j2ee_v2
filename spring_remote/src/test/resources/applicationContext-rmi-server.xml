@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<context:component-scan base-package="*" />
+
+    <!-- 建议像这样写registry，而不要把host和port写到rmiService里 -->
+	<bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+		<property name="port" value="1099" />
+<!-- 		<property name="host" value="这里不能填写127.0.0.1，如果要填写，请填写本机非lo的ip" /> -->
+	</bean>
+	
+	<bean id="userService" class="spring_remote.service.UserServiceImpl">
+	</bean>
+
+	<bean id="rmiService" class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<!-- 这个是rmi://的url地址里的链接 -->
+		<property name="serviceName" value="userService" />
+		<property name="service" ref="userService" />
+		<property name="serviceInterface" value="spring_remote.api.service.IUserService" />
+		
+		<property name="registry" ref="registry" />
+	</bean>
+	
+</beans>
