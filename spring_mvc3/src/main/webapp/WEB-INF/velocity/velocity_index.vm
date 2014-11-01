@@ -1,10 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Insert title here</title>
-    </head>
-    <body>
+#set($page_title="velocity index")
+
         welcome $!{userName}
         
         <br />
@@ -29,5 +24,3 @@
             <a href="./velocity_condition">条件演示</a><br/>
             <a href="./velocity_loop">循环演示</a>
         </p>
-    </body>
-</html>

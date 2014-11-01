@@ -62,5 +62,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <h3>复杂的表单（数组、form）</h3>
     <p><a href="<%=basePath%>cplx_form" target="_blank">复杂的表单</a></p>
+  
+    <h3>velocity例子</h3>
+    <p><a href="<%=basePath%>velocity_index" target="_blank">velocity index</a></p>
   </body>
 </html>

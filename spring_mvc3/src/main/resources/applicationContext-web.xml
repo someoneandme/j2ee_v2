@@ -45,8 +45,8 @@
 		</property>
     </bean>
     
-    <!-- 解析Velocity视图 -->
-    <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+    <!-- 解析Velocity视图，如果没有layout则用VelocityViewResolver -->
+    <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
         <property name="cache" value="true" />
         <property name="suffix" value=".vm" />
         <property name="contentType" value="text/html;charset=UTF-8" />

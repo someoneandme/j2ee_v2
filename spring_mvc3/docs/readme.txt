@@ -14,3 +14,7 @@ Spring MVC工作过程:
 
 2013年3月18日 16:20:05
 演示页面传递数组、大量form表单的例子
+
+2014年11月1日 20:25:41
+关于velocity使用layout的例子：
+http://www.oschina.net/question/12_4580
