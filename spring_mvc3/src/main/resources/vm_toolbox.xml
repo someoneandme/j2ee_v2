@@ -1,6 +1,11 @@
 <toolbox>
 	<xhtml>true</xhtml>
 	<tool>
+	    <key>myvm</key>
+	    <scope>application</scope>
+	    <class>spring_mvc3.web.vm_toolbox.MyVmTool</class>
+	</tool>
+	<tool>
 		<key>date</key>
 		<scope>application</scope>
 		<class>org.apache.velocity.tools.generic.DateTool</class>
