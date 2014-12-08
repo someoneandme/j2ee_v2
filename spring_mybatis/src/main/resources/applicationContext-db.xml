@@ -45,6 +45,11 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="plugins">
+	        <array>
+	            <bean id="mybatisInterceptor" class="com.pugwoo.practice.spring_mybatis.dao.interceptor.MybatisInterceptor"/>
+	        </array>
+        </property>
 	</bean>
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

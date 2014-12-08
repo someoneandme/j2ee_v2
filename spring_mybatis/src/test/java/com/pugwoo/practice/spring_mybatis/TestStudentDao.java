@@ -39,6 +39,7 @@ public class TestStudentDao {
 		student.setName("测试名称");
 
 		studentDao.addStudent(student);
+		System.out.println("add student ok");
 	}
 
 	@Test

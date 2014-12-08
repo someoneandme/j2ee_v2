@@ -1,0 +1,6 @@
+利用Mybatis拦截器统计sql执行时间及打印能直接运行的sql语句:
+http://www.oschina.net/code/snippet_1018034_26673
+
+配置参考:
+http://blog.csdn.net/wagcy/article/details/13002063
+

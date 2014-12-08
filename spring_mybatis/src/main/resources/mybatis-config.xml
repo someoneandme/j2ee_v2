@@ -13,5 +13,5 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="mybatis_mapper/StudentMapper.xml" />
 	</mappers>
-	
+		
 </configuration>
