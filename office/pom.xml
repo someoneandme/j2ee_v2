@@ -17,6 +17,19 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>net.sf.jxls</groupId>
 			<artifactId>jxls-core</artifactId>
 			<version>1.0.5</version>
