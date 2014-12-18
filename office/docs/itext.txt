@@ -1,0 +1,14 @@
+>> iText要结合Adobe Acrobat制作的pdf模版来生成pdf
+http://itextpdf.com/examples/iia.php?id=157
+http://blog.csdn.net/w33365/article/details/7452212
+做法:
+1. 通过word编辑好页面或表格等整份页面，然后另存为pdf文件。
+2. 用adobe acrobat打开，制作表格本质上是在pdf上增加一个复层放输入框。
+3. pdf制作完成之后，使用iText来填充入值。
+
+后续需要解决的问题：PDF中循环生成一些不定长度的数据。
+
+>> 另外一种更通用的想法就是直接替换pdf中的文字。
+这个想法也可能比较难调通，因为pdf本身很难直接编辑，会影响样式，
+除非是本身设计为可编辑的pdf(form形式)。
+
