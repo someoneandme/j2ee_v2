@@ -16,6 +16,13 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
  * 2014年12月18日 09:18:48
+ * 
+ * 关于表格的处理：
+ * 1. 增加一行：
+ * 2. 增加和当前行相同格式的一行：
+ * http://stackoverflow.com/questions/16645344/xwpftablerow-adding-new-row-with-current-style
+ * 
+ * XWPFTable 有addRow和createRow的方法
  */
 public class TestReplaceWord2007 {
 
@@ -37,11 +44,18 @@ public class TestReplaceWord2007 {
 		List<XWPFParagraph> paragraphList = doc.getParagraphs();
 		processParagraphs(paragraphList, findText, replaceText);
 		
-		// Processing table
+		// Processing table 处理word2007文档中的表格
 		Iterator<XWPFTable> it = doc.getTablesIterator();
 		while (it.hasNext()) {
 			XWPFTable table = it.next();
 			List<XWPFTableRow> rows = table.getRows();
+			
+			XWPFTableRow newRow = table.createRow(); // 这样就创建了一行并加入到表格后面了!!
+//			table.addRow(newRow);  // 如果这里放开，就相当于执行了两遍了
+			System.out.println("add new row"); // 只执行了一次
+			// 插入新的一行，很奇怪加上这两行之后，表格多了2行.
+			// 这里只执行了一次
+			
 			for (XWPFTableRow row : rows) {
 				List<XWPFTableCell> cells = row.getTableCells();
 				for (XWPFTableCell cell : cells) {
@@ -53,7 +67,7 @@ public class TestReplaceWord2007 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String inputFile = "C:/ExportSaleEntrust.doc";
+		String inputFile = "C:/a.docx";
 		String outputPath = "C:/output_2007.docx";
 
 		OPCPackage pack = POIXMLDocument.openPackage(inputFile);
