@@ -4,11 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.poi.POIXMLDocument;
-import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -27,16 +27,29 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
  */
 public class TestReplaceWord2007 {
 
-	private static void replace(XWPFParagraph paragraph, String searchValue,
-			String replacement) {
-		if (hasReplaceableItem(paragraph.getText(), searchValue)) {
-			String replacedText = paragraph.getText().replace(searchValue,
-					replacement);
-			removeAllRuns(paragraph);
-			insertReplacementRuns(paragraph, replacedText);
+	private static void replace(XWPFParagraph paragraph, Map<String, String> map) {
+		String text = paragraph.getText();
+		if(text == null) {
+			return;
 		}
+		
+		// 在这里做替换工作
+		boolean isReplaced = false;
+		for(String key : map.keySet()) {
+			String value = map.get(key);
+			if(text.contains(key)) {
+				isReplaced = true;
+				text = text.replace(key, value);
+			}
+		}
+		
+        if(isReplaced) {
+			removeAllRuns(paragraph);
+			insertReplacementRuns(paragraph, text);
+        }
 	}
 
+	// 根据替换完的文本，生成新的段落
 	private static void insertReplacementRuns(XWPFParagraph paragraph,
 			String replacedText) {
 		String[] replacementTextSplitOnCarriageReturn = replacedText.split("\n");
@@ -60,18 +73,14 @@ public class TestReplaceWord2007 {
 		}
 	}
 
-	private static boolean hasReplaceableItem(String runText, String searchValue) {
-		return runText.contains(searchValue);
-	}
-
 	private static void processParagraphs(List<XWPFParagraph> paragraphList,
-			String findText, String replaceText) {
+			Map<String, String> map) {
 		for (XWPFParagraph paragraph : paragraphList) {
 			/**
 			 * 在实际使用中，下面的替换方法还是有些问题 在同一个表格中，一个paragraph被拆成多个Runs
 			 * 导致我要替换的字符串被拆成多个Runs了 所以替换时是找不到需要替换的文本了
 			 * 
-			 * TODO 看这里能不能封装成一个比较好的工具
+			 * 看这里能不能封装成一个比较好的工具
 			 * 
 			 * 成功了! 参考:
 			 * http://stackoverflow.com/questions/22268898/replacing-a-text-in-apache-poi-xwpf
@@ -82,15 +91,14 @@ public class TestReplaceWord2007 {
 //				text = text.replace(findText, replaceText);
 //				run.setText(text, 0);
 //			}
-			replace(paragraph, findText, replaceText);
+			replace(paragraph, map);
 		}
 	}
 
-	public static void replaceText(XWPFDocument doc, String findText,
-			String replaceText) {
+	public static void replaceText(XWPFDocument doc, Map<String, String> map) {
 		// Paragraph treatment
 		List<XWPFParagraph> paragraphList = doc.getParagraphs();
-		processParagraphs(paragraphList, findText, replaceText);
+		processParagraphs(paragraphList, map);
 
 		// Processing table 处理word2007文档中的表格
 		Iterator<XWPFTable> it = doc.getTablesIterator();
@@ -109,7 +117,7 @@ public class TestReplaceWord2007 {
 				for (XWPFTableCell cell : cells) {
 					List<XWPFParagraph> paragraphListTable = cell
 							.getParagraphs();
-					processParagraphs(paragraphListTable, findText, replaceText);
+					processParagraphs(paragraphListTable, map);
 				}
 			}
 		}
@@ -123,9 +131,12 @@ public class TestReplaceWord2007 {
 				TestReplaceWord2007.class.getResourceAsStream(dataDOC));
 
 		XWPFDocument doc = new XWPFDocument(in);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("{XXXXX_NO}", "我的编号112233");
+		map.put("{this_is_a_long_tag_in_a_table}", "2222233333");
 
-		//replaceText(doc, "{XXXXX_NO}", "我的编号112233");
-		replaceText(doc, "{this_is_a_long_tag_in_a_table}", "2222233333");
+		replaceText(doc, map);
 
 		FileOutputStream fos = new FileOutputStream(outputPath);
 		doc.write(fos);
