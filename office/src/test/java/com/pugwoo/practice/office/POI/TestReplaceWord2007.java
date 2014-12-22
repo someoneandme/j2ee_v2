@@ -1,7 +1,9 @@
 package com.pugwoo.practice.office.POI;
 
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -67,13 +69,15 @@ public class TestReplaceWord2007 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String inputFile = "C:/a.docx";
 		String outputPath = "C:/output_2007.docx";
-
-		OPCPackage pack = POIXMLDocument.openPackage(inputFile);
-		XWPFDocument doc = new XWPFDocument(pack);
 		
-		replaceText(doc, "#XXXXX_NO#", "我的编号");
+		String dataDOC = "/poi/a.docx";
+		InputStream in = new BufferedInputStream(TestReplaceWord2007
+				.class.getResourceAsStream(dataDOC));
+
+		XWPFDocument doc = new XWPFDocument(in);
+		
+		replaceText(doc, "{XXXXX_NO}", "我的编号112233");
 
 		FileOutputStream fos = new FileOutputStream(outputPath);
 		doc.write(fos);

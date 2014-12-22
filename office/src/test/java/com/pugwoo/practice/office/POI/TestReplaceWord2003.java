@@ -1,9 +1,10 @@
 package com.pugwoo.practice.office.POI;
 
-import java.io.FileInputStream;
+import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Range;
@@ -19,11 +20,15 @@ import org.apache.poi.hwpf.usermodel.Range;
 public class TestReplaceWord2003 {
 
     public static void main(String[] args){
-        String filePath = "C:/ExportSaleEntrust.doc";
         String outputPath = "C:/output_2003.doc";
+        
+		String dataDOC = "/poi/a.doc";
+		InputStream in = new BufferedInputStream(TestReplaceWord2007
+				.class.getResourceAsStream(dataDOC));
+        
         try {            
-            HWPFDocument doc = new HWPFDocument(new FileInputStream(filePath));
-            doc = replaceText(doc, "#XXXXX_NO#", "我的编号");
+            HWPFDocument doc = new HWPFDocument(in);
+            doc = replaceText(doc, "{XXXXX_NO}", "我的编号112233");
             saveWord(outputPath, doc);
         }
         catch(FileNotFoundException e){
