@@ -50,6 +50,7 @@ public class TestReplaceWord2007 {
 	}
 
 	// 根据替换完的文本，生成新的段落
+	// 这里有一个大问题 XXX 就是会丢失文本格式
 	private static void insertReplacementRuns(XWPFParagraph paragraph,
 			String replacedText) {
 		String[] replacementTextSplitOnCarriageReturn = replacedText.split("\n");
@@ -84,6 +85,8 @@ public class TestReplaceWord2007 {
 			 * 
 			 * 成功了! 参考:
 			 * http://stackoverflow.com/questions/22268898/replacing-a-text-in-apache-poi-xwpf
+			 *
+			 * 这种方式会丢格式，所以应该有另外一种更好的做法
 			 */
 //			List<XWPFRun> runs = paragraph.getRuns();
 //			for (XWPFRun run : runs) {
@@ -91,7 +94,78 @@ public class TestReplaceWord2007 {
 //				text = text.replace(findText, replaceText);
 //				run.setText(text, 0);
 //			}
-			replace(paragraph, map);
+			
+			// replace(paragraph, map);
+			
+			/**
+			 * 新的算法思路：
+			 * 将runs看作是连续的段落，要替换的字符串一定是若干个连续的runs!
+			 * 算法:
+			 * 1. 从左到右遍历runs，如果runs的子集contains key，
+			 *    那么尝试去掉第一个runs，如果去掉之后仍然contains，则继续再测试去掉第2个runs
+			 *    如果去掉之后没有contains，那么将这一整串的替换成替换后的text，放在第一个run中，其它的runs设空。
+			 *    
+			 * 完成
+			 */
+			replace_v2(paragraph, map);
+		}
+	}
+	
+	// 包括endPos
+	private static String getSubString(List<XWPFRun> runs, int startPos, int endPos) {
+		StringBuilder subStr = new StringBuilder();
+		for(int i = startPos; i <= endPos; i++) {
+			String text = runs.get(i).getText(0);
+			if(text != null) {
+				subStr.append(text.trim());
+			}
+		}
+		return subStr.toString();
+	}
+	
+	private static void replace_v2(XWPFParagraph paragraph, Map<String, String> map) {
+		List<XWPFRun> runs = paragraph.getRuns();
+		int i = 0;
+		while(i < runs.size()) {
+			int j;
+			for(j = i; j < runs.size(); j++) {
+				String subText = getSubString(runs, i, j);
+				
+				int newI = i;
+				boolean isContain = false;
+				for(String key : map.keySet()) {
+//					key = "{" + key + "}";
+					if(subText.contains(key)) {
+						isContain = true;
+						// 尝试让i增加，去掉可能的前缀
+						for(int tmp = newI + 1; tmp <= j; tmp++) {
+							if(getSubString(runs, tmp, j).contains(key)) {
+								newI = tmp;
+							} else {
+								break;
+							}
+						}
+					}
+				}
+				
+				if(isContain) {
+					// 从newI开始替换，替换完之后设置到newI的位置上
+					String text = getSubString(runs, newI, j);
+					for(String key : map.keySet()) {
+						String value = map.get(key);
+//						key = "{" + key + "}";
+						if(text.contains(key)) {
+							text = text.replace(key, value);
+						}
+					}
+					runs.get(newI).setText(text, 0);
+					for(int tmp = newI + 1; tmp <= j; tmp++) {
+						runs.get(tmp).setText("", 0);
+					}
+					break;
+				}
+			}
+			i = j + 1;
 		}
 	}
 
