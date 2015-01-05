@@ -21,6 +21,11 @@ public class TestClient {
 		IUserService userService = (IUserService) context
 				.getBean("userService");
 
+		/**
+		 * 实际发送的请求数据request.getInputStream():
+		 * 63 02 00 6D 00 07 67 65   c? m ?ge
+		 * 74 49 6E 66 6F 7A         tInfoz
+		 */
 		System.out.println(userService.getInfo());
 
 		System.out.println(userService.sayHello("nick"));
