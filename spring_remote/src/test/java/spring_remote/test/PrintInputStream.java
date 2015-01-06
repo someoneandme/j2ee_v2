@@ -1,4 +1,4 @@
-package test.utils;
+package spring_remote.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

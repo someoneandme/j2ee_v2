@@ -1,0 +1,15 @@
+2015年1月6日 11:13:02
+
+基于spring的封装已经解决了单纯hessian频繁要配置web.xml的问题。
+
+但显示还需要xml配置applicationContext-web-hessian.xml
+	<bean name="/userService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="userService" />
+		<property name="serviceInterface" value="spring_remote.api.service.IUserService" />
+	</bean>
+
+关于把xml改造成注解的尝试:
+http://xiaoz5919.iteye.com/blog/1730552
+
+// TODO 将这种实现融入到这个项目中
