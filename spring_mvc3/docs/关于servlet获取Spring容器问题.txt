@@ -1,0 +1,8 @@
+2015年1月6日 13:41:05
+
+在web.xml中，为了让servlet可以获取到spring容器,
+里面配置了两次classpath:applicationContext-*.xml
+
+在另外的一个项目中,这样的配置有问题..
+
+// TODO 这个找一天单独过一下

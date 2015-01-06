@@ -1,0 +1,10 @@
+2015年1月6日 13:54:41
+
+HttpRequestHandler像一个轻量级的servlet
+
+bean的名称以/开头，并且实现了HttpRequestHandler接口，就可以当作一个类servlet来用。
+
+参考教程:
+http://mrbool.com/servlet-dependency-injection-with-spring/27742
+这篇教程会修改到web.xml，我的想法是尽量少动web.xml并使用注解
+

@@ -62,4 +62,5 @@
         <bean class="spring_mvc3.web.interceptor.SpringMVCInterceptor"></bean>
         <bean class="spring_mvc3.web.interceptor.SyncRequestModelInterceptor"></bean>
     </mvc:interceptors>
+
 </beans>

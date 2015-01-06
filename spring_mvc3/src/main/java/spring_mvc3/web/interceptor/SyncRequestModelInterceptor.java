@@ -27,6 +27,10 @@ public class SyncRequestModelInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		if(modelAndView == null) {
+			return;
+		}
+		
 		ModelMap model = modelAndView.getModelMap();
 		Set<?> paramKey = request.getParameterMap().keySet();
 		
