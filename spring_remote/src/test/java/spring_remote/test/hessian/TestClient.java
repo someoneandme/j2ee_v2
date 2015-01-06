@@ -23,14 +23,24 @@ public class TestClient {
 
 		/**
 		 * 实际发送的请求数据request.getInputStream():
-		 * 63 02 00 6D 00 07 67 65   c? m ?ge
+		 * 63 02 00 6D 00 07 67 65   c m ge
 		 * 74 49 6E 66 6F 7A         tInfoz
 		 */
 		System.out.println(userService.getInfo());
 
+		/**
+		 * 实际发送的请求数据request.getInputStream():
+		 * 63 02 00 6D 00 08 73 61 c m sa
+		 * 79 48 65 6C 6C 6F 53 00 yHelloS 
+		 * 04 6E 69 63 6B 7A       nickz
+		 */
 		System.out.println(userService.sayHello("nick"));
 
-		// 测试获取一个自定义的结构
+		/**
+		 * 实际发送的请求数据request.getInputStream():
+		 * 63 02 00 6D 00 07 67 65 c m ge
+		 * 74 55 73 65 72 7A       tUserz
+		 */
 		UserDO user = userService.getUser();
 		System.out.println("user.name:" + user.getName());
 		System.out.println("user.score:" + user.getScore());

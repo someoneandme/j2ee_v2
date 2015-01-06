@@ -17,3 +17,6 @@ http://stackoverflow.com/questions/10553046/hessianconnectionexception-http-500-
 【重要】用4.x的解决方法：把spring-remoting去掉即可！太好了！
 
 在项目示例中，spring_remote.api包用于分发给其它应用，相当于协议文件。
+
+2015年1月6日 10:00:07
+hessian协议相关文档:http://wenku.baidu.com/view/3832199951e79b8968022641.html
