@@ -1,11 +1,16 @@
 package spring_remote.service;
 
+import org.springframework.stereotype.Service;
+
+import soa.annotation.HessianService;
 import spring_remote.api.entity.UserDO;
 import spring_remote.api.service.IUserService;
 
 /**
  * 2012年11月20日 16:59:09
  */
+@Service
+@HessianService("/userService")
 public class UserServiceImpl implements IUserService {
 
 	public String getInfo() {
