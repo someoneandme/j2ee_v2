@@ -15,6 +15,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
 
 /**
  * 2014年12月18日 09:18:48
@@ -196,6 +197,13 @@ public class TestReplaceWord2007 {
 			}
 		}
 	}
+	
+    /**
+     * 复制word表格行，这是在处理动态复制表格时，非常重要的方法
+     */
+    private static XWPFTableRow copyRow(XWPFTableRow source, XWPFTable table) {
+        return new XWPFTableRow((CTRow) source.getCtRow().copy(), table);
+    }
 
 	public static void main(String[] args) throws IOException {
 		String outputPath = "C:/output_2007.docx";
