@@ -16,7 +16,7 @@
 
 	<servlet-mapping>
 		<servlet-name>hessianServer</servlet-name>
-		<url-pattern>/api/service/*</url-pattern>
+		<url-pattern>/remote/*</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
