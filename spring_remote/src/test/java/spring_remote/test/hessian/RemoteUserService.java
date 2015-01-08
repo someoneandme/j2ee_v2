@@ -16,11 +16,17 @@ import spring_remote.api.service.IUserService;
 public class RemoteUserService implements IUserService {
 
 	private IUserService userService;
+	
+	// XXX 一种比较友好的方式，是在remoteXXXService中保留一些连接信息，
+	// 这样debug时可以看到
+	private String hessianUrl = null;
 
 	public RemoteUserService() {
 		// XXX 这个地址可以从配置中心拿
 		String url = "http://localhost:8080/spring_remote/remote/userService";
 
+		hessianUrl = url;
+		
 		HessianProxyFactory factory = new HessianProxyFactory();
 		try {
 			userService = (IUserService) factory
