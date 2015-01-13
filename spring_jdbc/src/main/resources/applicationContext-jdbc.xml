@@ -53,4 +53,9 @@
 	<!-- 使得DAO中@Transactional注解生效 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 	
+	<!-- 我自己做的工具DBHelper -->
+	<bean id="dbHelper" class="pugwoo.dbhelper.utils.DBHelper">
+	    <property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
 </beans>
