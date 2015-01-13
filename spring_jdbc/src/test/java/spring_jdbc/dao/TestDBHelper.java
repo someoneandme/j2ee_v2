@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,8 @@ public class TestDBHelper {
 	private DBHelper dbHelper;
 
 	@Test
-	public void test() {
+	@Rollback(false)
+	public void testGetList() {
 		List<StudentDO> list = dbHelper.getList(StudentDO.class);
 		System.out.println(list.size());
 		for(StudentDO studentDO : list) {
@@ -33,7 +35,15 @@ public class TestDBHelper {
 		}
 	}
 	
-	public static void main(String[] args) {
+	@Test
+	@Rollback(false)
+	public void testInsert() {
+		StudentDO studentDO = new StudentDO();
+		studentDO.setId(888L);
+		studentDO.setName("nick888");
+		studentDO.setAge(28);
+		
+		int row = dbHelper.insert(studentDO);
+		System.out.println("affected rows:" + row);
 	}
-	
 }

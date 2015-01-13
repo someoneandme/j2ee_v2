@@ -3,6 +3,7 @@ package pugwoo.dbhelper.utils;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -109,14 +110,50 @@ public class DBHelper {
 	}
 	
 	/**
-	 * 插入一条记录，返回该记录的引用，如果包含了自增id，则自增Id会被设置回来。
+	 * 插入一条记录，返回数据库实际修改条数。<br>
+	 * 如果包含了自增id，则自增Id会被设置。
 	 * 
 	 * @param t
 	 * @return
 	 */
-	public <T> T insert(T t) {
+	public <T> int insert(T t) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO ");
 		
-		return t;
+		Table table = DOInfoReader.getTable(t.getClass());
+		if (table == null) {
+			throw new NoTableAnnotationException();
+		}
+		
+		sql.append(table.value()).append(" (");
+		
+		final List<Field> fields = DOInfoReader.getColumns(t.getClass());
+		if (fields.isEmpty()) {
+			throw new NoColumnAnnotationException();
+		}
+		
+		List<Object> values = new ArrayList<Object>();
+		int fieldSize = fields.size();
+		for (int i = 0; i < fieldSize; i++) {
+			Column column = DOInfoReader.getColumnInfo(fields.get(i));
+			sql.append(column.value());
+			if (i < fieldSize - 1) {
+				sql.append(",");
+			}
+			values.add(DOInfoReader.getValue(fields.get(i), t));
+		}
+		
+		sql.append(") VALUES (");
+		for (int i = 0; i < fieldSize; i++) {
+			sql.append("?");
+			if (i < fieldSize - 1) {
+				sql.append(",");
+			}
+		}
+		sql.append(")");
+		
+		System.out.println("Exec sql:" + sql.toString());
+		return jdbcTemplate.update(sql.toString(), values.toArray());
 	}
 	
 	/**

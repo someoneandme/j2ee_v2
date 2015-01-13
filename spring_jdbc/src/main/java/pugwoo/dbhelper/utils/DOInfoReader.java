@@ -56,7 +56,38 @@ public class DOInfoReader {
 		return field.getAnnotation(Column.class);
 	}
 	
-	
+	/**
+	 * 优先通过getter获得值，如果没有getter，则直接获取
+	 * 
+	 * @param field
+	 * @param object
+	 * @return
+	 */
+	public static Object getValue(Field field, Object object) {
+		String fieldName = field.getName();
+		String setMethodName = "get" + firstLetterUpperCase(fieldName);
+		Method method = null;
+		try {
+			method = object.getClass().getMethod(setMethodName);
+		} catch (Exception e) {
+		}
+		
+		if(method != null) {
+			try {
+				return method.invoke(object);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		field.setAccessible(true);
+		try {
+			return field.get(object);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	/**
 	 * 先按照setter的约定寻找setter方法(必须严格匹配参数类型)。<br>
