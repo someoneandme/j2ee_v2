@@ -1,17 +1,16 @@
 package pugwoo.dbhelper.utils;
 
 import java.lang.reflect.Field;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import pugwoo.dbhelper.annotation.Column;
 import pugwoo.dbhelper.annotation.Table;
 import pugwoo.dbhelper.exception.NoColumnAnnotationException;
+import pugwoo.dbhelper.exception.NoKeyColumnAnnotationException;
 import pugwoo.dbhelper.exception.NoTableAnnotationException;
 
 /**
@@ -24,6 +23,75 @@ public class DBHelper {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+	
+	/**
+	 * 
+	 * @param t 值设置在t中
+	 * @return 存在返回true，否则返回false
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public <T> boolean getByKey(T t) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ");
+		
+		Table table = DOInfoReader.getTable(t.getClass());
+		if (table == null) {
+			throw new NoTableAnnotationException();
+		}
+		
+		List<Field> fields = DOInfoReader.getColumns(t.getClass());
+		if (fields.isEmpty()) {
+			throw new NoColumnAnnotationException();
+		}
+		
+		int fieldSize = fields.size();
+		List<String> keys = new ArrayList<String>();
+		List<Object> keyValues = new ArrayList<Object>();
+		for(int i = 0; i < fieldSize; i++) {
+			Column column = DOInfoReader.getColumnInfo(fields.get(i));
+			sql.append(column.value());
+			if (i < fieldSize - 1) {
+				sql.append(",");
+			}
+			if(column.isKey()) {
+				keys.add(column.value());
+				keyValues.add(DOInfoReader.getValue(fields.get(i), t));
+			}
+		}
+		
+		if(keys.isEmpty()) {
+			throw new NoKeyColumnAnnotationException();
+		}
+		
+		sql.append(" FROM ").append(table.value());
+		sql.append(" WHERE ");
+		
+		int keysSize = keys.size();
+		for(int i = 0; i < keysSize; i++) {
+			sql.append(keys.get(i)).append("=?");
+			if(i < keysSize - 1) {
+				sql.append(" AND ");
+			}
+		}
+		
+		System.out.println("Exec SQL:" + sql.toString());
+		try {
+			jdbcTemplate.queryForObject(sql.toString(),
+					new AnnotationSupportRowMapper(t.getClass(), t),
+					keyValues.toArray());
+			return true;
+		} catch (EmptyResultDataAccessException e) {
+			return false;
+		}
+	}
+	
+//	public <T> T getByKey(Class<?> clazz, Object key) {
+//		
+//	}
+//	
+//	public <T> T getByKey(Class<?> clazz, Map<String, Object> keyMap) {
+//		
+//	}
 	
 	/**
 	 * 查询列表，没有查询条件
@@ -56,7 +124,8 @@ public class DBHelper {
 	 * @param limit null时不生效
 	 * @return
 	 */
-	private <T> List<T> _getList(final Class<T> clazz, Integer offset, Integer limit) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private <T> List<T> _getList(Class<T> clazz, Integer offset, Integer limit) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ");
 
@@ -65,7 +134,7 @@ public class DBHelper {
 			throw new NoTableAnnotationException();
 		}
 
-		final List<Field> fields = DOInfoReader.getColumns(clazz);
+		List<Field> fields = DOInfoReader.getColumns(clazz);
 		if (fields.isEmpty()) {
 			throw new NoColumnAnnotationException();
 		}
@@ -90,23 +159,7 @@ public class DBHelper {
 		}
 		
 		System.out.println("Exec SQL:" + sql.toString());
-		return jdbcTemplate.query(sql.toString(), new RowMapper<T>() {
-			public T mapRow(ResultSet rs, int index) throws SQLException {
-				try {
-					T t = clazz.newInstance();
-					for(Field field : fields) {
-						Column column = DOInfoReader.getColumnInfo(field);
-						Object value = dbToJavaTypeAutoCast(field.getType(),
-								rs.getObject(column.value()));
-						DOInfoReader.setValue(field, t, value);
-					}
-					return t;
-				} catch (Exception e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		});
+		return jdbcTemplate.query(sql.toString(), new AnnotationSupportRowMapper(clazz));
 	}
 	
 	/**
@@ -156,24 +209,5 @@ public class DBHelper {
 		return jdbcTemplate.update(sql.toString(), values.toArray());
 	}
 	
-	/**
-	 * 自动转换数据库到java的类型   TODO 待持续完善
-	 * 
-	 * @param targetClass
-	 * @param value
-	 * @return
-	 */
-	private static Object dbToJavaTypeAutoCast(Class<?> targetClass, Object value) {
-		if(targetClass.isInstance(value)) {
-			return value;
-		}
-		if(targetClass == Long.class || targetClass == long.class) {
-			if(Integer.class.isInstance(value) || int.class.isInstance(value)) {
-				return ((Integer) value).longValue();
-			}
-		}
-		
-		return value;
-	}
 
 }

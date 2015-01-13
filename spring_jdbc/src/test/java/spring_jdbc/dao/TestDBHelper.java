@@ -36,6 +36,17 @@ public class TestDBHelper {
 	}
 	
 	@Test
+	public void testGetByKey() {
+		StudentDO studentDO = new StudentDO();
+		studentDO.setId(2L);
+		if(dbHelper.getByKey(studentDO)) {
+			System.out.println(studentDO);
+		} else {
+			System.out.println("not found");
+		}
+	}
+	
+	@Test
 	@Rollback(false)
 	public void testInsert() {
 		StudentDO studentDO = new StudentDO();
@@ -46,4 +57,7 @@ public class TestDBHelper {
 		int row = dbHelper.insert(studentDO);
 		System.out.println("affected rows:" + row);
 	}
+	
+	
+	
 }
