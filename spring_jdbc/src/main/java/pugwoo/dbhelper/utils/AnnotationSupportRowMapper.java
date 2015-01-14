@@ -18,6 +18,7 @@ import pugwoo.dbhelper.annotation.Column;
 public class AnnotationSupportRowMapper<T> implements RowMapper<T> {
 
 	private Class<T> clazz;
+	private boolean isUseGivenObj = false;
 	private T t;
 
 	public AnnotationSupportRowMapper(Class<T> clazz) {
@@ -27,21 +28,20 @@ public class AnnotationSupportRowMapper<T> implements RowMapper<T> {
 	public AnnotationSupportRowMapper(Class<T> clazz, T t) {
 		this.clazz = clazz;
 		this.t = t;
+		this.isUseGivenObj = true;
 	}
 
 	public T mapRow(ResultSet rs, int index) throws SQLException {
 		try {
-			if (t == null) {
-				t = clazz.newInstance();
-			}
+			T obj = isUseGivenObj ? t : clazz.newInstance();
 			List<Field> fields = DOInfoReader.getColumns(clazz);
 			for (Field field : fields) {
 				Column column = DOInfoReader.getColumnInfo(field);
 				Object value = dbToJavaTypeAutoCast(field.getType(),
 						rs.getObject(column.value()));
-				DOInfoReader.setValue(field, t, value);
+				DOInfoReader.setValue(field, obj, value);
 			}
-			return t;
+			return obj;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

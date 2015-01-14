@@ -7,6 +7,9 @@ import java.util.List;
 
 import pugwoo.dbhelper.annotation.Column;
 import pugwoo.dbhelper.annotation.Table;
+import pugwoo.dbhelper.exception.NoColumnAnnotationException;
+import pugwoo.dbhelper.exception.NoKeyColumnAnnotationException;
+import pugwoo.dbhelper.exception.NoTableAnnotationException;
 import spring_jdbc.entity.StudentDO;
 
 /**
@@ -17,22 +20,31 @@ import spring_jdbc.entity.StudentDO;
 public class DOInfoReader {
 	
 	/**
-	 * 获取DO的@Table信息，如果没有注解，返回null
+	 * 获取DO的@Table信息
 	 * 
 	 * @param clazz
+	 * @throws 当clazz没有@Table注解时抛出NoTableAnnotationException
 	 * @return
 	 */
-	public static Table getTable(Class<?> clazz) {
-		return clazz.getAnnotation(Table.class);
+	public static Table getTable(Class<?> clazz)
+			throws NoTableAnnotationException {
+		Table table = clazz.getAnnotation(Table.class);
+		if (table == null) {
+			throw new NoTableAnnotationException("class " + clazz.getName()
+					+ " does not have @Table annotation.");
+		}
+		return table;
 	}
 
 	/**
 	 * 获得所有有@Column注解的列，包括继承的父类中的，顺序父类先
 	 * 
 	 * @param objectDO
+	 * @throws NoColumnAnnotationException 当没有一个@Column注解时抛出
 	 * @return 不会返回null
 	 */
-	public static List<Field> getColumns(Class<?> clazz) {
+	public static List<Field> getColumns(Class<?> clazz)
+			throws NoColumnAnnotationException {
 		List<Class<?>> classLink = new ArrayList<Class<?>>();
 		Class<?> curClass = clazz;
 		while (curClass != null) {
@@ -49,7 +61,26 @@ public class DOInfoReader {
 				}
 			}
 		}
+		if (result.isEmpty()) {
+			throw new NoColumnAnnotationException("class " + clazz.getName()
+					+ " does not have any @Column annotation");
+		}
 		return result;
+	}
+	
+	public static List<Field> getKeyColumns(List<Field> fields) 
+	    throws NoKeyColumnAnnotationException {
+		List<Field> keyFields = new ArrayList<Field>();
+		for(Field field : fields) {
+			Column column = DOInfoReader.getColumnInfo(field);
+			if(column.isKey()) {
+				keyFields.add(field);
+			}
+		}
+		if(keyFields.isEmpty()) {
+			throw new NoKeyColumnAnnotationException();
+		}
+		return keyFields;
 	}
 
 	public static Column getColumnInfo(Field field) {

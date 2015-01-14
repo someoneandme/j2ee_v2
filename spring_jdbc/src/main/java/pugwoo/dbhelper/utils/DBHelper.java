@@ -9,9 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import pugwoo.dbhelper.annotation.Column;
 import pugwoo.dbhelper.annotation.Table;
-import pugwoo.dbhelper.exception.NoColumnAnnotationException;
-import pugwoo.dbhelper.exception.NoKeyColumnAnnotationException;
-import pugwoo.dbhelper.exception.NoTableAnnotationException;
 
 /**
  * 2015年1月12日 16:41:03 数据库操作封装：增删改查
@@ -35,43 +32,15 @@ public class DBHelper {
 		sql.append("SELECT ");
 		
 		Table table = DOInfoReader.getTable(t.getClass());
-		if (table == null) {
-			throw new NoTableAnnotationException();
-		}
-		
 		List<Field> fields = DOInfoReader.getColumns(t.getClass());
-		if (fields.isEmpty()) {
-			throw new NoColumnAnnotationException();
-		}
-		
-		int fieldSize = fields.size();
-		List<String> keys = new ArrayList<String>();
+		List<Field> keyFields = DOInfoReader.getKeyColumns(fields);
 		List<Object> keyValues = new ArrayList<Object>();
-		for(int i = 0; i < fieldSize; i++) {
-			Column column = DOInfoReader.getColumnInfo(fields.get(i));
-			sql.append(column.value());
-			if (i < fieldSize - 1) {
-				sql.append(",");
-			}
-			if(column.isKey()) {
-				keys.add(column.value());
-				keyValues.add(DOInfoReader.getValue(fields.get(i), t));
-			}
-		}
 		
-		if(keys.isEmpty()) {
-			throw new NoKeyColumnAnnotationException();
-		}
-		
+		String where = joinWhereAndGetValue(keyFields, "AND", keyValues, t);
+		sql.append(join(fields, ","));
 		sql.append(" FROM ").append(table.value());
-		sql.append(" WHERE ");
-		
-		int keysSize = keys.size();
-		for(int i = 0; i < keysSize; i++) {
-			sql.append(keys.get(i)).append("=?");
-			if(i < keysSize - 1) {
-				sql.append(" AND ");
-			}
+		if(!where.isEmpty()) {
+			sql.append(" WHERE ").append(where);
 		}
 		
 		System.out.println("Exec SQL:" + sql.toString());
@@ -130,33 +99,11 @@ public class DBHelper {
 		sql.append("SELECT ");
 
 		Table table = DOInfoReader.getTable(clazz);
-		if (table == null) {
-			throw new NoTableAnnotationException();
-		}
-
 		List<Field> fields = DOInfoReader.getColumns(clazz);
-		if (fields.isEmpty()) {
-			throw new NoColumnAnnotationException();
-		}
 
-		int fieldSize = fields.size();
-		for (int i = 0; i < fieldSize; i++) {
-			Column column = DOInfoReader.getColumnInfo(fields.get(i));
-			sql.append(column.value());
-			if (i < fieldSize - 1) {
-				sql.append(",");
-			}
-		}
-
+		sql.append(join(fields, ","));
 		sql.append(" FROM ").append(table.value());
-		
-		if (limit != null) {
-			sql.append(" limit ");
-			if(offset != null) {
-				sql.append(offset).append(",");
-			}
-			sql.append(limit);
-		}
+		sql.append(limit(offset, limit));
 		
 		System.out.println("Exec SQL:" + sql.toString());
 		return jdbcTemplate.query(sql.toString(), new AnnotationSupportRowMapper(clazz));
@@ -174,40 +121,76 @@ public class DBHelper {
 		sql.append("INSERT INTO ");
 		
 		Table table = DOInfoReader.getTable(t.getClass());
-		if (table == null) {
-			throw new NoTableAnnotationException();
-		}
+		List<Field> fields = DOInfoReader.getColumns(t.getClass());
 		
 		sql.append(table.value()).append(" (");
-		
-		final List<Field> fields = DOInfoReader.getColumns(t.getClass());
-		if (fields.isEmpty()) {
-			throw new NoColumnAnnotationException();
-		}
-		
 		List<Object> values = new ArrayList<Object>();
-		int fieldSize = fields.size();
-		for (int i = 0; i < fieldSize; i++) {
-			Column column = DOInfoReader.getColumnInfo(fields.get(i));
-			sql.append(column.value());
-			if (i < fieldSize - 1) {
-				sql.append(",");
-			}
-			values.add(DOInfoReader.getValue(fields.get(i), t));
-		}
-		
+		sql.append(joinAndGetValue(fields, ",", values, t));
 		sql.append(") VALUES (");
-		for (int i = 0; i < fieldSize; i++) {
-			sql.append("?");
-			if (i < fieldSize - 1) {
-				sql.append(",");
-			}
-		}
+		sql.append(join("?", fields.size(), ","));
 		sql.append(")");
 		
 		System.out.println("Exec sql:" + sql.toString());
 		return jdbcTemplate.update(sql.toString(), values.toArray());
 	}
 	
+	// str=?,times=3,sep=,  返回 ?,?,?
+    private static String join(String str, int times, String sep) {
+    	StringBuilder sb = new StringBuilder();
+    	for(int i = 0; i < times; i++) {
+    		sb.append(str);
+    		if(i < times - 1) {
+    			sb.append(sep);
+    		}
+    	}
+    	return sb.toString();
+    }
+    
+    private static String join(List<Field> fields, String sep) {
+    	return joinAndGetValue(fields, sep, null, null);
+    }
+    
+	private static String joinAndGetValue(List<Field> fields, String sep,
+			List<Object> values, Object obj) {
+    	StringBuilder sb = new StringBuilder();
+    	int size = fields.size();
+    	for(int i = 0; i < size; i++) {
+    		Column column = DOInfoReader.getColumnInfo(fields.get(i));
+    		sb.append(column.value());
+    		if(i < size - 1) {
+    			sb.append(sep);
+    		}
+    		if(values != null && obj != null) {
+    			values.add(DOInfoReader.getValue(fields.get(i), obj));
+    		}
+    	}
+    	return sb.toString();
+	}
 
+	private static String joinWhereAndGetValue(List<Field> fields,
+			String logicOperate, List<Object> values, Object obj) {
+		StringBuilder sb = new StringBuilder();
+		int fieldSize = fields.size();
+		for(int i = 0; i < fieldSize; i++) {
+			Column column = DOInfoReader.getColumnInfo(fields.get(i));
+			sb.append(column.value()).append("=?");
+			if(i < fieldSize - 1) {
+				sb.append(" ").append(logicOperate).append(" ");
+			}
+			values.add(DOInfoReader.getValue(fields.get(i), obj));
+		}
+		return sb.toString();
+	}
+	
+	private static String limit(Integer offset, Integer limit) {
+		StringBuilder sb = new StringBuilder();
+		if (limit != null) {
+			sb.append(" limit ");
+			if(offset != null) {
+				sb.append(offset).append(",");
+			}
+			sb.append(limit);
+		}
+		return sb.toString();
+	}
 }
