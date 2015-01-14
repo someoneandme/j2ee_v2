@@ -3,12 +3,15 @@ package pugwoo.dbhelper.utils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import pugwoo.dbhelper.annotation.Column;
 import pugwoo.dbhelper.annotation.Table;
+import pugwoo.dbhelper.exception.InvalidParameterException;
+import pugwoo.dbhelper.exception.NotSupportMethodException;
 
 /**
  * 2015年1月12日 16:41:03 数据库操作封装：增删改查
@@ -54,13 +57,86 @@ public class DBHelper {
 		}
 	}
 	
-//	public <T> T getByKey(Class<?> clazz, Object key) {
-//		
-//	}
-//	
-//	public <T> T getByKey(Class<?> clazz, Map<String, Object> keyMap) {
-//		
-//	}
+	/**
+	 * 适合于只有一个Key的情况
+	 * 
+	 * @param clazz
+	 * @param key
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public <T> T getByKey(Class<?> clazz, Object keyValue) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ");
+
+		Table table = DOInfoReader.getTable(clazz);
+		List<Field> fields = DOInfoReader.getColumns(clazz);
+		List<Field> keyFields = DOInfoReader.getKeyColumns(fields);
+
+		if (keyFields.size() != 1) {
+			throw new NotSupportMethodException(
+					"must have only one key column, actually has "
+							+ keyFields.size() + " key columns");
+		}
+		Column keyColumn = DOInfoReader.getColumnInfo(keyFields.get(0));
+		
+		sql.append(join(fields, ","));
+		sql.append(" FROM ").append(table.value());
+		sql.append(" WHERE ").append(keyColumn.value()).append("=?");
+		
+		System.out.println("Exec SQL:" + sql.toString());
+		try {
+			return (T) jdbcTemplate.queryForObject(sql.toString(),
+					new AnnotationSupportRowMapper(clazz),
+					keyValue);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 适合于只有一个或多个Key的情况
+	 * 
+	 * @param clazz
+	 * @param keyMap
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public <T> T getByKey(Class<?> clazz, Map<String, Object> keyMap) {
+		if(keyMap == null || keyMap.isEmpty()) {
+			throw new InvalidParameterException("keyMap require at least one key");
+		}
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ");
+		
+		Table table = DOInfoReader.getTable(clazz);
+		List<Field> fields = DOInfoReader.getColumns(clazz);
+		
+		sql.append(join(fields, ","));
+		sql.append(" FROM ").append(table.value());
+		sql.append(" WHERE ");
+		
+		List<Object> values = new ArrayList<Object>();
+		boolean isFirst = true;
+		for(String key : keyMap.keySet()) {
+			if(!isFirst) {
+				sql.append(" AND ");
+			}
+			isFirst = false;
+			sql.append(key).append("=?");
+			values.add(keyMap.get(key));
+		}
+		
+		System.out.println("Exec SQL:" + sql.toString());
+		try {
+			return (T) jdbcTemplate.queryForObject(sql.toString(),
+					new AnnotationSupportRowMapper(clazz),
+					values.toArray());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 	
 	/**
 	 * 查询列表，没有查询条件

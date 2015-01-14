@@ -1,6 +1,8 @@
 package spring_jdbc.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +46,14 @@ public class TestDBHelper {
 		} else {
 			System.out.println("not found");
 		}
+		
+		StudentDO student2 = dbHelper.getByKey(StudentDO.class, 2);
+		System.out.println("student2:" + student2);
+		
+		Map<String, Object> keyMap = new HashMap<String, Object>();
+		keyMap.put("id", 2);
+		StudentDO student3 = dbHelper.getByKey(StudentDO.class, keyMap);
+		System.out.println("student3:" + student3);
 	}
 	
 	@Test
@@ -57,7 +67,5 @@ public class TestDBHelper {
 		int row = dbHelper.insert(studentDO);
 		System.out.println("affected rows:" + row);
 	}
-	
-	
 	
 }
