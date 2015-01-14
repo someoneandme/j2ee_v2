@@ -46,6 +46,25 @@
 			<version>1.0.5</version>
 		</dependency>
 
+		<!-- docx4j doc to pdf -->
+		<dependency>
+			<groupId>org.docx4j</groupId>
+			<artifactId>docx4j</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+		<!-- 另外一个docx to pdf，推荐这个，效果好很多 -->
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>fr.opensagres.xdocreport.document.docx</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
