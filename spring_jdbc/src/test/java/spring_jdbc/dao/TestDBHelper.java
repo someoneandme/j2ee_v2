@@ -1,6 +1,5 @@
 package spring_jdbc.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,24 +60,25 @@ public class TestDBHelper {
 	@Rollback(false)
 	public void testInsert() {
 		StudentDO studentDO = new StudentDO();
-		studentDO.setId(888L);
+//		studentDO.setId(888L); // 自增id
 		studentDO.setName("nick888");
 		studentDO.setAge(28);
 		
 		int row = dbHelper.insert(studentDO);
 		System.out.println("affected rows:" + row);
+		System.out.println(studentDO);
 		
 		// 测试批量写入
-		List<StudentDO> students = new ArrayList<StudentDO>();
-		for(int i = 0; i < 10; i++) {
-			StudentDO stu = new StudentDO();
-			stu.setId(100L + i);
-			stu.setName("test" + i);
-			stu.setAge(i);
-			students.add(stu);
-		}
-		row = dbHelper.insertInOneSQL(students);
-		System.out.println("affected rows:" + row);
+//		List<StudentDO> students = new ArrayList<StudentDO>();
+//		for(int i = 0; i < 10; i++) {
+//			StudentDO stu = new StudentDO();
+//			stu.setId(100L + i);
+//			stu.setName("test" + i);
+//			stu.setAge(i);
+//			students.add(stu);
+//		}
+//		row = dbHelper.insertInOneSQL(students);
+//		System.out.println("affected rows:" + row);
 	}
 	
 }

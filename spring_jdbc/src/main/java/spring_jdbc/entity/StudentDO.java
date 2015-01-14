@@ -9,7 +9,7 @@ import pugwoo.dbhelper.annotation.Table;
 @Table("student")
 public class StudentDO {
 	
-	@Column(value = "id", isKey = true)
+	@Column(value = "id", isKey = true, isAutoIncrement = true)
 	private Long id;
 	
 	@Column("name")

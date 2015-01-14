@@ -198,6 +198,7 @@ public class DBHelper {
 		
 		Table table = DOInfoReader.getTable(t.getClass());
 		List<Field> fields = DOInfoReader.getColumns(t.getClass());
+		Field autoIncrementField = getAutoIncrementField(fields);
 		
 		sql.append(table.value()).append(" (");
 		List<Object> values = new ArrayList<Object>();
@@ -207,11 +208,19 @@ public class DBHelper {
 		sql.append(")");
 		
 		System.out.println("Exec sql:" + sql.toString());
-		return jdbcTemplate.update(sql.toString(), values.toArray());
+		int rows = jdbcTemplate.update(sql.toString(), values.toArray());
+		if(autoIncrementField != null && rows == 1) {
+			Long id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()",
+					Long.class);
+			DOInfoReader.setValue(autoIncrementField, t, id);
+		}
+		return rows;
 	}
 	
 	/**
-	 * 插入几条数据，通过拼凑成一条sql插入，返回实际影响的行数
+	 * 插入几条数据，通过拼凑成一条sql插入，返回实际影响的行数。
+	 * 
+	 * XXX【注】批量插入暂不支持回设自增id。
 	 * 
 	 * @param list
 	 * @return
@@ -262,6 +271,16 @@ public class DBHelper {
 		
 		System.out.println("Exec sql:" + sql.toString());
 		return jdbcTemplate.update(sql.toString(), values.toArray());
+	}
+	
+	private static Field getAutoIncrementField(List<Field> fields) {
+		for(Field field : fields) {
+			Column column = DOInfoReader.getColumnInfo(field);
+			if(column.isAutoIncrement()) {
+				return field;
+			}
+		}
+		return null;
 	}
 	
 	// str=?,times=3,sep=,  返回 ?,?,?
