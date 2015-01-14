@@ -210,6 +210,60 @@ public class DBHelper {
 		return jdbcTemplate.update(sql.toString(), values.toArray());
 	}
 	
+	/**
+	 * 插入几条数据，通过拼凑成一条sql插入，返回实际影响的行数
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public <T> int insertInOneSQL(List<T> list) {
+		if(list == null || list.isEmpty()) {
+			return 0;
+		}
+		Class<?> clazz = null;
+		for(T t : list) {
+			if(t == null) {
+				continue;
+			}
+			if(clazz == null) {
+				clazz = t.getClass();
+			} else {
+				if (!clazz.equals(t.getClass())) {
+					throw new InvalidParameterException(
+							"list elements must be same class");
+				}
+			}
+		}
+		
+		if(clazz == null) {
+			return 0;
+		}
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO ");
+		
+		Table table = DOInfoReader.getTable(clazz);
+		List<Field> fields = DOInfoReader.getColumns(clazz);
+		
+		sql.append(table.value()).append(" (");
+		sql.append(join(fields, ","));
+		sql.append(") VALUES ");
+		
+		List<Object> values = new ArrayList<Object>();
+		for(int i = 0; i < list.size(); i++) {
+			sql.append("(");
+			sql.append(join("?", fields.size(), ","));
+			sql.append(")");
+			if(i < list.size() - 1) {
+				sql.append(",");
+			}
+			values.addAll(getValue(fields, list.get(i)));
+		}
+		
+		System.out.println("Exec sql:" + sql.toString());
+		return jdbcTemplate.update(sql.toString(), values.toArray());
+	}
+	
 	// str=?,times=3,sep=,  返回 ?,?,?
     private static String join(String str, int times, String sep) {
     	StringBuilder sb = new StringBuilder();
@@ -224,6 +278,14 @@ public class DBHelper {
     
     private static String join(List<Field> fields, String sep) {
     	return joinAndGetValue(fields, sep, null, null);
+    }
+    
+    private static List<Object> getValue(List<Field> fields, Object obj) {
+    	List<Object> values = new ArrayList<Object>();
+    	for(Field field : fields) {
+    		values.add(DOInfoReader.getValue(field, obj));
+    	}
+    	return values;
     }
     
 	private static String joinAndGetValue(List<Field> fields, String sep,
