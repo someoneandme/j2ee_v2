@@ -1,62 +1,36 @@
 package spring_mvc3.test.vm;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
-import org.junit.Test;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 /**
- * 2014年4月22日 12:19:38
- * 
- * 关于路径的问题：http://panyongzheng.iteye.com/blog/1882559
- * 
- * 这里涉及到velocity路径的问题，但是还是没有解决。
- * http://stackoverflow.com/questions/5342704/how-to-set-properly-the-loader-path-of-velocity
+ * 直接就渲染velocity出来，使用class路径
+ * 2015年1月23日 17:32:05
  */
 public class TestVelocityMain {
-	
-	private VelocityEngine engine;
-	
-	public TestVelocityMain() {
-		
-		// 这个根据实际情况修改,相对路径弄不好，所以这里改成强制获得绝对路径
-		String absolutePath = new File(Thread.currentThread()
-				.getContextClassLoader().getResource("").getFile())
-				.getParentFile().getParentFile().getPath();
-		String vmPath = absolutePath + "/src/main/webapp/WEB-INF/velocity";
-		
-		Properties p = new Properties();
-		p.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, vmPath);
-		p.setProperty(Velocity.ENCODING_DEFAULT, "UTF-8");
-		p.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
-		p.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
-		
-		engine = new VelocityEngine(p);
-		
+
+	public static void main(String[] args) {
+        VelocityEngine ve = new VelocityEngine();
+        
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+        ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+        
+        ve.init();
+        
+        Template t = ve.getTemplate("/spring_mvc3/hello.vm");
+        
+        VelocityContext context = new VelocityContext();
+        context.put("name", "World");
+        
+        StringWriter writer = new StringWriter();
+        t.merge(context, writer);
+        
+        System.out.println(writer.toString());
 	}
-
-	@Test
-	public void testRender() throws IOException {
-		
-		String tempName = "velocity_index.vm";
-		Template template = engine.getTemplate(tempName, "UTF-8");
-
-		// 渲染填值
-		VelocityContext context = new VelocityContext();
-		context.put("userName", "nick");
-
-		Writer writer = new StringWriter();
-		template.merge(context, writer);
-		writer.flush();
-
-		System.out.println(writer.toString());
-		
-	}
+	
 }
