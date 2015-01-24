@@ -1,1 +1,4 @@
 hello, ${name}
+
+#set($c = $a * $b)
+${a} * ${b} = $c

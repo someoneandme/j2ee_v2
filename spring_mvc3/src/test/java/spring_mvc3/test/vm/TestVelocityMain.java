@@ -27,6 +27,9 @@ public class TestVelocityMain {
         VelocityContext context = new VelocityContext();
         context.put("name", "World");
         
+        context.put("a", 2);
+        context.put("b", 3);
+        
         StringWriter writer = new StringWriter();
         t.merge(context, writer);
         
