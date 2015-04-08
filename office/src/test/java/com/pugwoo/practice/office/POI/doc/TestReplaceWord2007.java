@@ -129,12 +129,32 @@ public class TestReplaceWord2007 {
 		Iterator<XWPFTable> it = doc.getTablesIterator();
 		while (it.hasNext()) {
 			XWPFTable table = it.next();
-			List<XWPFTableRow> rows = table.getRows();
-
-			XWPFTableRow newRow = table.createRow(); // 这样就创建了一行并加入到表格后面了!!
+			
+			XWPFTableRow newRow = table.createRow(); // 这样就创建了一个空行并加入到表格后面了!!
 			// table.addRow(newRow); // 如果这里放开，就相当于执行了两遍了
 			System.out.println("add new row" + newRow); // 只执行了一次
-
+			
+			// 对于动态新增行，非常重要的就是复制已有的行，格式内容完全保持一致
+			// 最重要的是，这个是完全复制
+			XWPFTableRow rowToCopy = table.getRow(3);
+			XWPFTableRow copiedRow = copyRow(rowToCopy, table);
+			
+			// 这样是可以替换到的，但是要放在 table.addRow(copiedRow); 之前，这样也算是勉强满足需求
+//			{
+//				List<XWPFTableCell> cells = copiedRow.getTableCells();
+//				for (XWPFTableCell cell : cells) {
+//					List<XWPFParagraph> paragraphListTable = cell
+//							.getParagraphs();
+//					processParagraphs(paragraphListTable, map);
+//				}
+//			}
+			
+			table.addRow(copiedRow);
+			
+			// FIXME 奇怪，新复制出来的行，里面的tag在替换时并没有被替换
+			// 经过debug，目前只能说明拿出来的runs的setText根本就没有生效
+			
+			List<XWPFTableRow> rows = table.getRows();
 			for (XWPFTableRow row : rows) {
 				List<XWPFTableCell> cells = row.getTableCells();
 				for (XWPFTableCell cell : cells) {
@@ -143,13 +163,13 @@ public class TestReplaceWord2007 {
 					processParagraphs(paragraphListTable, map);
 				}
 			}
+			
 		}
 	}
 	
     /**
      * 复制word表格行，这是在处理动态复制表格时，非常重要的方法
      */
-    @SuppressWarnings("unused")
 	private static XWPFTableRow copyRow(XWPFTableRow source, XWPFTable table) {
         return new XWPFTableRow((CTRow) source.getCtRow().copy(), table);
     }
