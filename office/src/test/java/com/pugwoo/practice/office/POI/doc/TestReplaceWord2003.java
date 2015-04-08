@@ -88,15 +88,14 @@ public class TestReplaceWord2003 {
 			}
 		}
 		
-		// TODO 新增一行记录
-		// 目前看来，新增一行是比较困难的，删除一行倒是好做
+		// 目前看来，word2003 新增一行是比较困难的，删除一行倒是好做
 		// 所以，动态的新增也只能通过删除来实现
 	}
 
 	private static HWPFDocument replaceText(HWPFDocument doc, String findText,
 			String replaceText) {
 		Range r1 = doc.getRange();
-		// 每一层都是可以替换的,另外一个程序就是这么做的
+		// 每一层都是可以替换的,下面一段注释掉的代码就是这么做的
 		r1.replaceText(findText, replaceText);
 
 		// for (int i = 0; i < r1.numSections(); ++i ) {

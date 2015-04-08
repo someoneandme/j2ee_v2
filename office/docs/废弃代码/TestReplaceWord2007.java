@@ -28,6 +28,56 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
  */
 public class TestReplaceWord2007 {
 
+	// 这个替换会丢失文本格式，被replace_v2替代
+//	@SuppressWarnings("unused")
+//	@Deprecated
+//	private static void replace(XWPFParagraph paragraph, Map<String, String> map) {
+//		String text = paragraph.getText();
+//		if(text == null) {
+//			return;
+//		}
+//		
+//		// 在这里做替换工作
+//		boolean isReplaced = false;
+//		for(String key : map.keySet()) {
+//			String value = map.get(key);
+//			if(text.contains(key)) {
+//				isReplaced = true;
+//				text = text.replace(key, value);
+//			}
+//		}
+//		
+//        if(isReplaced) {
+//			removeAllRuns(paragraph);
+//			insertReplacementRuns(paragraph, text);
+//        }
+//	}
+
+	// 根据替换完的文本，生成新的段落  这个实现会丢失文本格式
+//	@Deprecated
+//	private static void insertReplacementRuns(XWPFParagraph paragraph,
+//			String replacedText) {
+//		String[] replacementTextSplitOnCarriageReturn = replacedText.split("\n");
+//
+//		for (int j = 0; j < replacementTextSplitOnCarriageReturn.length; j++) {
+//			String part = replacementTextSplitOnCarriageReturn[j];
+//
+//			XWPFRun newRun = paragraph.insertNewRun(j);
+//			newRun.setText(part);
+//
+//			if (j + 1 < replacementTextSplitOnCarriageReturn.length) {
+//				newRun.addCarriageReturn();
+//			}
+//		}
+//	}
+
+//	private static void removeAllRuns(XWPFParagraph paragraph) {
+//		int size = paragraph.getRuns().size();
+//		for (int i = 0; i < size; i++) {
+//			paragraph.removeRun(0);
+//		}
+//	}
+
 	private static void processParagraphs(List<XWPFParagraph> paragraphList,
 			Map<String, String> map) {
 		for (XWPFParagraph paragraph : paragraphList) {
@@ -42,6 +92,14 @@ public class TestReplaceWord2007 {
 			 *
 			 * 这种方式会丢格式，所以应该有另外一种更好的做法
 			 */
+//			List<XWPFRun> runs = paragraph.getRuns();
+//			for (XWPFRun run : runs) {
+//				String text = run.getText(0);
+//				text = text.replace(findText, replaceText);
+//				run.setText(text, 0);
+//			}
+			
+			// replace(paragraph, map);
 			
 			/**
 			 * 新的算法思路：
@@ -149,8 +207,7 @@ public class TestReplaceWord2007 {
     /**
      * 复制word表格行，这是在处理动态复制表格时，非常重要的方法
      */
-    @SuppressWarnings("unused")
-	private static XWPFTableRow copyRow(XWPFTableRow source, XWPFTable table) {
+    private static XWPFTableRow copyRow(XWPFTableRow source, XWPFTable table) {
         return new XWPFTableRow((CTRow) source.getCtRow().copy(), table);
     }
 
