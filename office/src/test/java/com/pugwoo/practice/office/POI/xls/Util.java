@@ -1,4 +1,4 @@
-package com.pugwoo.practice.office.POI;
+package com.pugwoo.practice.office.POI.xls;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,7 +12,12 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.util.CellRangeAddress;
  
 /**
- *
+ * 这份工具是用来复制sheet的，可以将多个xls文件中的sheet复制到同一份excel中
+ * 
+ * 不足：不支持复杂的例如背景图片的复制、或者图表的复制
+ * 
+ * 复制完的xls打开可能报已损坏之类的错误
+ * 
  * @author jk
  * getted from http://jxls.cvs.sourceforge.net/jxls/jxls/src/java/org/jxls/util/Util.java?revision=1.8&view=markup
  * by Leonid Vysochyn 
