@@ -1,4 +1,4 @@
-package com.pugwoo.practice.office.POI;
+package com.pugwoo.practice.office.POI.doc;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
