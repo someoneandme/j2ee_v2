@@ -2,6 +2,7 @@ package com.pugwoo.dbhelper;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import com.pugwoo.dbhelper.annotation.Column;
 import com.pugwoo.dbhelper.annotation.Table;
 import com.pugwoo.dbhelper.exception.InvalidParameterException;
 import com.pugwoo.dbhelper.exception.NotSupportMethodException;
+import com.pugwoo.dbhelper.model.PageData;
 import com.pugwoo.dbhelper.utils.AnnotationSupportRowMapper;
 import com.pugwoo.dbhelper.utils.DOInfoReader;
 
@@ -148,9 +150,11 @@ public class DBHelper {
 	 * @param pageSize
 	 * @return
 	 */
-	public <T> List<T> getList(final Class<T> clazz, int page, int pageSize) {
+	public <T> PageData<T> getList(final Class<T> clazz, int page, int pageSize) {
 		int offset = (page - 1) * pageSize;
-		return _getList(clazz, offset, pageSize);
+		List<T> data = _getList(clazz, offset, pageSize);
+		int total = getTotal(clazz);
+		return new PageData<T>(total, data);
 	}
 	
 	/**
@@ -188,6 +192,22 @@ public class DBHelper {
 	}
 	
 	/**
+	 * 查询列表总数
+	 * @param clazz
+	 * @return
+	 */
+	private int getTotal(Class<?> clazz) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT count(*)");
+		
+		Table table = DOInfoReader.getTable(clazz);
+		sql.append(" FROM ").append(table.value());
+		
+		System.out.println("Exec SQL:" + sql.toString());
+		return jdbcTemplate.queryForObject(sql.toString(), Integer.class);
+	}
+	
+	/**
 	 * 插入一条记录，返回数据库实际修改条数。<br>
 	 * 如果包含了自增id，则自增Id会被设置。
 	 * 
@@ -220,22 +240,21 @@ public class DBHelper {
 	}
 	
 	/**
-	 * 插入几条数据，通过拼凑成一条sql插入，返回实际影响的行数。
-	 * 
-	 * XXX【注】批量插入暂不支持回设自增id。
+	 * 插入几条数据，通过拼凑成一条sql插入
+	 *【注】批量插入不支持回设自增id。
 	 * 
 	 * @param list
-	 * @return
+	 * @return 返回影响的行数
 	 */
 	public <T> int insertInOneSQL(List<T> list) {
 		if(list == null || list.isEmpty()) {
 			return 0;
 		}
+		
+		list.removeAll(Collections.singleton(null));
+		
 		Class<?> clazz = null;
 		for(T t : list) {
-			if(t == null) {
-				continue;
-			}
 			if(clazz == null) {
 				clazz = t.getClass();
 			} else {

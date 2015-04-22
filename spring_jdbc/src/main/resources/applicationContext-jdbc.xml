@@ -54,7 +54,7 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<!-- 我自己做的工具DBHelper -->
-	<bean id="dbHelper" class="pugwoo.dbhelper.utils.DBHelper">
+	<bean id="dbHelper" class="com.pugwoo.dbhelper.DBHelper">
 	    <property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 	

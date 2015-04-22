@@ -1,5 +1,6 @@
 package spring_jdbc.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pugwoo.dbhelper.DBHelper;
 import spring_jdbc.entity.StudentDO;
+
+import com.pugwoo.dbhelper.DBHelper;
+import com.pugwoo.dbhelper.model.PageData;
 
 /**
  * 2015年1月13日 11:11:23
@@ -30,9 +33,20 @@ public class TestDBHelper {
 	@Test
 	@Rollback(false)
 	public void testGetList() {
+		// 测试获取全部
 		List<StudentDO> list = dbHelper.getList(StudentDO.class);
-		System.out.println(list.size());
+		System.out.println("total:" + list.size());
 		for(StudentDO studentDO : list) {
+			System.out.println(studentDO);
+		}
+		
+		System.out.println("===============================");
+		
+		// 测试分页获取
+		PageData<StudentDO> page1 = dbHelper.getList(StudentDO.class, 1, 10);
+		System.out.println("total:" + page1.getTotal());
+		System.out.println("cur page size:" + page1.getData().size());
+		for(StudentDO studentDO : page1.getData()) {
 			System.out.println(studentDO);
 		}
 	}
@@ -60,7 +74,6 @@ public class TestDBHelper {
 	@Rollback(false)
 	public void testInsert() {
 		StudentDO studentDO = new StudentDO();
-//		studentDO.setId(888L); // 自增id
 		studentDO.setName("nick888");
 		studentDO.setAge(28);
 		
@@ -69,16 +82,15 @@ public class TestDBHelper {
 		System.out.println(studentDO);
 		
 		// 测试批量写入
-//		List<StudentDO> students = new ArrayList<StudentDO>();
-//		for(int i = 0; i < 10; i++) {
-//			StudentDO stu = new StudentDO();
-//			stu.setId(100L + i);
-//			stu.setName("test" + i);
-//			stu.setAge(i);
-//			students.add(stu);
-//		}
-//		row = dbHelper.insertInOneSQL(students);
-//		System.out.println("affected rows:" + row);
+		List<StudentDO> students = new ArrayList<StudentDO>();
+		for(int i = 0; i < 10; i++) {
+			StudentDO stu = new StudentDO();
+			stu.setName("test" + i);
+			stu.setAge(i);
+			students.add(stu);
+		}
+		row = dbHelper.insertInOneSQL(students);
+		System.out.println("affected rows:" + row);
 	}
 	
 }
