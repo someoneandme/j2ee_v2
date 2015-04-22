@@ -1,15 +1,16 @@
-package pugwoo.dbhelper.utils;
+package com.pugwoo.dbhelper.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import pugwoo.dbhelper.annotation.Column;
-import pugwoo.dbhelper.annotation.Table;
-import pugwoo.dbhelper.exception.NoColumnAnnotationException;
-import pugwoo.dbhelper.exception.NoKeyColumnAnnotationException;
-import pugwoo.dbhelper.exception.NoTableAnnotationException;
+import com.pugwoo.dbhelper.annotation.Column;
+import com.pugwoo.dbhelper.annotation.Table;
+import com.pugwoo.dbhelper.exception.NoColumnAnnotationException;
+import com.pugwoo.dbhelper.exception.NoKeyColumnAnnotationException;
+import com.pugwoo.dbhelper.exception.NoTableAnnotationException;
+
 import spring_jdbc.entity.StudentDO;
 
 /**

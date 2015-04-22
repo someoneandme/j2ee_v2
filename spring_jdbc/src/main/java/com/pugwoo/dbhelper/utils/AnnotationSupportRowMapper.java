@@ -1,4 +1,4 @@
-package pugwoo.dbhelper.utils;
+package com.pugwoo.dbhelper.utils;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import pugwoo.dbhelper.annotation.Column;
+import com.pugwoo.dbhelper.annotation.Column;
 
 /**
  * 2015年1月13日 17:48:30<br>

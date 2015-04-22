@@ -1,4 +1,4 @@
-package pugwoo.dbhelper.exception;
+package com.pugwoo.dbhelper.exception;
 
 public class NotSupportMethodException extends RuntimeException {
 

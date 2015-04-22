@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import pugwoo.dbhelper.DBHelper;
+import com.pugwoo.dbhelper.DBHelper;
 import spring_jdbc.entity.StudentDO;
 
 /**

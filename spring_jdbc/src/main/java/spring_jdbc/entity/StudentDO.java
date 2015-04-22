@@ -1,7 +1,7 @@
 package spring_jdbc.entity;
 
-import pugwoo.dbhelper.annotation.Column;
-import pugwoo.dbhelper.annotation.Table;
+import com.pugwoo.dbhelper.annotation.Column;
+import com.pugwoo.dbhelper.annotation.Table;
 
 /**
  * 2015年1月12日 15:20:09 这个是有注解的DO
