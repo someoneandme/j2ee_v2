@@ -1,0 +1,4 @@
+需要实现的特性:
+1. 根据字段的查询条件查询，这个难以设计好，免不了QueryFilter那种方式?
+2. update 和 update not null的实现
+3. delete by id
