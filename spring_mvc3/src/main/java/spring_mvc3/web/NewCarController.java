@@ -20,7 +20,7 @@ import spring_mvc3.service.CarManager;
  * 根据Request的GET和POST来选择方法
  * 
  * 关于整个object的注入，有一块以前看过，但还没有彻底整理:@ModelAttribute
- * 好像不太好用 TODO
+ * 好像不太好用 2015年4月27日 11:11:56 这一个在CplxFormController中有细说
  */
 @Controller
 public class NewCarController {

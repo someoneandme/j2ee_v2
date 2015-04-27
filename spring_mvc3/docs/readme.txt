@@ -18,3 +18,7 @@ Spring MVC工作过程:
 2014年11月1日 20:25:41
 关于velocity使用layout的例子：
 http://www.oschina.net/question/12_4580
+
+2015年4月27日 11:30:09
+除了@ResponseBody可以将返回作为response body用，
+还有@RequestBody可以将post过来的所有内容作为输入信息用，这一点和微信的api很匹配

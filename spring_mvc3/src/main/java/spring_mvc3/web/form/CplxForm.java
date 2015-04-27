@@ -4,6 +4,11 @@ import java.util.List;
 
 /**
  * 2013年3月18日 16:30:45
+ * 
+ * 2015年4月27日 11:31:46
+ * 这个类是为页面参数的，这里有一个缺点是：
+ * 无法像@RequestParam一样指定页面参数到变量的映射
+ * 
  */
 public class CplxForm {
 

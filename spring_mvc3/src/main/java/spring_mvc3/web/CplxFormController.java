@@ -24,6 +24,11 @@ public class CplxFormController {
 	/**
 	 * 这个每次请求（无论这个controller里哪个请求）都会调用到
 	 * 不过每次调用也不是就一定损耗性能，这种全表单提交，调用的次数并不多
+	 * 
+	 * 2015年4月27日 11:17:08
+	 * 这种方式可能适合于自定义解析param的方式，
+	 * 但是由于它还是全局的（要处理单例多线程问题），且需要自己处理数组，实际中尚未使用到。
+	 * 
 	 * @param req
 	 * @return
 	 */
@@ -45,8 +50,17 @@ public class CplxFormController {
 	 * 找到一种完美的解决方法：把@ModelAttribute("cplxForm")方法里的变量保存到类的成员变量，
 	 * 然后@RequestMapping不要用CplxForm form来注入就可以~!
 	 * 
-	 * 【这种方法实际上还是不好的】不要像Controller里面引入成员变量，因为它是单例的!
+	 * 【这种方法实际上还是不好的】不要向Controller里面引入成员变量，因为它是单例的!
 	 * 对于大表单form提交的，还是用form对象来放数据，然后再转成entity对象
+	 * 
+	 * 2015年4月27日 11:35:27 说明一下
+	 * 前端提交过来的参数是：
+	 * students[0].id
+	 * students[0].name
+	 * students[1].id
+	 * students[1].name
+	 * ==> 对应都mvc的参数就是一个Bean里面的相同名称的数组
+	 * 
 	 * @param form
 	 * @param model
 	 * @return
@@ -63,6 +77,8 @@ public class CplxFormController {
 	
 	/**
 	 * 注：student无论如何不会是null
+	 * 2015年4月27日 11:19:09 所以，这里的注入不能是List这种无法实例化的类
+	 * 
 	 * 当参数中连name=都没有时，student中的name就是null
 	 * 当参数中有name=，则student中的name就是空的（不是null）
 	 * @param student
