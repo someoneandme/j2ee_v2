@@ -5,9 +5,22 @@
 
 <sqlMap namespace="Student">
 
+    <typeAlias alias="Student" type="com.pugwoo.practice.ibatis.entity.Student" />
+
+    <!-- 没有这份resultMap好像也是可以的，但我觉得最好还是配置上，不喜欢太多潜规则的约定 -->
+    <!-- 但是配置这份文件时需要很小心，特别是字段多的时候容易出错 -->
+    <resultMap class="Student" id="studentResultMap">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+    </resultMap>
+
+    <!-- 如果返回值是一个类，例如String Long等基本类，或者希望自动映射，就用resultClass -->
+	<!-- 如果返回值是一个已经配置好的映射ResultMap，则用resultMap -->
 	<select id="getStudentById" parameterClass="int"
-		resultClass="com.pugwoo.practice.ibatis.entity.Student">
+		resultMap="studentResultMap">
 		SELECT id,NAME FROM student WHERE id=#id#
 	</select>
+	
+	
 
 </sqlMap>
