@@ -21,6 +21,16 @@
 		SELECT id,NAME FROM student WHERE id=#id#
 	</select>
 	
-	
+	<!-- 测试一些insert带where的语句，实际上还是很实用的 -->
+	<!-- 下面这个语句保证了没有相同的插入id，虽然可以用id作为主键，但在其它情况下，你可能有相关的需求但不需要用主键或其它数据库约束去做到 -->
+	<insert id="insert" parameterClass="Student">
+	    insert into student(id,name)
+	    select #id#,#name#
+	    from dual
+	    where not exists (
+	        select 1 from student
+	        where id=#id#
+	    )
+	</insert>
 
 </sqlMap>
