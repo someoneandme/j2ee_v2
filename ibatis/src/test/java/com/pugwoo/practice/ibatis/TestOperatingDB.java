@@ -3,6 +3,9 @@ package com.pugwoo.practice.ibatis;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -31,13 +34,31 @@ public class TestOperatingDB {
 	@Test
 	public void testSelect() throws SQLException {
 		Student student = (Student) sqlMapClient.queryForObject(
-				"Student.getStudentById", 3);
+				"Student.getStudentById", null);
 		System.out.println(student);
 		
 		// 启用namespace之后就只能用上面那种，一般大型项目都会用namespace的
 		// 没有用namespace的如下：
 //		student = (Student) sqlMap.queryForObject("getStudentById", 1);
 //		System.out.println(student);
+	}
+	
+	@Test
+	public void testSelectByName() throws SQLException {
+		// 这里是为了实验ibatis中name=#name#当name为null是是否可以选择出来
+		// 【结果】：不行，没有办法取出来
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("name", null); // ibatis不支持name=#name#当name为null时自动转成name is null
+		
+		@SuppressWarnings("unchecked")
+		List<Student> list = (List<Student>) sqlMapClient.queryForList("Student.getStudentByName",
+				map);
+		System.out.println(list.size());
+		if(list != null) {
+			for(Student student : list) {
+				System.out.println(student);
+			}
+		}
 	}
 
 	@Test
