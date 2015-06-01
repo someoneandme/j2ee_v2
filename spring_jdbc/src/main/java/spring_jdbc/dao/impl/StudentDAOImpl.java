@@ -54,6 +54,14 @@ public class StudentDAOImpl implements StudentDAO {
 						Student.class), id);
 		return student;
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Student> getByName(String name) throws SQLException {
+		List<Student> list = (List<Student>) jdbcTemplate.query(
+			 "select * from student where name=?", 
+			 new BeanPropertyRowMapper(Student.class), name);
+		return list;
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Student> getAll() throws SQLException {

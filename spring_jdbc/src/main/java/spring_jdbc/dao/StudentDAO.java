@@ -33,6 +33,14 @@ public interface StudentDAO {
 	public Student getById(long id) throws SQLException;
 	
 	/**
+	 * 根据名称查找学生
+	 * @param name
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Student> getByName(String name) throws SQLException;
+	
+	/**
 	 * 查询所有的学生列表
 	 * @return
 	 * @throws SQLException

@@ -88,6 +88,18 @@ public class TestStudentDAO {
 		
 		Student student2 = studentDAO.getById(randomId);
 		System.out.println(student2);
+		
+	}
+	
+	@Test
+	@Rollback(true)
+	public void testQueryList() throws SQLException {
+		// 【重要】对于jdbcTemplate，也不支持where name=?时当传入的参数为null的情况，还是要明确指明is null
+		List<Student> students = studentDAO.getByName(null);
+		System.out.println(students.size());
+		for(Student st : students) {
+			System.out.println(st);
+		}
 	}
 	
 }
