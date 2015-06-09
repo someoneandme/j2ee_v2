@@ -1,0 +1,4 @@
+2015年6月9日 18:36:30
+http://www.oschina.net/p/solr
+
+solr是基于lucene的索引服务器。看起来很多人用的样子。
