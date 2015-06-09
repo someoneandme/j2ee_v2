@@ -1,0 +1,23 @@
+Segment
+索引index目录中和segment有关的文件指明了该目录的索引文件，一个索引目录只有一套这样的Segment文件
+
+如果是单独索引文件则是.cfs
+
+否则：
+.fnm : Field Name
+.fdx : Field Index
+.fdt : Field Data
+.tis : 词条的各种信息，如词条数量、间隔等
+.tii : 词条索引
+.frq : 词条频率
+.prx : 词条在文档中的位置信息
+.f   : 词条分值
+
+
+两种索引文件方式的转换：
+用IndexWriter打开索引文件夹
+指定产生索引的类型
+优化索引
+关闭索引
+
+还有合并索引
