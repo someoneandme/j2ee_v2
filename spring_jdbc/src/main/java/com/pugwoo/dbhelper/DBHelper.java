@@ -150,7 +150,7 @@ public class DBHelper {
 	 * @param pageSize
 	 * @return
 	 */
-	public <T> PageData<T> getList(final Class<T> clazz, int page, int pageSize) {
+	public <T> PageData<T> getPage(final Class<T> clazz, int page, int pageSize) {
 		int offset = (page - 1) * pageSize;
 		List<T> data = _getList(clazz, offset, pageSize);
 		int total = getTotal(clazz);
@@ -163,7 +163,7 @@ public class DBHelper {
 	 * @param clazz
 	 * @return
 	 */
-	public <T> List<T> getList(final Class<T> clazz) {
+	public <T> List<T> getAll(final Class<T> clazz) {
 		return _getList(clazz, null, null);
 	}
 
