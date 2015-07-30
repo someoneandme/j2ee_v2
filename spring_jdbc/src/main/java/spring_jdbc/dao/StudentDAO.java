@@ -3,7 +3,7 @@ package spring_jdbc.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import spring_jdbc.entity.Student;
+import entity.Student;
 
 /**
  * 2013年3月5日 18:06:23

@@ -1,23 +1,16 @@
-package spring_jdbc.entity;
-
-import com.pugwoo.dbhelper.annotation.Column;
-import com.pugwoo.dbhelper.annotation.Table;
+package entity;
 
 /**
- * 2015年1月12日 15:20:09 这个是有注解的DO
+ * 2013年3月5日 18:08:59
+ * 
+ * 这是一个标准的最普通的bean，建议所有数据成员都【不用】基本类型，
+ * 这样可以表示数据库的null值。
  */
-@Table("student")
-public class StudentDO {
-	
-	@Column(value = "id", isKey = true, isAutoIncrement = true)
+public class Student {
 	private Long id;
-	
-	@Column("name")
 	private String name;
-	
-	@Column("age")
 	private Integer age;
-
+	
 	@Override
 	public String toString() {
 		return "id:" + id + ",name:" + name + ",age:" + age;

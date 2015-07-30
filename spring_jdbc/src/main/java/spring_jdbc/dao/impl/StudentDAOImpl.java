@@ -14,8 +14,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import entity.Student;
 import spring_jdbc.dao.StudentDAO;
-import spring_jdbc.entity.Student;
 
 /**
  * 2014年5月19日 09:44:34 通过注解提供Spring自动依赖注入，因此需要@Component
@@ -30,7 +30,7 @@ public class StudentDAOImpl implements StudentDAO {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public void insert(Student student) throws SQLException {
-//		jdbcTemplate.update("insert into student(id,name,age) values(?,?,?)",
+//		jdbcTemplate.update("insert into t_student(id,name,age) values(?,?,?)",
 //				student.getId(), student.getName(), student.getAge());
 		// 最后3个参数这样也行：new Object[] { student.getId(), student.getName(),
 		// student.getAge() });
@@ -43,14 +43,14 @@ public class StudentDAOImpl implements StudentDAO {
 		params.put("age", student.getAge());
 		
 		namedParameterJdbcTemplate.update(
-				"insert into student(id,name,age) values(:id,:name,:age)",
+				"insert into t_student(id,name,age) values(:id,:name,:age)",
 				params);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Student getById(long id) throws SQLException {
 		Student student = (Student) jdbcTemplate.queryForObject(
-				"select * from student where id=?", new BeanPropertyRowMapper(
+				"select * from t_student where id=?", new BeanPropertyRowMapper(
 						Student.class), id);
 		return student;
 	}
@@ -58,14 +58,14 @@ public class StudentDAOImpl implements StudentDAO {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Student> getByName(String name) throws SQLException {
 		List<Student> list = (List<Student>) jdbcTemplate.query(
-			 "select * from student where name=?", 
+			 "select * from t_student where name=?", 
 			 new BeanPropertyRowMapper(Student.class), name);
 		return list;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Student> getAll() throws SQLException {
-		List<Student> list = jdbcTemplate.query("select * from student",
+		List<Student> list = jdbcTemplate.query("select * from t_student",
 		/* 这里可以用BeanPropertyRowMapper，也可以自己实现 */
 		new RowMapper() {
 			public Object mapRow(ResultSet rs, int index) throws SQLException {
@@ -88,7 +88,7 @@ public class StudentDAOImpl implements StudentDAO {
 			return;
 		}
 		for(Student student : students) {
-			jdbcTemplate.update("insert into student(id,name,age) values(?,?,?)",
+			jdbcTemplate.update("insert into t_student(id,name,age) values(?,?,?)",
 					student.getId(), student.getName(), student.getAge());
 		}
 	}

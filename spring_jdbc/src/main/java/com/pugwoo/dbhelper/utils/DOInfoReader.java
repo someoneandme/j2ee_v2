@@ -11,7 +11,7 @@ import com.pugwoo.dbhelper.exception.NoColumnAnnotationException;
 import com.pugwoo.dbhelper.exception.NoKeyColumnAnnotationException;
 import com.pugwoo.dbhelper.exception.NoTableAnnotationException;
 
-import spring_jdbc.entity.StudentDO;
+import entity.StudentDO;
 
 /**
  * 2015年1月12日 16:42:26 读取DO的注解信息:
