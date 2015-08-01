@@ -13,10 +13,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import spring_jdbc.entity.StudentDO;
-
 import com.pugwoo.dbhelper.DBHelper;
 import com.pugwoo.dbhelper.model.PageData;
+
+import entity.StudentDO;
 
 /**
  * 2015年1月13日 11:11:23
@@ -31,10 +31,9 @@ public class TestDBHelper {
 	private DBHelper dbHelper;
 
 	@Test
-	@Rollback(false)
 	public void testGetList() {
 		// 测试获取全部
-		List<StudentDO> list = dbHelper.getList(StudentDO.class);
+		List<StudentDO> list = dbHelper.getAll(StudentDO.class);
 		System.out.println("total:" + list.size());
 		for(StudentDO studentDO : list) {
 			System.out.println(studentDO);
@@ -43,7 +42,7 @@ public class TestDBHelper {
 		System.out.println("===============================");
 		
 		// 测试分页获取
-		PageData<StudentDO> page1 = dbHelper.getList(StudentDO.class, 1, 10);
+		PageData<StudentDO> page1 = dbHelper.getPage(StudentDO.class, 1, 10);
 		System.out.println("total:" + page1.getTotal());
 		System.out.println("cur page size:" + page1.getData().size());
 		for(StudentDO studentDO : page1.getData()) {

@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import spring_jdbc.entity.Student;
+import entity.Student;
 
 /**
  * 2014年5月19日 11:11:07
