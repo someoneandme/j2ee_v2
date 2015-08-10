@@ -1,6 +1,7 @@
 package spring_mvc3.web;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Writer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,12 @@ public class JsonController {
 		// 假设json是通过工具获得的jsonString
 		String json = "{id:3}";
 		writer.write(json);
+	}
+
+	// 适用于二进制输出
+	@RequestMapping("/json2")
+	public void json2(OutputStream out) throws IOException {
+		out.write("hello".getBytes());
 	}
 
 	@RequestMapping("/chinese_json")

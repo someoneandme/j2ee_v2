@@ -24,8 +24,8 @@ public class RestfulController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/{name}/page/{p}")
-	public void handleRequest(Writer writer, @PathVariable String name,
-			@PathVariable Integer p) throws IOException{
+	public void handleRequest(Writer writer, @PathVariable("name") String name,
+			@PathVariable("p") Integer p) throws IOException {
 		writer.write("you are reading " + name +"'s page " + p);
 	}
 	
