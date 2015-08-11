@@ -39,17 +39,6 @@
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
     
-    <!-- 配置root application context，从而可以在普通servlet中获取到spring context -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    
-    <context-param>
-		<param-name>contextConfigLocation</param-name>
-		<!-- 如果有多个配置文件，用逗号隔开 -->
-		<param-value>classpath:applicationContext-*.xml</param-value>
-	</context-param>
-
 	<!-- Spring MVC Servlet配置 -->
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
@@ -57,7 +46,6 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<!-- 如果有多个配置文件，用逗号隔开 -->
-			<!-- TODO 虽然context-param已经定义了，但是由于listener的存在，导致servlet又读取不到 -->
 			<param-value>classpath:applicationContext-*.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

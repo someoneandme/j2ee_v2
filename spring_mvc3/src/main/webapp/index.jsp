@@ -18,7 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <a href="<%=basePath%>hello/easy_hello_world" target="_blank">easy_hello_world</a><br/>
        <a href="<%=basePath%>hello/hello_world?egg=egg" target="_blank">hello_world?egg=egg</a><br/>
        <a href="<%=basePath%>hello/redirect_to_helloworld" target="_blank">浏览器端跳转到hello_world</a><br/>
-       <a href="<%=basePath%>hello/forward_to_listcars" target="_blank">服务器端跳转到list_cars</a><br/>
+       <a href="<%=basePath%>hello/forward_to_helloworld" target="_blank">服务器端跳转到hello_world</a><br/>
+       <br />
        <a href="<%=basePath%>validate_param?name=nicdk&email=33@fds.com" target="_blank">表單驗證例子</a>
     </p>
     

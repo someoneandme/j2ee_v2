@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * http://127.0.0.1:8080/spring_mvc/test_cookie
  */
 @Controller
-public class TestCookieController {
+public class CookieController {
 
 	@RequestMapping(value = "/test_cookie")
 	public String testCookie(Model model, Writer writer,

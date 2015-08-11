@@ -8,38 +8,38 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 使用注解，无需实现Controller接口
  * 关于注解RequestMapping的参数：默认是直接写一个String，代表是URL路径
- * 详细配置：value="URL路径", params = "必须有该参数",
- *    method = 指定请求方式，如RequestMethod.GET, headers未看
- * 
- * 【重要】关于方法的参数：
- * 如果是常用的HttpServletRequest HttpServletResponse HttpSession会自动注入【不需要按顺序，需要什么写什么】
- * 其它类型的参数会由Spring依据类型自动注入
- * 
- * 【如果有数据需要jsp显示，推荐返回ModelAndView，以免和request冲突】
- * 执行subController后，FontController会将ModelAndView的值放入request中
- * 
+ * 详细配置：value="URL路径"
  * @RequestMapping 的URL支持Ant风格通配符：
  * ?  表示任意一个字符
  * *  表示任意字符
  * ** 表示多层路径
+ *    method = 指定请求方式，如RequestMethod.GET,
+ *    params = "必须有该参数", headers未看
+ * 
+ * 
+ * 【重要】关于方法的参数：
+ * 如果是常用的HttpServletRequest HttpServletResponse HttpSession会自动注入
+ * 【不需要按顺序，需要什么写什么】
+ * 其它类型的参数会由Spring依据类型自动注入
+ * 
  * 
  * == 用@RequestHeader可以拿到请求头的参数
  * == 用@CookieValue 可以拿到cookie的值
  */
-@Controller // 【注解这是个Controller】
-@RequestMapping("hello") // 【根目录，默认是/】
+@Controller // 【注解这个类是Controller】
+@RequestMapping("/hello") // 【根目录，默认是/】
 public class HelloWorldController {
 
 	/**
 	 * 1. Model里的数据，在渲染之前spring mvc会放入到request域对象中
 	 * 2. Model也可以用Map<String, Object> map代替，一样的
 	 * 
-	 * 还有另外一种方式是返回ModelAndView，new ModelAndView("viewname")写的viewname就等于下面方法的返回值string
+	 * 还有另外一种方式是返回ModelAndView，
+	 * new ModelAndView("viewname") 写的viewname就等于下面方法的返回值string
 	 * 但是这种方式我不太喜欢的是，要手工new 一个ModelAndView，比较麻烦
 	 */
 	@RequestMapping("hello_world")
@@ -80,7 +80,7 @@ public class HelloWorldController {
 	
 	/**
 	 * 转向：返回"redirect:URL"
-	 * 属于【浏览器端跳转】
+	 * 属于【浏览器端跳转】302跳转
 	 * @return
 	 */
 	@RequestMapping("redirect_to_helloworld")
@@ -92,9 +92,9 @@ public class HelloWorldController {
 	 * 服务器端跳转，浏览器url没有变化
 	 * @return
 	 */
-	@RequestMapping("forward_to_listcars")
-	public ModelAndView forwardRequest(){
-		return new ModelAndView("forward:/list_cars");
+	@RequestMapping("forward_to_helloworld")
+	public String forwardRequest(){
+		return "forward:hello_world";
 	}
 
 }
