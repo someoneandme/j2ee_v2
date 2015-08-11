@@ -33,11 +33,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <a href="<%=basePath%>velocity_index" target="_blank">basic</a>
     </p>
     
-    <h3>演示依赖注入</h3>
-    <p><a href="<%=basePath%>list_cars" target="_blank">carList</a></p>
-    
-    <h3>Form演示</h3>
-    <p><a href="<%=basePath%>new_car" target="_blank">newCar</a>
+    <h3>Cars和Form演示</h3>
+    <p><a href="<%=basePath%>list_cars" target="_blank">carList</a>
+       <a href="<%=basePath%>new_car" target="_blank">newCar</a>
        <a href="<%=basePath%>new_car_ognl" target="_blank">newCar_OGNL</a>
     </p>
     
@@ -66,5 +64,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
     <h3>velocity例子</h3>
     <p><a href="<%=basePath%>velocity_index" target="_blank">velocity index</a></p>
+  
+    <h3>modelAttribute例子</h3>
+    <p><a href="<%=basePath%>test_model_attribute?name=nick" target="blank">test model attribute</a></p>
   </body>
 </html>

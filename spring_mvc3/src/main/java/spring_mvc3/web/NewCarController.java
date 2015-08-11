@@ -25,12 +25,18 @@ import spring_mvc3.service.CarManager;
 @Controller
 public class NewCarController {
 
-	@Autowired(required = true)
+	@Autowired
 	private BrandManager brandManager;
 
-	@Autowired(required = true)
+	@Autowired
 	private CarManager carManager;
 
+	@RequestMapping("list_cars")
+	public String handleRequest(Model model) {
+		model.addAttribute("cars", carManager.getAll());
+		return "listCar";
+	}
+	
 	/**
 	 * GET调用
 	 */
@@ -45,6 +51,9 @@ public class NewCarController {
 	 * 
 	 * 参数可以是：@RequestParam(value = "model", required = false) String model
 	 * 当传过来的参数名称和参数名称不一样时可以用上面这条
+	 * 
+	 * 传递过来的参数：
+	 * model  price  brand
 	 */
 	@RequestMapping(value = "/new_car", method = RequestMethod.POST)
 	public String postRequest(Model modelView, // 由于名字冲突，所以换了个名字
@@ -77,6 +86,12 @@ public class NewCarController {
 		return "newCarOGNL";
 	}
 
+	/**
+	 * 传过来的参数：brand.id   model   price
+	 * @param model
+	 * @param car
+	 * @return
+	 */
 	@RequestMapping(value = "/new_car_ognl", method = RequestMethod.POST)
 	public String postRequestOGNL(Model model, Car car) {
 
