@@ -6,6 +6,12 @@ public class Student {
 	private String name;
 	private String school;
 	private Integer age;
+	
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", school=" + school
+				+ ", age=" + age + "]";
+	}
 
 	public Long getId() {
 		return id;

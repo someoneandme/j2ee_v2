@@ -66,6 +66,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <p><a href="<%=basePath%>velocity_index" target="_blank">velocity index</a></p>
   
     <h3>modelAttribute例子</h3>
-    <p><a href="<%=basePath%>test_model_attribute?name=nick" target="blank">test model attribute</a></p>
+    <p><a href="<%=basePath%>test_model_attribute?name=nick&processedName=karen&age=23" target="blank">test model attribute</a></p>
   </body>
 </html>
