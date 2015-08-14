@@ -3,12 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	                    http://www.springframework.org/schema/context
-	                    http://www.springframework.org/schema/context/spring-context-3.0.xsd
-	                    http://www.springframework.org/schema/mvc  
-	                    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	                    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- 这里设置Controller所在的包位置，所有使用annotation的类都会自动加载 -->
 	<context:component-scan base-package="*" />
@@ -57,10 +54,24 @@
 	<!-- 上傳文件 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
-    <!-- 拦截器 -->
+    <!-- 拦截器，拦截器有顺序，因此用注解配置并不合适 -->
     <mvc:interceptors>
         <bean class="spring_mvc3.web.interceptor.SpringMVCInterceptor"></bean>
         <bean class="spring_mvc3.web.interceptor.SyncRequestModelInterceptor"></bean>
     </mvc:interceptors>
+    
+    <!-- 全局异常处理器 -->
+    <bean class="spring_mvc3.web.interceptor.GlobalExceptionHandler"/>  
 
+    <!-- 自定义转换器 -->
+	<mvc:annotation-driven conversion-service="conversionService"/>
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="spring_mvc3.web.converter.StringToDateConverter" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>

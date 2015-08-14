@@ -60,12 +60,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </p>
     
     <h3>复杂的表单（数组、form）</h3>
-    <p><a href="<%=basePath%>cplx_form" target="_blank">复杂的表单</a></p>
+    <p><a href="<%=basePath%>cplx_form" target="blank">复杂的表单</a></p>
   
     <h3>velocity例子</h3>
-    <p><a href="<%=basePath%>velocity_index" target="_blank">velocity index</a></p>
+    <p><a href="<%=basePath%>velocity_index" target="blank">velocity index</a></p>
   
     <h3>modelAttribute例子</h3>
     <p><a href="<%=basePath%>test_model_attribute?name=nick&processedName=karen&age=23" target="blank">test model attribute</a></p>
+  
+    <h3>异常处理例子</h3>
+    <p>
+       <a href="<%=basePath%>test_exception" target="blank">test_exception</a>
+       <a href="<%=basePath%>test_runtime_exception" target="blank">test_runtime_exception</a>
+    </p>
+    
+    <h3>自定义入参形式</h3>
+    <p>
+       <a href="<%=basePath%>test_converter?date=2015-01-18" target="blank">test_converter</a>
+    </p>
   </body>
 </html>
