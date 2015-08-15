@@ -36,6 +36,14 @@ public class JsonController {
 		return map;
 	}
 	
+	// 由于现在@ResponseBody 可能被fastjson处理，所以需要测试下byte[]返回值不会不被fastjson处理到
+	// 经过测试，byte[]不会被fastjson处理
+	@ResponseBody
+	@RequestMapping("/json_byte")
+	public byte[] testByteArr() {
+		return "hello".getBytes();
+	}
+	
 	@ResponseBody
 	@RequestMapping("/json_param")
 	public Object jsonParam(@JsonParam("json") Student student) {
