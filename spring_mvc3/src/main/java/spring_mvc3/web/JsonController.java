@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import spring_mvc3.web.form.Student;
+import spring_mvc3.web.json_param_support.JsonParam;
+
 /**
  * 演示输入纯文本
  * 
@@ -31,6 +34,13 @@ public class JsonController {
 		map.put("id", 3);
 		map.put("name", "参数\"");
 		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/json_param")
+	public Object jsonParam(@JsonParam("json") Student student) {
+		System.out.println(student);
+		return student;
 	}
 	
 	//////////////////下面的这些方法都太老土，性能差，不安全，不推荐使用，仅适用于写些数据///////////////////////

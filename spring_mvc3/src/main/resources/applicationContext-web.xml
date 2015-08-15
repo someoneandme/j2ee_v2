@@ -80,8 +80,12 @@
 <!--                         <value>WriteDateUseDateFormat</value> -->
 <!--                     </array> -->
 <!--                 </property> -->
-	        </bean> 
+	        </bean>
 	    </mvc:message-converters>
+	    <!-- 配置@JsonParam自动转换 -->
+	    <mvc:argument-resolvers>
+            <bean class="spring_mvc3.web.json_param_support.JsonParamArgumentResolver"/>  
+        </mvc:argument-resolvers> 
 	</mvc:annotation-driven>
 	<bean id="conversionService"
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
