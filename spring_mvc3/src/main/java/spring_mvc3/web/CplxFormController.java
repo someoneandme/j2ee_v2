@@ -65,6 +65,8 @@ public class CplxFormController {
 	 * students[1].name
 	 * ==> 对应都mvc的参数就是一个Bean里面的相同名称的数组
 	 * 
+	 * 使用 BindingResult bindingResult 可以获得数据绑定的异常
+	 * 
 	 * @param form
 	 * @param model
 	 * @return

@@ -64,9 +64,16 @@
     <bean class="spring_mvc3.web.interceptor.GlobalExceptionHandler"/>  
 
     <!-- 自定义转换器 -->
+    <!-- mvc:annotation-driven 实际开发一般都加强，增强功能，例如conversionService @ResponseBody   -->
+	<!-- 
+	    【重要】当引入自定义conversion-service时，@DateTimeFormat @NumberFormat 就不起作用了
+	    默认的conversion-service 是 FormattingConversionService
+	    解决方法是自定义的用 org.springframework.format.support.FormattingConversionServiceFactoryBean
+	    代替org.springframework.context.support.ConversionServiceFactoryBean
+	 -->
 	<mvc:annotation-driven conversion-service="conversionService"/>
 	<bean id="conversionService"
-		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
 				<bean class="spring_mvc3.web.converter.StringToDateConverter" />

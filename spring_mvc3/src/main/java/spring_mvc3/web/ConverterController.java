@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ConverterController {
 	
 	@RequestMapping("/test_converter")
-	public void test(Writer writer,
+	public void test(Writer writer, 
 			@RequestParam("date") Date date) throws Exception {
 		if(date != null) {
 			writer.write(date.toString());
