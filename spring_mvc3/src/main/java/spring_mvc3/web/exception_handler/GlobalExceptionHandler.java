@@ -1,4 +1,4 @@
-package spring_mvc3.web.interceptor;
+package spring_mvc3.web.exception_handler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

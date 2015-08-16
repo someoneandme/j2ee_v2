@@ -12,8 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class UploadController {
 
 	@RequestMapping("upload")
-	// 一定要加上@RequestParam
-	public ModelAndView uploadFile(@RequestParam MultipartFile myfile)
+	public ModelAndView uploadFile(@RequestParam("myfile") MultipartFile myfile)
 			throws IOException {
 		ModelAndView modelAndView = new ModelAndView("result");
 

@@ -52,16 +52,24 @@
     </bean>
 	
 	<!-- 上傳文件 -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+<!--         <property name="maxUploadSize">5242880</property> -->
+    </bean>
 
     <!-- 拦截器，拦截器有顺序，因此用注解配置并不合适 -->
     <mvc:interceptors>
         <bean class="spring_mvc3.web.interceptor.SpringMVCInterceptor"></bean>
         <bean class="spring_mvc3.web.interceptor.SyncRequestModelInterceptor"></bean>
+<!--         <mvc:interceptor> -->
+<!--             <mvc:mapping path=""/> 可以指定对哪些链接做拦截 -->
+<!--             <bean></bean> -->
+<!--             <mvc:exclude-mapping path=""/> 可以指定对哪些链接不做拦截 -->
+<!--         </mvc:interceptor> -->
     </mvc:interceptors>
     
     <!-- 全局异常处理器 -->
-    <bean class="spring_mvc3.web.interceptor.GlobalExceptionHandler"/>  
+    <bean class="spring_mvc3.web.exception_handler.GlobalExceptionHandler"/>  
 
     <!-- 自定义转换器 -->
     <!-- mvc:annotation-driven 实际开发一般都加强，增强功能，例如conversionService @ResponseBody   -->
@@ -87,6 +95,7 @@
             <bean class="spring_mvc3.web.json_param_support.JsonParamArgumentResolver"/>  
         </mvc:argument-resolvers> 
 	</mvc:annotation-driven>
+	
 	<bean id="conversionService"
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
