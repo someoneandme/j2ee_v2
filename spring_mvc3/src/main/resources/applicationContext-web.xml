@@ -82,12 +82,12 @@
 	<mvc:annotation-driven conversion-service="conversionService">
 	    <mvc:message-converters>
 	        <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-<!-- 	            <property name="features"> -->
-<!--                     <array value-type="com.alibaba.fastjson.serializer.SerializerFeature"> -->
+	            <property name="features">
+                    <array value-type="com.alibaba.fastjson.serializer.SerializerFeature">
 <!--                         <value>PrettyFormat</value> -->
-<!--                         <value>WriteDateUseDateFormat</value> -->
-<!--                     </array> -->
-<!--                 </property> -->
+                        <value>WriteDateUseDateFormat</value>
+                    </array>
+                </property>
 	        </bean>
 	    </mvc:message-converters>
 	    <!-- 配置@JsonParam自动转换 -->
