@@ -30,7 +30,14 @@ public class StudentDAOImpl implements StudentDAO {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public void insert(Student student) throws SQLException {
-//		jdbcTemplate.update("insert into t_student(id,name,age) values(?,?,?)",
+		/**
+		 * jdbctemplate的?形式参数注入是直接用java的PreparedStatement来实现的
+		 * 经过实验可以发现：'?'和"?"在sql中是可以正确被处理为字符串的
+		 * 除此之外，?都会被替换
+		 */
+//		jdbcTemplate.update("insert into t_student(id,name) values(?,\"?'?\")",
+//				student.getId());
+//		jdbcTemplate.update("insert into t_student(id,name,age)values(?,?,?)",
 //				student.getId(), student.getName(), student.getAge());
 		// 最后3个参数这样也行：new Object[] { student.getId(), student.getName(),
 		// student.getAge() });
@@ -42,9 +49,17 @@ public class StudentDAOImpl implements StudentDAO {
 		params.put("name", student.getName());
 		params.put("age", student.getAge());
 		
-		namedParameterJdbcTemplate.update(
+		/**
+		 * 同样的，:xx的标记在''和""中也会被处理为字符串
+		 * 除此之外，都会被处理。
+		 * 实际上，:xx这种符号会被替换成?，然后走PreparedStatement
+		 */
+		int affected = namedParameterJdbcTemplate.update(
 				"insert into t_student(id,name,age) values(:id,:name,:age)",
 				params);
+		System.out.println(affected);
+		
+		// 经过实验，namedParameterJdbcTemplate 是不支持 ? ? 这种方式的
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
