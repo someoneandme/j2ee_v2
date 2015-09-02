@@ -59,6 +59,8 @@ public class StudentDAOImpl implements StudentDAO {
 				params);
 		System.out.println(affected);
 		
+		// 目前之所以用named的方式，因为这种方式支持 param in (:param) 用List注入的方式，而?不支持
+		
 		// 经过实验，namedParameterJdbcTemplate 是不支持 ? ? 这种方式的
 	}
 

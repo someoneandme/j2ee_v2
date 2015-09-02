@@ -95,6 +95,10 @@ public class TestStudentDAO {
 	@Rollback(true)
 	public void testQueryList() throws SQLException {
 		// 【重要】对于jdbcTemplate，也不支持where name=?时当传入的参数为null的情况，还是要明确指明is null
+		// 真实执行的sql是where name=null，查到的数据是空的，不会抛异常
+		
+		// 由此可以看出MyBatis的SQL中<isNotNull>之类的标签的作用还是挺实在的
+		
 		List<Student> students = studentDAO.getByName(null);
 		System.out.println(students.size());
 		for(Student st : students) {
