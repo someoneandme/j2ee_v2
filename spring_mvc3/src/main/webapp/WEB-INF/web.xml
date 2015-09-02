@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	
+	<!-- 除此配置之外，tomcat的<Connector>标签中要加上 useBodyEncodingForURI="true"-->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -60,7 +61,7 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>/</welcome-file> <!-- 原来是index.jsp，使用模版之后不希望jsp被直接访问 -->
 	</welcome-file-list>
 
 </web-app>
