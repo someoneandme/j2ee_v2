@@ -7,41 +7,33 @@
   <body>
     <h3>演示带根目录的Controller，每个方法映射一个URL</h3>
     <p>
-       <a href="hello/hello_world" target="_blank">hello_world</a><br/>
-       <a href="hello/easy_hello_world" target="_blank">easy_hello_world</a><br/>
-       <a href="hello/hello_world?egg=egg" target="_blank">hello_world?egg=egg</a><br/>
-       <a href="hello/redirect_to_helloworld" target="_blank">浏览器端跳转到hello_world</a><br/>
-       <a href="hello/forward_to_helloworld" target="_blank">服务器端跳转到hello_world</a><br/>
+       <a href="hello/hello_world" target="blank">hello_world</a><br/>
+       <a href="hello/easy_hello_world" target="blank">easy_hello_world</a><br/>
+       <a href="hello/hello_world?egg=egg" target="blank">hello_world?egg=egg</a><br/>
+       <a href="hello/redirect_to_helloworld" target="blank">浏览器端跳转到hello_world</a><br/>
+       <a href="hello/forward_to_helloworld" target="blank">服务器端跳转到hello_world</a><br/>
        <br />
-       <a href="validate_param?name=nicdk&email=33@fds.com" target="_blank">表單驗證例子</a>
+       <a href="validate_param?name=nicdk&email=33@fds.com" target="blank">表單驗證例子</a> <br/>
+       <a href="chinese_json?name=测试" target="blank">中文传参并吐出json</a>
     </p>
     
-    <h3>演示中文传参并吐出json</h3>
-    <p>
-        <a href="chinese_json?name=测试" target="_blank">中文传参</a>
-    </p>
-    
-    <h3>velocity演示</h3>
-    <p>
-       <a href="velocity_index" target="_blank">basic</a>
-    </p>
+    <h3><a href="velocity_index" target="blank">velocity演示</a></h3>
     
     <h3>Cars和Form演示</h3>
-    <p><a href="list_cars" target="_blank">carList</a>
-       <a href="new_car" target="_blank">newCar</a>
-       <a href="new_car_ognl" target="_blank">newCar_OGNL</a>
+    <p><a href="list_cars" target="blank">carList</a>
+       <a href="new_car" target="blank">newCar</a>
+       <a href="new_car_ognl" target="blank">newCar_OGNL</a>
     </p>
     
-    <h3>Json输出演示</h3>
-    <p><a href="json" target="_blank">json</a></p>
+    <h3><a href="json" target="blank">Json输出演示</a></h3>
     
     <h3>Restful演示</h3>
-    <p><a href="nick/page/1" target="_blank">nick page 1</a>
-       <a href="nick/page/2" target="_blank">nick page 2</a>
-       <a href="nick/page/3" target="_blank">nick page 3</a> <br/>
-       <a href="awoo/page/1" target="_blank">awoo page 1</a>
-       <a href="awoo/page/2" target="_blank">awoo page 2</a>
-       <a href="awoo/page/3" target="_blank">awoo page 3</a>
+    <p><a href="nick/page/1" target="blank">nick page 1</a>
+       <a href="nick/page/2" target="blank">nick page 2</a>
+       <a href="nick/page/3" target="blank">nick page 3</a> <br/>
+       <a href="awoo/page/1" target="blank">awoo page 1</a>
+       <a href="awoo/page/2" target="blank">awoo page 2</a>
+       <a href="awoo/page/3" target="blank">awoo page 3</a>
     </p>
     
     <h3>上传文件</h3>
@@ -54,9 +46,6 @@
     
     <h3>复杂的表单（数组、form）</h3>
     <p><a href="cplx_form" target="blank">复杂的表单</a></p>
-  
-    <h3>velocity例子</h3>
-    <p><a href="velocity_index" target="blank">velocity index</a></p>
   
     <h3>modelAttribute例子</h3>
     <p><a href="test_model_attribute?name=nick&processedName=karen&age=23" target="blank">test model attribute</a></p>
@@ -74,7 +63,12 @@
     
     <h3>测试initBinder</h3>
     <p>
-       <a href="test_init_binder?name=nick&age=23">age参数不会设置进去</a>
+       <a href="test_init_binder?name=nick&age=23" target="blank">age参数不会设置进去</a>
+    </p>
+    
+    <h3>Spring mvc内部允许情况</h3>
+    <p>
+        <a href="./endPoints" target="blank">查看spring mvc所有RequestMapping</a>
     </p>
   </body>
 </html>
