@@ -2,3 +2,7 @@
 1. 根据字段的查询条件查询，这个难以设计好，免不了QueryFilter那种方式?
 2. update 和 update not null的实现
 3. delete by id
+
+2015年9月1日
+dbhelper已经单独抽离为一个基于spring jdbcTemplate的项目: nimble-orm了
+在这里的所有关于dbhelper的已删除。
