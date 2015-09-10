@@ -16,11 +16,18 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>4.2.1</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.lowagie</groupId> -->
+<!-- 			<artifactId>itext</artifactId> -->
+<!-- 			<version>4.2.1</version> -->
+<!-- 		</dependency> -->
+
+<!-- 这个用来代替itext的老版本 -->
+<dependency>
+	<groupId>com.itextpdf</groupId>
+	<artifactId>itextpdf</artifactId>
+	<version>5.5.6</version>
+</dependency>
 
 		<dependency>
 			<groupId>org.apache.poi</groupId>
