@@ -32,7 +32,7 @@ public class TestPDFMerge {
             reader.close();
         }
         document.close();
-}
+    }
 
 	public static void main(String[] args) throws DocumentException, IOException {
 		File file1 = new File("C:/1.pdf");
