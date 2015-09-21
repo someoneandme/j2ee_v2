@@ -22,6 +22,6 @@
 		</dataSource>
 	</transactionManager>
 
-	<sqlMap resource="com/pugwoo/practice/ibatis/dao/mapper/Student.xml" />
+	<sqlMap resource="dal/Student.xml" />
 	
 </sqlMapConfig> 
