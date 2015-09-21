@@ -32,6 +32,22 @@ public class TestOperatingDB {
 	}
 	
 	@Test
+	public void testInsertWhere() throws SQLException {
+		Student student = new Student();
+		student.setId(3);
+		student.setName("nick");
+		
+		// 默认ibatis返回的是null，查了写资料，默认insert返回的是主键，但这里虽然插入成功了但是返回null
+		// Object insertResult = sqlMapClient.insert("Student.insert", student);
+		// System.out.println(insertResult);
+		
+		// 如果我希望返回的是影响的行数，得用update
+		int affectedRows = sqlMapClient.update("Student.insert", student);
+        System.out.println(affectedRows);
+        
+	}
+	
+	@Test
 	public void testSelect() throws SQLException {
 		Student student = (Student) sqlMapClient.queryForObject(
 				"Student.getStudentById", null);
@@ -61,19 +77,5 @@ public class TestOperatingDB {
 		}
 	}
 
-	@Test
-	public void testInsertWhere() throws SQLException {
-		Student student = new Student();
-		student.setId(5);
-		student.setName("nick");
-		
-		// 默认ibatis返回的是null，查了写资料，默认insert返回的是主键，但这里虽然插入成功了但是返回null
-		// Object insertResult = sqlMapClient.insert("Student.insert", student);
-		// System.out.println(insertResult);
-		
-		// 如果我希望返回的是影响的行数，得用update
-		int affectedRows = sqlMapClient.update("Student.insert", student);
-        System.out.println(affectedRows);
-        
-	}
+
 }
