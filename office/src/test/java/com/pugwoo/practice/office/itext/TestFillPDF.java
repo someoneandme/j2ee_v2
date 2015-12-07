@@ -26,7 +26,7 @@ public class TestFillPDF {
                 .getResourceAsStream(dataXLS));
 		
 		PdfReader reader = new PdfReader(inputXML);
-		PdfStamper stamp = new PdfStamper(reader, new FileOutputStream("c:/output.pdf"));
+		PdfStamper stamp = new PdfStamper(reader, new FileOutputStream("c:/a.pdf"));
 		
 		// 取出报表模版中的所有字段
 		AcroFields form = stamp.getAcroFields();
