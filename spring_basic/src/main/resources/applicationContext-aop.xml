@@ -12,7 +12,7 @@
            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
     <!-- 注解，Aspect类要增加@Component -->
-    <context:component-scan base-package="*" />
+    <context:component-scan base-package="spring_basic.aop" />
 	
 	<!-- 启动 @AspectJ注解的支持 --> 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
