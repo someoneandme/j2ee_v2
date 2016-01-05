@@ -10,7 +10,9 @@ AOP的使用有2种方式：
 * 只是spring最基本的方式，最简单的使用方式，但每个要注入的bean都需要单独配置一次（可配置多个advice）
 * 项目中常用的是自动代理，详见3)
 
-
+====3） 使用AbstractAutoProxyCreator的子类实现自动代理====
+* spring自带有BeanNameAutoProxyCreator,可以按照spring的bean id来指定切面
+* Druid中带有一个BeanTypeAutoProxyCreator，可以按照类的名称来指定切面，实际中，很实用
 
 **** 2)和3) 中的通知类型接口
 Around => org.aopalliance.intercept.MethodInterceptor
