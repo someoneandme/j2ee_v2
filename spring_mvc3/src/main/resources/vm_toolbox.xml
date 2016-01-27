@@ -3,7 +3,7 @@
 	<tool>
 	    <key>myvm</key>
 	    <scope>application</scope>
-	    <class>spring_mvc3.web.vm_toolbox.MyVmTool</class>
+	    <class>spring_mvc3.web.vm_toolbox.MyVmTool</class> <!-- 我自己写的工具类 -->
 	</tool>
 	<tool>
 		<key>date</key>
@@ -19,7 +19,7 @@
 	<tool>
 		<key>esc</key>
 		<scope>application</scope>
-		<class>org.apache.velocity.tools.generic.EscapeTool</class>
+		<class>org.apache.velocity.tools.generic.EscapeTool</class> <!-- velocity的页面转义工具 -->
 	</tool>
 	<tool>
 		<key>display</key>
