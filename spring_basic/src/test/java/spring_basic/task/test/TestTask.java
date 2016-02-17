@@ -1,4 +1,4 @@
-package spring_basic.aop.test;
+package spring_basic.task.test;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
