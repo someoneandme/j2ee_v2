@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 2015年8月12日 23:23:55
+ * 
+ * 需要配置：StringToDateConverter
  */
 @Controller
 public class ConverterController {

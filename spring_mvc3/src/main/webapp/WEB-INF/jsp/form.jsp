@@ -19,7 +19,7 @@
   </head>
   <body>
 	<form action="cplx_post" method="post">
-	    名称:<input type="text" name="name" /> <!-- 这里不能设置为form.name -->
+	    名称:<input type="text" name="namea" /> <!-- 这里不能设置为form.name -->
 	  <div id="students" item_num="1">
 	      <!-- 这里好奇怪，如果button的id和onclick里面的函数名相同的话，就会js出错 -->
 	      <button type="button" id="add_studentxxx" onclick="add_student()">添加学生</button>

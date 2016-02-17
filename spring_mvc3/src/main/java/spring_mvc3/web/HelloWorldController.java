@@ -45,7 +45,6 @@ public class HelloWorldController {
 	@RequestMapping("hello_world")
 	public String handleRequest(Model model) {
 		model.addAttribute("message", "hello_world MVC!");
-		
 		// model将会结合viewResolver配置的prefix和suffix合成一个页面的路径
 		return "hello_world";
 	}
@@ -55,6 +54,7 @@ public class HelloWorldController {
 	 * 参数可有可无，看是否需要获得request对象
 	 * 【如果有数据，不推荐这种方式】虽然用Model的方式，数据最终也是放到request中
 	 */
+	@Deprecated
 	@RequestMapping("easy_hello_world")
 	public String easyRequest(HttpServletRequest request) {
 		request.setAttribute("message", "easy_hello_world MVC!");

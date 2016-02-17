@@ -8,7 +8,6 @@
     <h3>演示带根目录的Controller，每个方法映射一个URL</h3>
     <p>
        <a href="hello/hello_world" target="blank">hello_world</a><br/>
-       <a href="hello/easy_hello_world" target="blank">easy_hello_world</a><br/>
        <a href="hello/hello_world?egg=egg" target="blank">hello_world?egg=egg</a><br/>
        <a href="hello/redirect_to_helloworld" target="blank">浏览器端跳转到hello_world</a><br/>
        <a href="hello/forward_to_helloworld" target="blank">服务器端跳转到hello_world</a><br/>
@@ -56,7 +55,7 @@
        <a href="test_runtime_exception" target="blank">test_runtime_exception</a>
     </p>
     
-    <h3>自定义入参形式</h3>
+    <h3>前端传参类型转换</h3>
     <p>
        <a href="test_converter?date=2015-01-18" target="blank">test_converter</a>
     </p>
@@ -64,6 +63,11 @@
     <h3>测试initBinder</h3>
     <p>
        <a href="test_init_binder?name=nick&age=23" target="blank">age参数不会设置进去</a>
+    </p>
+    
+    <h3>测试cookie</h3>
+    <p>
+       <a href="test_cookie" target="blank">test_cookie</a>
     </p>
     
     <h3>Spring mvc内部允许情况</h3>

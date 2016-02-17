@@ -32,20 +32,21 @@ public class CookieController {
 		//Set-Cookie: foo=bar
 		resp.addCookie(new Cookie("foo", "bar"));
 		
-		//Set-Cookie: chinese="`}-?
-		resp.addCookie(new Cookie("chinese", "你好中文")); //【注意】： 如果cookie直接写中文，会丢失数据
+		//【报错】： 如果cookie直接写中文，会丢失数据或抛java.lang.reflect.InvocationTargetException
+		// resp.addCookie(new Cookie("chinese", "你好中文")); 
 
-		String encodeValue = URLEncoder.encode("你好中文", "gbk"); // %C4%E3%BA%C3%D6%D0%CE%C4
+		String encodeValue = URLEncoder.encode("你好中文", "utf-8"); // 【特别注意】这里的编码，要和页面的编码一致，这样传递过来才能被正确decode
 		System.out.println(encodeValue);
 		Cookie cookie = new Cookie("chinese2", encodeValue);
 		cookie.setMaxAge(60 * 60 * 24 *7); // 有效期7天
 		// 还可以指定打在那个域下面setDomain
 		
-		// Set-Cookie: chinese2=%C4%E3%BA%C3%D6%D0%CE%C4; Expires=Thu, 27-Mar-2014 04:54:18 GMT
+		// Set-Cookie: chinese2=; Expires=Thu, 27-Mar-2014 04:54:18 GMT
 		resp.addCookie(cookie);
 
-		writer.write("hello world");
-
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html;charset=UTF-8");
+		writer.write("hello world, cookie chinese2=" + chinese2);
 		return null;
 	}
 }
