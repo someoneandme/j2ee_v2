@@ -70,6 +70,16 @@
        <a href="test_cookie" target="blank">test_cookie</a>
     </p>
     
+    <h3>测试session</h3>
+    <p>
+       <a href="test_session" target="blank">test_session</a>
+    </p>
+    
+    <h3>测试下载download</h3>
+    <p>
+       <a href="test_response_entity">test_response_entity</a>
+    </p>
+    
     <h3>Spring mvc内部允许情况</h3>
     <p>
         <a href="./endPoints" target="blank">查看spring mvc所有RequestMapping</a>

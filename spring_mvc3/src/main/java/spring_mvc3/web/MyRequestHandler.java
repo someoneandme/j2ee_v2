@@ -19,6 +19,9 @@ import org.springframework.web.HttpRequestHandler;
  * 
  * 等价于xml配置：
  * <bean name="/my_request" class="spring_mvc3.web.MyRequestHandler"/>
+ * 
+ * 2016年2月17日 20:04:40
+ * 这种方式等价于@Controller
  */
 @Component(value = "/my_request")
 public class MyRequestHandler implements HttpRequestHandler {

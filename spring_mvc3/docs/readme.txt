@@ -22,3 +22,7 @@ http://www.oschina.net/question/12_4580
 2015年4月27日 11:30:09
 除了@ResponseBody可以将返回作为response body用，
 还有@RequestBody可以将post过来的所有内容作为输入信息用，这一点和微信的api很匹配
+
+2016年2月17日 20:15:20
+如果@RequestMapping没有返回值，也没有writer.writer()输出，
+那么默认等价于return @RequestMapping的value值，取渲染对应的jsp/vm
