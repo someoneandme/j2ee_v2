@@ -1,4 +1,4 @@
-package com.pugwoo.practice.office.POI.template;
+package com.pugwoo.practice.office.poi.template;
 
 import java.io.OutputStream;
 import java.util.Map;

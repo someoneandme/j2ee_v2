@@ -1,4 +1,4 @@
-package com.pugwoo.practice.office.POI.template;
+package com.pugwoo.practice.office.poi.template;
 
 
 import com.google.common.base.Function;
