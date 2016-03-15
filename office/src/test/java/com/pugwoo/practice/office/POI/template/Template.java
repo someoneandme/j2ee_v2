@@ -4,8 +4,6 @@ import java.io.OutputStream;
 import java.util.Map;
 
 /**
- *         Date: 12/22/14
- *         Time: 11:07 AM
  */
 public interface Template {
 

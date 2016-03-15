@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- *         Date: 12/22/14
- *         Time: 11:08 AM
+ * 抽象模版，只需要模版的输入流信息
  */
 public abstract class AbstractTemplate implements Template {
 

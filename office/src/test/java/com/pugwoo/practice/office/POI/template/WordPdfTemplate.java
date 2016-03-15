@@ -11,8 +11,6 @@ import java.io.OutputStream;
 import java.util.Map;
 
 /**
- *         Date: 1/15/15
- *         Time: 3:15 PM
  */
 public class WordPdfTemplate extends WordTemplate {
 

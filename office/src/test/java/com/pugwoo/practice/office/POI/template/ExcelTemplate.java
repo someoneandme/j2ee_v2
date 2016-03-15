@@ -12,7 +12,7 @@ import com.google.common.io.Closeables;
  * 类ExcelTemplate.java的实现描述：渲染excel模版<br>
  * 语法详见：http://jxls.sourceforge.net/samples/tagsample.html
  * 
- * @author boyu.xby 2014年12月22日 下午2:05:46
+ * @author boyu 2014年12月22日 下午2:05:46
  */
 public class ExcelTemplate extends AbstractTemplate {
 

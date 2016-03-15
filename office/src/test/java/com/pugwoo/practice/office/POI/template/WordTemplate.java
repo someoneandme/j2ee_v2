@@ -26,9 +26,9 @@ import com.google.common.io.Closeables;
  * word 2007模版，TAG标签约定为{}包裹起来的，用不了${}这种写法。
  *
  * 引入动态表格生成标签语言：
- * <ot:foreach items="products" var="product">
+ * <foreach items="products" var="product">
  * {product.name} {product.code}
- * </ot:foreach>
+ * </foreach>
  *
  * 其中，items是渲染的List bean名称，而var是自定义的局部变量名，用于循环时获取当前行的属性。
  * 详见例子。
@@ -41,10 +41,10 @@ public class WordTemplate extends AbstractTemplate {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(WordTemplate.class);
 
-    private static final String BEGIN_LABEL = "{";
-    private static final String END_LABEL = "}";
-    private static final String FOREACH_START = "^\\s*<ot:foreach\\s+items=\"\\s*(\\w+)\\s*\"\\s+var=\"\\s*(\\w+)\\s*\"\\s*>\\s*$";
-    private static final String FOREACH_END = "</ot:foreach>";
+    private static final String BEGIN_LABEL = "{"; // 只能单个字符
+    private static final String END_LABEL = "}"; // 只能单个字符
+    private static final String FOREACH_START = "^\\s*<foreach\\s+items=\"\\s*(\\w+)\\s*\"\\s+var=\"\\s*(\\w+)\\s*\"\\s*>\\s*$";
+    private static final String FOREACH_END = "</foreach>";
     private static final Pattern FOREACH_START_PATTERN = Pattern.compile(FOREACH_START, Pattern.CASE_INSENSITIVE);
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("([^{]*)\\{([^}]+)\\}([^}]*)");
     private static final Pattern SINGLE_VARIABLE_PATTERN = Pattern.compile("\\{([^}]+)\\}");
@@ -67,7 +67,6 @@ public class WordTemplate extends AbstractTemplate {
         }
     }
 
-
     protected void doMerge(Map<String, Object> context, OutputStream out) throws Exception {
         XWPFDocument doc = new XWPFDocument(in);
 
@@ -82,7 +81,6 @@ public class WordTemplate extends AbstractTemplate {
 
         doc.write(out);
     }
-
 
     private void processTable(XWPFTable table, Map<String, Object> context) {
         List<XWPFTableRow> rows = table.getRows();

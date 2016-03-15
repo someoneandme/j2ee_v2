@@ -4,8 +4,6 @@ import java.io.InputStream;
 import java.util.Map;
 
 /**
- *         Date: 1/5/15
- *         Time: 2:55 PM
  */
 public abstract class TemplateUtils {
     private TemplateUtils(){}
