@@ -21,8 +21,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
  * 2014年12月18日 09:18:48
  * 
  * 关于表格的处理： 1. 增加一行： 2. 增加和当前行相同格式的一行：
- * http://stackoverflow.com/questions/16645344
- * /xwpftablerow-adding-new-row-with-current-style
+ * http://stackoverflow.com/questions/16645344/xwpftablerow-adding-new-row-with-current-style
  * 
  * XWPFTable 有addRow和createRow的方法
  */
@@ -80,7 +79,7 @@ public class TestReplaceWord2007 {
 				int newI = i;
 				boolean isContain = false;
 				for(String key : map.keySet()) {
-//					key = "{" + key + "}";
+//					key = "{" + key + "}"; // XXX mark 如果要约定可以由{}包含，那么可以这样写
 					if(subText.contains(key)) {
 						isContain = true;
 						// 尝试让i增加，去掉可能的前缀
@@ -99,7 +98,7 @@ public class TestReplaceWord2007 {
 					String text = getSubString(runs, newI, j);
 					for(String key : map.keySet()) {
 						String value = map.get(key);
-//						key = "{" + key + "}";
+//						key = "{" + key + "}"; // XXX mark 如果要约定可以由{}包含，那么可以这样写
 						if(text.contains(key)) {
 							text = text.replace(key, value);
 						}
@@ -121,11 +120,10 @@ public class TestReplaceWord2007 {
 	 * @param map
 	 */
 	public static void replaceText(XWPFDocument doc, Map<String, String> map) {
-		// Paragraph treatment
-		List<XWPFParagraph> paragraphList = doc.getParagraphs();
-		processParagraphs(paragraphList, map);
+		// 处理Tag替换
+		processParagraphs(doc.getParagraphs(), map);
 
-		// Processing table 处理word2007文档中的表格
+		// 处理word2007文档中表格的Tag替换
 		Iterator<XWPFTable> it = doc.getTablesIterator();
 		while (it.hasNext()) {
 			XWPFTable table = it.next();
@@ -158,8 +156,7 @@ public class TestReplaceWord2007 {
 			for (XWPFTableRow row : rows) {
 				List<XWPFTableCell> cells = row.getTableCells();
 				for (XWPFTableCell cell : cells) {
-					List<XWPFParagraph> paragraphListTable = cell
-							.getParagraphs();
+					List<XWPFParagraph> paragraphListTable = cell.getParagraphs();
 					processParagraphs(paragraphListTable, map);
 				}
 			}

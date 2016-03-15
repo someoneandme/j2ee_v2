@@ -18,31 +18,33 @@ import org.apache.poi.hwpf.usermodel.TableRow;
  * 2014年12月17日 16:58:01
  * 
  * 经过测试，目前只适合2003的word的文件
- * 
- * http://stackoverflow.com/questions/22615594/replacing-variables-in-a-word-
- * document-template-with-java
+ * http://stackoverflow.com/questions/22615594/replacing-variables-in-a-word-document-template-with-java
  * 
  * 表格方面的处理例子：http://tiantianhappy.iteye.com/blog/1839998
+ * 
+ * 2016年3月15日 11:52:51
+ * 说明：在实际项目开发过程中，还是word 2007的用得比较多
  */
 public class TestReplaceWord2003 {
 
 	public static void main(String[] args) {
-		String outputPath = "C:/output_2003.doc";
-
+		
 		String dataDOC = "/poi/a.doc";
+		String outputPath = "C:/output_2003.doc";
+		
 		InputStream in = new BufferedInputStream(
 				TestReplaceWord2007.class.getResourceAsStream(dataDOC));
 
 		try {
 			HWPFDocument doc = new HWPFDocument(in);
 			doc = replaceText(doc, "{XXXXX_NO}", "我的编号112233");
-			doc = replaceText(doc, "{this_is_a_long_tag_in_a_table}",
-					"2222233333");
+			doc = replaceText(doc, "{this_is_a_long_tag_in_a_table}", "2222233333");
 
 			// 处理word 2003中的动态表格，自动增加一行及表格定位写入
 			proceessTable(doc);
 
 			saveWord(outputPath, doc);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -52,7 +54,6 @@ public class TestReplaceWord2003 {
 
 	/**
 	 * 测试一下表格的处理，主要是动态增加一行，并且根据单元格的位置
-	 * 
 	 * @param doc
 	 */
 	private static void proceessTable(HWPFDocument doc) {
@@ -62,7 +63,7 @@ public class TestReplaceWord2003 {
 		while (it.hasNext()) {
 			Table table = (Table) it.next();
 			
-			// table.insertAfter("xxxxxxxxxxxx"); // 这个也不是新增行，也会损害表格
+			// table.insertAfter("xxxxxxxxxxxx"); // 注：这个也不是新增行，也会损害表格
 			
 			// 迭代行，默认从0开始
 			for (int i = 0; i < table.numRows(); i++) {
@@ -80,7 +81,7 @@ public class TestReplaceWord2003 {
 				
 				// 重要，由于经过测试，poi对新增一行记录比较困难，还没有好做法
 				if(i==1) {
-					tr.delete();
+					tr.delete(); // 对于删除一行倒是没有什么问题
 				}
 				
 				// if(i==2) tr.insertAfter("xxxxxxxxx"); 
@@ -89,13 +90,13 @@ public class TestReplaceWord2003 {
 		}
 		
 		// 目前看来，word2003 新增一行是比较困难的，删除一行倒是好做
-		// 所以，动态的新增也只能通过删除来实现
+		// 所以，动态的新增也只能通过删除来实现：很奇怪的hack方法，先为模版准备足够多的行，然后再删除到与数据匹配的行
 	}
 
 	private static HWPFDocument replaceText(HWPFDocument doc, String findText,
 			String replaceText) {
 		Range r1 = doc.getRange();
-		// 每一层都是可以替换的,下面一段注释掉的代码就是这么做的
+		// 每一层都是可以替换的,下面一段注释掉的代码就是这个原因
 		r1.replaceText(findText, replaceText);
 
 		// for (int i = 0; i < r1.numSections(); ++i ) {
