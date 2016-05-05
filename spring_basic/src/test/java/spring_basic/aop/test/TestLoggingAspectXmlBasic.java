@@ -24,7 +24,7 @@ public class TestLoggingAspectXmlBasic {
 	 * 【重要】需要指定customerBoProxy
 	 */
 	@Autowired
-	@Qualifier("customerBoProxy")
+	@Qualifier("customerBoProxy") // 这种配置方式，创建了两个接口都是CustomerBo的对象，一个是原始的，一个是代理的
 	private CustomerBo customerBo;
 	
 	@Test

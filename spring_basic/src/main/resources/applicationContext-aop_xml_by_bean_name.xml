@@ -12,8 +12,8 @@
 	<!-- 切面实现类 -->
 	<bean id="log" class="spring_basic.aop_xml_basic.LogAround" />
 	
-	<!-- 业务bean -->
-<!-- 	<bean id="customerBo" class="spring_basic.aop.impl.CustomerBoImpl"/> -->
+	<!-- 业务bean，等同于注解了 -->
+<!-- 	<bean id="customerBoImpl" class="spring_basic.aop.impl.CustomerBoImpl"/> -->
 
 	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames">

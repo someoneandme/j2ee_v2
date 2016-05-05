@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
+	       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	       	       	       http://www.springframework.org/schema/context
+	       http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
     
     <!-- 切面实现类 -->
     <bean id="log" class="spring_basic.aop_xml_basic.LogAround"/>
     
     <!-- 需要注入的实现类 -->
-    <bean id="customerBo" class="spring_basic.aop.impl.CustomerBoImpl"/>
+    <bean id="customerBoImpl" class="spring_basic.aop.impl.CustomerBoImpl"/>
+<!--     <context:component-scan base-package="spring_basic.aop" /> --> <!-- 这种方式一样的 -->
     
-    <!-- 注入的配置，实际使用中，customerBoProxy的类型就是spring_basic.aop.CustomerBo -->
-    <!-- 【重要】拦截的是目标bean的所有方法，很重要的一个点是，像Object的toString这种方法也被拦截到了 -->
+    <!-- 【重要】拦截的是目标bean的所有方法，像Object的toString这种方法也被拦截到了 -->
     <bean id="customerBoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
         <!-- 代理成的接口,如果这个接口没有填写，spring会默认拿target的bean的接口 -->
-        <!-- 所以这个接口不写，也是推荐的，减少书写出错 -->
+        <!-- 所以这个接口不写，也是推荐的，减少书写出错 --> <!-- 如果bean没有实现接口，那么这个接口不能随便写 -->
 <!--         <property name="proxyInterfaces">  -->
 <!--             <value>spring_basic.aop.CustomerBo</value> -->
 <!--         </property> -->
-        <property name="target"> <!-- 目标实现类 -->
-            <ref bean="customerBo"/>
+
+        <!-- 特别注意，如果代理的目标类实现了接口（一个或多个），那么会用java自带的代理来做 -->
+        <!-- 如果代理的目标类没有实现接口，那么会用CGLib的继承方式来做 -->
+        <property name="target">
+            <ref bean="customerBoImpl"/> <!-- 要代理的目标实现类,必须指定，而且只能指定一个 -->
+            <!-- 【重要】所以这种方式在实际项目中不常用 -->
         </property>
+        <!-- 切面，有顺序的 -->
         <property name="interceptorNames">
             <list>
                 <value>log</value>
             </list>
         </property>
+        
+        <!-- 相当于强制用GCLib继承的方式来代理 -->
+<!--         <property name="proxyTargetClass" value="true" /> -->
     </bean>
 </beans>

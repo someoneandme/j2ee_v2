@@ -15,9 +15,9 @@ import spring_basic.aop.CustomerBo;
  * 用于启动测试时启动spring容器，和AOP无特定关系。
  * 
  */
-@ContextConfiguration(locations = "classpath:applicationContext-aop_xml_auto.xml")
+@ContextConfiguration(locations = "classpath:applicationContext-aop_xml_by_bean_name.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TestLoggingAspectXmlAuto {
+public class TestLoggingAspectXmlByBeanName {
 
 	@Autowired
 	private CustomerBo customerBo;

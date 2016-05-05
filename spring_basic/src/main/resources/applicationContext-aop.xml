@@ -14,7 +14,8 @@
     <!-- 注解，Aspect类要增加@Component -->
     <context:component-scan base-package="spring_basic.aop" />
 	
-	<!-- 启动 @AspectJ注解的支持 --> 
+	<!-- 启动 @AspectJ注解的支持, -->
+	<!-- 这里设置自动代理，意味着，代理对象会代替原来的对象，@Autowired是不用加@Qualifier了 --> 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 </beans>
