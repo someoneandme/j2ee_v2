@@ -12,28 +12,22 @@ import spring_basic.aop.CustomerBo;
  */
 public class TestMain {
 
-	public static void main(String[] args) {
-		String xmlPath = "/applicationContext-aop.xml";
-		ApplicationContext context = new ClassPathXmlApplicationContext(xmlPath);
-
-		System.out.println(context);
+	public static void main(String[] args) throws Exception {
+		@SuppressWarnings("resource")
+		ApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-aop.xml");
 
 		CustomerBo customerBo = context.getBean(CustomerBo.class);
-		System.out.println(customerBo);
-		System.out.println(customerBo.getClass()); // 已经是AOP后的代理对象
+		// 已经是AOP后的代理对象 CustomerBoImpl$$EnhancerBySpringCGLIB$$4257eb95
+		// class com.sun.proxy.$Proxy11 可以拿出spring aop默认用jvm的动态代理
+		// 如果是GCLib的话，那就会显示Enhance$$
+		// 这两种方式应该只有性能上的差别，业务上无差异。
+		System.out.println(customerBo.getClass()); 
 
 		Map<String, CustomerBo> map = context.getBeansOfType(CustomerBo.class);
-		System.out.println(map);
 		// 这里可以看到，尽管有AOP，但是该类型最终在spring容器中的对象只有一个，就是AOP处理后的那个
 		System.out.println("customerBO num:" + map.size());
+		System.out.println("============================");
 		
-		// 获得spring容器中所有定义的bean
-		System.out.println("==============================");
-		String beanNames[] = context.getBeanDefinitionNames();
-		for(String beanName : beanNames) {
-			System.out.print(beanName);
-			Object obj = context.getBean(beanName);
-			System.out.println(":" + obj.getClass());
-		}
+		customerBo.sayHello("nick");
 	}
 }

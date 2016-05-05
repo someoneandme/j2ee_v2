@@ -1,6 +1,9 @@
 package spring_basic.aop;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -28,7 +31,7 @@ public class LoggingAspect {
 	 * 1) 如果只写类名，那么所有包下类名相同的类都会发生作用。
 	 * 2) 左边的*表示匹配任何类型的返回值
 	 * 3) 参数中..表示匹配任何的参数
-	 * @param joinPoint
+	 * @param joinPoint 这些参数也是注入的，不需要时不写也可以；但是不能写其它的参数
 	 */
 	@Before("execution(* CustomerBo.sayHello(..))")
 	public void logBefore(JoinPoint joinPoint) {
@@ -44,8 +47,21 @@ public class LoggingAspect {
 		System.out.println("]");
 		System.out.println("被拦截的对象:" + joinPoint.getThis());
 		
-		System.out.println("------------------");
+		// @Before无法控制被拦截的方法不要往下执行，得用@Around
+		System.out.println("--------logBefore end----------");
 	}
+	
+	@After("execution(* CustomerBo.*(..))")
+	public void logAfter() {
+		System.out.println("--------logAfter called--------");
+	}
+	
+	@Around("execution(* CustomerBo.*(..))")
+    public void around(ProceedingJoinPoint pjp) throws Throwable{
+		System.out.println("--------around before--------");
+        pjp.proceed();
+        System.out.println("--------around after--------");
+    }
 	
 	// 此外还有的AOP拦截点：
 	/**
