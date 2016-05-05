@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
  * 切面对象本身也是只有业务逻辑，未继承或实现任何AOP的接口，非常清爽。
  * 
  * 注解@Component只是让这个类配置入Spring的世界，和xml配置等效，无AOP东西。
+ * 
+ * 2016年5月5日 21:32:26
+ * 和拦截器一样，这种注解的方式并不太好，因为涉及到顺序问题，
+ * 一般都用MethodInterceptor接口实现类
  */
 @Component // 用于注解自动加载，注释掉这行就取消掉这个Aspect的作用
 @Aspect
