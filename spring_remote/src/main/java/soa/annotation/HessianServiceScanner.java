@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
@@ -36,7 +35,7 @@ import soa.register.SOAHessianServiceExporter;
  * 扫描@HessianService注解的bean，它在spring容器起来之后执行
  */
 public class HessianServiceScanner implements BeanFactoryPostProcessor,
-		InitializingBean, ApplicationContextAware {
+    ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 	
@@ -44,10 +43,6 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 	 * 扫描@HessianService注解的bean所在的包，支持通配符*
 	 */
 	private String basePackage;
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-	}
 
 	@Override
 	public void postProcessBeanFactory(

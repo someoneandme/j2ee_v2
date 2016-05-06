@@ -30,7 +30,7 @@ public class RemoteUserService implements IUserService {
 		HessianProxyFactory factory = new HessianProxyFactory();
 		try {
 			userService = (IUserService) factory
-					.create(IUserService.class, url);
+					.create(IUserService.class, hessianUrl);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
