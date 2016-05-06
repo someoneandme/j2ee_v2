@@ -15,19 +15,22 @@ public class TestAysnc {
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		String xmlPath = "/applicationContext-async.xml";
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext(xmlPath);
 
 		SomeMethod someMethod = context.getBean(SomeMethod.class);
 
 		System.out.println("before call somemethod");
-		someMethod.sayHello();
+		someMethod.sayHello(); // 异步，直接过
 		System.out.println("after call somemethod");
 
 		Future<String> result = someMethod.sayHello("nick");
-        System.out.println("after call sayHello");		
+        System.out.println("after call sayHello, result.isDone:" + result.isDone());		
 		while(!result.isDone()) { // 等待结果返回
-			System.out.println("result:" + result.get());
+			System.out.println("waiting");
+			System.out.println("result:" + result.get()); // result.get()会阻塞住，所以只打了一个waiting
 		}
+		
 	}
 
 }

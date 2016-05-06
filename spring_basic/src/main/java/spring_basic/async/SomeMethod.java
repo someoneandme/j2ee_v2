@@ -22,7 +22,7 @@ public class SomeMethod {
 	@Async
 	public Future<String> sayHello(String name) throws InterruptedException {
 		String value = "hello," + name;
-		Thread.sleep(3000);
+		Thread.sleep(6000);
 		return new AsyncResult<String>(value);
 	}
 	

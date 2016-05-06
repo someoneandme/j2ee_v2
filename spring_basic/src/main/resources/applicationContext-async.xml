@@ -15,28 +15,5 @@
            http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 	<context:component-scan base-package="spring_basic.async" />
-
-	<bean id="taskExecutor"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<property name="corePoolSize" value="2" />
-		<property name="maxPoolSize" value="5" />
-		<property name="queueCapacity" value="5" />
-		<property name="waitForTasksToCompleteOnShutdown" value="true" />
-		<property name="rejectedExecutionHandler">
-			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
-		</property>
-	</bean>
-
-	<bean id="taskScheduler"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
-		<property name="poolSize" value="10" />
-		<property name="waitForTasksToCompleteOnShutdown" value="true" />
-		<property name="rejectedExecutionHandler">
-			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
-		</property>
-	</bean>
-
-	<task:annotation-driven executor="taskExecutor"
-		scheduler="taskScheduler" />
 		
 </beans>
