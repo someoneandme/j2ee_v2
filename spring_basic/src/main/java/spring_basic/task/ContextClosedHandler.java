@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 class ContextClosedHandler implements ApplicationListener<ContextClosedEvent> {
+	
 	@Autowired
 	ThreadPoolTaskExecutor executor;
 	

@@ -15,5 +15,8 @@
            http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 	<context:component-scan base-package="spring_basic.async" />
+	
+	<task:executor id="myexecutor" pool-size="5"  />  <!-- 配置线程池大小 -->
+    <task:annotation-driven executor="myexecutor"/>
 		
 </beans>

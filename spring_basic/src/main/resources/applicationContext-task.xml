@@ -16,8 +16,7 @@
 
 	<context:component-scan base-package="*" />
 
-	<bean id="taskExecutor"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
 		<property name="corePoolSize" value="2" />
 		<property name="maxPoolSize" value="5" />
 		<property name="queueCapacity" value="5" />
@@ -27,8 +26,7 @@
 		</property>
 	</bean>
 
-	<bean id="taskScheduler"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+	<bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
 		<property name="poolSize" value="10" />
 		<property name="waitForTasksToCompleteOnShutdown" value="true" />
 		<property name="rejectedExecutionHandler">
@@ -36,7 +34,6 @@
 		</property>
 	</bean>
 
-	<task:annotation-driven executor="taskExecutor"
-		scheduler="taskScheduler" />
+	<task:annotation-driven executor="taskExecutor" scheduler="taskScheduler" />
 
 </beans>
