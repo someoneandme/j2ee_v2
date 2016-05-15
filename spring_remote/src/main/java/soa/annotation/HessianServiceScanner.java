@@ -138,7 +138,7 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 						continue;
 					}
 					
-					hessianBeanDef.addPropertyValue("serviceInterface", interf);
+					hessianBeanDef.addPropertyValue("serviceInterface", interf.getName());
 
 					BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(
 							hessianBeanDef.getBeanDefinition(), beanName);
