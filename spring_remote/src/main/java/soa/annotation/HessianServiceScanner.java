@@ -4,25 +4,21 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
-import org.springframework.context.annotation.AnnotationScopeMetadataResolver;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ScannedGenericBeanDefinition;
-import org.springframework.context.annotation.ScopeMetadata;
-import org.springframework.context.annotation.ScopeMetadataResolver;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.StringUtils;
@@ -53,7 +49,7 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 		scanner.scan(StringUtils.tokenizeToStringArray(this.basePackage,
 				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
 	}
-
+	
 	/**
 	 * AnnotationBeanNameGenerator决定了spring注解默认生成的bean名称<br>
 	 * 默认的生成方式是类名首字母小写<br>
@@ -91,7 +87,6 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 		private BeanNameGenerator exporterBeanNameGenerator = new HessianServiceBeanNameGenerator();
 		private BeanNameGenerator beanNameGenerator = new AnnotationBeanNameGenerator();
 
-		private ScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
 		private BeanDefinitionRegistry registry;
 
 		public Scanner(BeanDefinitionRegistry registry) {
@@ -105,38 +100,31 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 			for (String basePackage : basePackages) {
 				Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
 				for (BeanDefinition candidate : candidates) {
-					ScopeMetadata scopeMetadata = this.scopeMetadataResolver
-							.resolveScopeMetadata(candidate);
-					candidate.setScope(scopeMetadata.getScopeName());
-					String originalBeanName = this.beanNameGenerator
-							.generateBeanName(candidate, this.registry);
-					String beanName = this.exporterBeanNameGenerator
-							.generateBeanName(candidate, this.registry);
+					String originalBeanName = this.beanNameGenerator.generateBeanName(candidate, this.registry);
+					String beanName = this.exporterBeanNameGenerator.generateBeanName(candidate, this.registry);
 					
 					// 检查beanName是否以/开否，如果不是，则加上
 					if(!beanName.startsWith("/")) {
 						beanName = "/" + beanName;
 					}
-
+		
 					/**
 					 * 下面这一段，实际上等价于xml配置的那一段
 					 */
+					BeanDefinitionBuilder hessianBeanDef = 
+							BeanDefinitionBuilder.genericBeanDefinition(SOAHessianServiceExporter.class);
+					hessianBeanDef.addPropertyReference("service", originalBeanName);
+					hessianBeanDef.addPropertyValue("beanName", beanName);
+					
 					ScannedGenericBeanDefinition bd = (ScannedGenericBeanDefinition) candidate;
-					bd.setBeanClassName(SOAHessianServiceExporter.class.getName());
-					bd.setBeanClass(SOAHessianServiceExporter.class);
-					bd.getPropertyValues().add("service",
-							applicationContext.getBean(originalBeanName));
-					bd.getPropertyValues().add("beanName", beanName);
 					String[] interfaces = bd.getMetadata().getInterfaceNames();
 					if (interfaces == null || interfaces.length == 0) {
 						throw new RuntimeException("@HessianService bean must implement at least one interface");
 					}
-					
 					Class<?> interf = null;
 					try {
 						// 查看一下是否有注解接口HessianService.class是默认，不用的
-						Class<?> annoInterf = (Class<?>) getAnnotationValue(bd.getMetadata(),
-								"interf");
+						Class<?> annoInterf = (Class<?>) getAnnotationValue(bd.getMetadata(), "interf");
 						if(annoInterf != null && annoInterf != Object.class) {
 							if(annoInterf.isInterface()) {
 								interf = annoInterf;
@@ -149,12 +137,11 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 					} catch (ClassNotFoundException e) {
 						continue;
 					}
-					bd.getPropertyValues().add("serviceInterface", interf);
+					
+					hessianBeanDef.addPropertyValue("serviceInterface", interf);
 
 					BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(
-							candidate, beanName);
-					definitionHolder = applyScopedProxyMode(scopeMetadata,
-							definitionHolder, this.registry);
+							hessianBeanDef.getBeanDefinition(), beanName);
 					beanDefinitions.add(definitionHolder);
 					registerBeanDefinition(definitionHolder, this.registry);
 				}
@@ -165,10 +152,7 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 				System.out.println("no service scaned");
 			} else {
 				for (BeanDefinitionHolder holder : beanDefinitions) {
-					AnnotatedBeanDefinition definition = (AnnotatedBeanDefinition) holder
-							.getBeanDefinition();
-					System.out.println(holder.getBeanName());
-					System.out.println(definition.getMetadata().getAnnotationTypes());
+					System.out.println("scanned service:" + holder.getBeanName());
 				}
 			}
 
@@ -179,19 +163,6 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 		protected void registerDefaultFilters() {
 			addIncludeFilter(new AnnotationTypeFilter(HessianService.class));
 		}
-
-		BeanDefinitionHolder applyScopedProxyMode(ScopeMetadata metadata,
-				BeanDefinitionHolder definition, BeanDefinitionRegistry registry) {
-			ScopedProxyMode scopedProxyMode = metadata.getScopedProxyMode();
-			if (scopedProxyMode.equals(ScopedProxyMode.NO)) {
-				return definition;
-			}
-			boolean proxyTargetClass = scopedProxyMode
-					.equals(ScopedProxyMode.TARGET_CLASS);
-			return ScopedProxyUtils.createScopedProxy(definition, registry,
-					proxyTargetClass);
-		}
-
 	}
 
 	@Override
@@ -208,4 +179,5 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor,
 	public void setBasePackage(String basePackage) {
 		this.basePackage = basePackage;
 	}
+
 }
