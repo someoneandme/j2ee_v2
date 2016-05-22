@@ -45,6 +45,8 @@ public class JsonController {
 	}
 	
 	// 经过测试，string也不会被fastjson处理，会直接按string的值输出到前端
+	// 【注意】后来我发现spring会不会被fastjson处理这个情况，和fastjson的版本有关，1.2.6就不会，1.2.11新版就会
+	// 这个东西也没有说合理不合理的问题，只是要注意一下，1.2.10版本还不会处理string
 	@ResponseBody
 	@RequestMapping("/json_string")
 	public String testString() {
