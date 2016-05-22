@@ -44,6 +44,13 @@ public class JsonController {
 		return "hello".getBytes();
 	}
 	
+	// 经过测试，string也不会被fastjson处理，会直接按string的值输出到前端
+	@ResponseBody
+	@RequestMapping("/json_string")
+	public String testString() {
+		return "{name:'nick'}";
+	}
+	
 	@ResponseBody
 	@RequestMapping("/json_param")
 	public Object jsonParam(@JsonParam("json") Student student) {
