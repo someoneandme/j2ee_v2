@@ -1,0 +1,14 @@
+## info
+显示整体运行情况：
+redis_version: 【redis版本号】
+tcp_port: 【监听的tcp版本号】
+config_file: /usr/local/redis/etc/redis.conf  【redis的配置文件】
+connected_clients: 【已连接的客户端数】
+used_memory_human: 2.18M 【使用的内存量】
+rdb_last_save_time:1464403932 【持久化最后一次保存的时间戳】
+rdb_last_bgsave_status:ok【持久化状态】
+instantaneous_input_kbps:0.01 【当前入流网速】
+instantaneous_output_kbps:0.00【当前出流网速】
+# Keyspace
+db0:keys=1151,expires=1142,avg_ttl=488894067   【key的个数情况】
+

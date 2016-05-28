@@ -1,4 +1,4 @@
-package com.pugwoo.practice.redis_client;
+package com.pugwoo.practice.jedis;
 
 import java.util.List;
 

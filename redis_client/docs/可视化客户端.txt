@@ -1,0 +1,9 @@
+选中的客户端：
+1. Redis Desktop Manager
+  https://github.com/uglide/RedisDesktopManager
+   首选，速度快，支持把所有key都列出来。每个key的内容都可以显示和编辑。还有命令行客户端。
+   有点缺点是没有显示全局的redis信息，好在可以在命令行中用info来查。
+
+排除掉的客户端：
+1. Redis Client : 不稳定，经常网络超时
+2. Redis Studio : 显示数据有问题
