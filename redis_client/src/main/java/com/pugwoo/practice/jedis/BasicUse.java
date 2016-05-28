@@ -37,6 +37,10 @@ public class BasicUse {
 	
 	/**
 	 * 事务，原子性执行
+	 * 
+	 * Redis中定义的事务(http://redis.io/topics/transactions)，
+	 * 并不是关系数据库中严格意义上的事务。
+	 * 当Redis事务中的某个操作执行失败，或者用DISCARD取消事务时候，Redis并不执行“事务回滚”
 	 */
 	@Test
 	public void testTx() {
