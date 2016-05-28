@@ -8,3 +8,7 @@
 注意：MySql的MYISAM引擎对rollback无效。
 
 注意：先创建数据库，再建表，然后写入到jdbc.properties文件中。
+
+=== 关于生成代码 ===
+http://wiki.jikexueyuan.com/project/mybatis-in-action/code-generation-tool.html
+有工具可以读数据库的表结构，然后生成mybatis的mapper xml文件，但这种方式我并不看好，因为它对修改mapper文件或新增表字段并不友好。
