@@ -6,7 +6,6 @@ public class Config {
 	
 	public static Integer port = 6379;
 	
-	public static String pwd = "xxx";
-	
+	public static String pwd = "";
 	
 }

@@ -18,8 +18,12 @@ public class BasicUse {
 	 */
 	@Test
 	public void testBasic() {
-		Jedis jedis = new Jedis(Config.host);
+		long start = System.currentTimeMillis();
+		Jedis jedis = RedisConnectionManager.getJedisConnection();
+		long end = System.currentTimeMillis();
+		System.out.println("get connection cost:" + (end - start) + "ms");
 		
+		start = System.currentTimeMillis();
 		jedis.set("name", "nick");
 		System.out.println("name:" + jedis.get("name"));
 
@@ -27,6 +31,8 @@ public class BasicUse {
 		System.out.println("name:" + jedis.get("name"));
 		
 		jedis.close();
+		end = System.currentTimeMillis();
+		System.out.println("add/del cost:" + (end - start) + "ms");
 	}
 	
 	/**
@@ -34,7 +40,7 @@ public class BasicUse {
 	 */
 	@Test
 	public void testTx() {
-		Jedis jedis = new Jedis(Config.host);
+		Jedis jedis = RedisConnectionManager.getJedisConnection();
 		Transaction tx = jedis.multi();
 		
 		// 原子性执行下面内容
