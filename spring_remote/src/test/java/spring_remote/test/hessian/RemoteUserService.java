@@ -28,6 +28,7 @@ public class RemoteUserService implements IUserService {
 		hessianUrl = url;
 		
 		HessianProxyFactory factory = new HessianProxyFactory();
+		factory.setOverloadEnabled(true); // 【重要】开启方法重载支持，不然接口里面重载的方法会调失败
 		try {
 			userService = (IUserService) factory
 					.create(IUserService.class, hessianUrl);

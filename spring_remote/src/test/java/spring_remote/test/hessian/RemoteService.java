@@ -30,6 +30,7 @@ public class RemoteService {
 				url = "http://localhost:8080/spring_remote/remote/userService";
 			}
 			HessianProxyFactory factory = new HessianProxyFactory();
+			factory.setOverloadEnabled(true); // 【重要】开启方法重载支持，不然接口里面重载的方法会调失败
 			try {
 				T service = (T) factory.create(clazz, url);
 				return service;

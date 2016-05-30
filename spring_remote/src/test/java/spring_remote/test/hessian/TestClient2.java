@@ -16,6 +16,8 @@ public class TestClient2 {
 	public static void main(String[] args) throws MalformedURLException {
 		String url = "http://localhost:8080/spring_remote/remote/userService";
 		HessianProxyFactory factory = new HessianProxyFactory();
+		factory.setOverloadEnabled(true); // 【重要】开启方法重载支持，不然接口里面重载的方法会调失败
+		
 		IUserService userService = (IUserService) factory.create(IUserService.class, url);
 	
 		System.out.println(userService.getInfo());
