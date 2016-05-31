@@ -5,6 +5,14 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	
+  	<context-param>
+	    <param-name>SystemProperty:appName</param-name>
+	    <param-value>maker</param-value>
+	</context-param>
+	<listener>
+        <listener-class>listener.SystemPropertiesHelper</listener-class>    
+    </listener>
+	
   <listener>
       <listener-class>listener.ServletContextListenerImpl</listener-class>
   </listener>
