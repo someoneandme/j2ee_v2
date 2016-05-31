@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
  * 拦截器演示
  */
 public class SpringMVCInterceptor implements HandlerInterceptor {
+	
+	// 要计算每个请求的总时间，可以用ThreadLocal来做，也可以把变量放到request中来做
 
 	/**
 	 * 请求处理前(目标方法被调用前)执行，返回true继续执行，返回false不再继续执行
