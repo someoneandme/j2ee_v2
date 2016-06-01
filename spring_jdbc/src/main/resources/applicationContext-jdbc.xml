@@ -18,19 +18,44 @@
 		<property name="location" value="classpath:jdbc.properties" />
 	</bean> 
     
-    <!-- 配置DBCP连接池的数据源 -->
-    <!-- 这里也可以使用org.springframework.jdbc.datasource.DriverManagerDataSource数据源 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="${jdbc.driverClassName}" />
+    <!-- 配置连接池数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
-		<property name="initialSize" value="8" /><!-- 初始连接池大小 -->
-		<property name="maxActive" value="20" /><!-- 最大活动连接数 -->
-		<property name="validationQuery" value="SELECT 1" /> <!-- validationQuery和testOnBorrow是重连用 -->
-		<property name="testOnBorrow" value="true" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="maxActive" value="20" />
+        <property name="initialSize" value="3" />
+        <property name="minIdle" value="3" />
+        <!-- maxWait获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000" />
+
+        <!-- timeBetweenEvictionRunsMillis间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <!-- minEvictableIdleTimeMillis一个连接在池中最小空闲的时间，单位是毫秒-->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="validationQuery" value="SELECT 'x'" />
+        <property name="testWhileIdle" value="true" />
+        
+        <property name="proxyFilters">  
+            <list>
+                <ref bean="stat-filter" />
+<!--                 <ref bean="log-filter" />   -->
+            </list>
+        </property>
+        <property name="filters" value="slf4j" />
+	</bean>
+
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">  
+	    <property name="mergeSql" value="true" />  
+	    <property name="slowSqlMillis" value="1" />  <!-- 这里故意配置慢sql为1秒，让所有的sql都打印出来 --> 
+	    <property name="logSlowSql" value="true" />  
 	</bean>
 	
+	<!-- 这种配置方式和 filters指定slf4j是一样的 -->
+<!--     <bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter"> -->
+<!--     </bean> -->
+
 	<!-- 配置JdbcTemplate -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
