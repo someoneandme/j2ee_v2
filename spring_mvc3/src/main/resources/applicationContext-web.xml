@@ -61,6 +61,7 @@
     <mvc:interceptors>
         <bean class="spring_mvc3.web.interceptor.SpringMVCInterceptor"></bean>
         <bean class="spring_mvc3.web.interceptor.SyncRequestModelInterceptor"></bean>
+        <!-- 拦截时，支持*通配符和**下级目录全部 -->
 <!--         <mvc:interceptor> -->
 <!--             <mvc:mapping path=""/> 可以指定对哪些链接做拦截 -->
 <!--             <bean></bean> -->
