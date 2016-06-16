@@ -2,6 +2,7 @@ package com.pugwoo.practice.jedis;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.junit.Test;
 
@@ -115,12 +116,13 @@ public class TestTx {
 	
 	@Test
 	public void testCAS() {
-		System.out.println(compareAndSet("cas", "hello2", "hello"));
+		System.out.println(compareAndSet("cas", "hello2", null));
 		System.out.println(compareAndSet("cas", "hello", "hello2"));
 	}
 	
 	/**
 	 * 封装一个redis CAS
+	 * 【这是一个非常重要的方法!】
 	 * @param key
 	 * @param value
 	 * @param oldValue 当拿出来的值是null或者是oldValue时，才允许修改
@@ -132,7 +134,7 @@ public class TestTx {
 		try {
 			jedis.watch(key);
 			String readOldValue = jedis.get(key);
-			if(readOldValue == null || readOldValue.equals(oldValue)) {
+			if(Objects.equals(oldValue, readOldValue)) {
 				Transaction tx = jedis.multi(); // MULTI
 				Response<String> result = tx.set(key, value);
 				List<Object> results = tx.exec();
