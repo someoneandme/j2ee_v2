@@ -88,6 +88,19 @@ public class RedisLimit {
 	 * @return 返回是当前周期内第几个使用配额的，如果返回-1，表示使用配额失败
 	 */
 	public static long useLimitCount(RedisLimitNamespaceEnum limitEnum, String key) {
+		return useLimitCount(limitEnum, key, 1);
+	}
+	
+	/**
+	 * 使用了count次限制。一般来说，业务都是在处理成功后才扣减使用是否成功的限制，
+	 * 如果使用失败了，如果业务支持事务回滚，那么可以回滚掉，此时可以不用RedisTransation做全局限制。
+	 * 
+	 * @param limitEnum
+	 * @param key
+	 * @param count
+	 * @return 返回是当前周期内第几个使用配额的，如果返回-1，表示使用配额失败
+	 */
+	public static long useLimitCount(RedisLimitNamespaceEnum limitEnum, String key, int count) {
 		if(limitEnum == null || key == null) {
 			LOGGER.error("limitEnum or key is null, limitEnum:{}, key:{}", limitEnum, key);
 			return -1;
@@ -102,13 +115,13 @@ public class RedisLimit {
 				String oldValue = jedis.get(key);
 				long newValue = 0;
 				if(oldValue == null) {
-					newValue = limitEnum.getLimitCount() - 1;
+					newValue = limitEnum.getLimitCount() - count;
 				} else {
 					long old = new Integer(oldValue);
 					if(old > limitEnum.getLimitCount()) {
 						old = limitEnum.getLimitCount();
 					}
-					newValue = old - 1;
+					newValue = old - count;
 				}
 				if(newValue < 0) { // 已经没有使用限额
 					return -1;
