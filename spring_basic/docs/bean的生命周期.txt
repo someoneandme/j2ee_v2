@@ -17,3 +17,6 @@ bean的创建和销毁过程：
 如果想在Spring容器全部启动完毕之后，再执行代码:
 只要实现：
 ApplicationListener<ContextRefreshedEvent> 就可以在spring启动完毕后执行一些代码。
+
+如果想在spring容器结束的时候，执行一段代码：
+只要实现 ApplicationListener<ContextClosedEvent> 
