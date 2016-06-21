@@ -6,8 +6,14 @@ bean的创建和销毁过程：
 5. 如果bean实现了ApplicationContextAware接口，Spring将调用setApplicationContext()接口传入应用上下文的引用
 6. 如果bean实现了BeanPostProcessor接口，Spring会调用postProcessBeforeInitialization()方法
 7. 如果bean实现了InitializingBean接口，Spring将调用afterPropertiesSet()接口，如果bean配置了init-method，该方法也会被调
-8. 如果bean是啊现了BeanPostProcessor接口，Spring将调用它们的postProcessAfterInitialization()方法。
+8. 如果bean实现了BeanPostProcessor接口，Spring将调用它们的postProcessAfterInitialization()方法。
 9. 此时，bean已经初始化完成，可以给程序使用。
 10. 如果bean实现了DisposableBean接口，spring将调用它的destroy()接口方法，同样，如果bean配置了destroy-method方法，该方法也会被调
 
 对于单例（默认）的bean，在容器启动时就会初始化，除非指定了lazy-init="true"延迟初始化。
+
+=============================================
+
+如果想在Spring容器全部启动完毕之后，再执行代码:
+只要实现：
+ApplicationListener<ContextRefreshedEvent> 就可以在spring启动完毕后执行一些代码。
