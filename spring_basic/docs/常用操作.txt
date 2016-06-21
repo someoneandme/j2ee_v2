@@ -1,0 +1,16 @@
+2016年6月21日16:18:19
+给Spring的bean加上自定义的annotation注解，然后再spring容器启动完之后拿到这些类:
+
+注解要加上上门这些指定配置：
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface TaskService {
+
+	String value();
+	
+}
+
+然后就可以用Map<String, Object> beans = applicationContext.getBeansWithAnnotation(TaskService.class); 
+拿到spring容器中的bean
+
