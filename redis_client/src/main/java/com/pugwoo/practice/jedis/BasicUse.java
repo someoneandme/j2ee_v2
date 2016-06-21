@@ -30,9 +30,26 @@ public class BasicUse {
 		jedis.del("name");
 		System.out.println("name:" + jedis.get("name"));
 		
-		jedis.close();
+		jedis.close(); // 必须
 		end = System.currentTimeMillis();
 		System.out.println("add/del cost:" + (end - start) + "ms");
+	}
+	
+	/**
+	 * redis的key过期是很常用的功能
+	 */
+	@Test
+	public void testExpire() {
+		Jedis jedis = RedisConnectionManager.getJedisConnection();
+		
+		// 每个key都可以设置超时时间，直接设置这个key的超时时间即可
+		jedis.set("name", "nick");
+		jedis.expire("name", 30); // 设置这个key 30秒过期
+		
+		// 还有另外一种方式就一个方法
+		jedis.setex("age", 60, "16"); // 设置超时的另外一种方式
+		
+		jedis.close();
 	}
 	
 	/**
@@ -40,7 +57,7 @@ public class BasicUse {
 	 * 
 	 * Redis中定义的事务(http://redis.io/topics/transactions)，
 	 * 并不是关系数据库中严格意义上的事务。
-	 * 当Redis事务中的某个操作执行失败，或者用DISCARD取消事务时候，Redis并不执行“事务回滚”
+	 * 【重要】当Redis事务中的某个操作执行失败，或者用DISCARD取消事务时候，Redis并不执行“事务回滚”
 	 */
 	@Test
 	public void testTx() {
@@ -56,9 +73,13 @@ public class BasicUse {
 			System.out.println(obj);
 		}
 		
-		// tx.discard(); 【注意】如果发现某个命令执行失败，需要手动discard回滚
+		 // tx.discard(); // 【注意】如果发现某个命令执行失败，需要手动discard回滚 
+		 // 这里会抛出异常，不能回滚，原因是上面的命令已经成功执行了，所以已经生效了。
+		// tx.discard()应该是在redis有命令执行失败时才来调用，还没试
 		
-		jedis.close();
+		// redis里面是没有像mysql一样的事务和回滚，应该以CAS的思维来保证一致性。
+		
+		jedis.close();  // 必须
 	}
 
 }
