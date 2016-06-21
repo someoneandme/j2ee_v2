@@ -20,3 +20,7 @@ ApplicationListener<ContextRefreshedEvent> 就可以在spring启动完毕后执�
 
 如果想在spring容器结束的时候，执行一段代码：
 只要实现 ApplicationListener<ContextClosedEvent> 
+
+如果要同时监听启动和结束，那么就要实现ApplicationListener<ApplicationEvent>，
+然后再同一个方法里面，判断event instanceof ContextRefreshedEvent
+
