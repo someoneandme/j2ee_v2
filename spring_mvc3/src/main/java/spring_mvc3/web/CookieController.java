@@ -39,7 +39,9 @@ public class CookieController {
 		System.out.println(encodeValue);
 		Cookie cookie = new Cookie("chinese2", encodeValue);
 		cookie.setMaxAge(60 * 60 * 24 *7); // 有效期7天
-		// 还可以指定打在那个域下面setDomain
+		// 还可以指定打在那个域下面setDomain 【一般设置到根domain下】
+		
+		cookie.setPath("/"); // 一般都要cookie set到path /下
 		
 		// Set-Cookie: chinese2=; Expires=Thu, 27-Mar-2014 04:54:18 GMT
 		resp.addCookie(cookie);
