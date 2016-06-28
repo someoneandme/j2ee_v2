@@ -1,0 +1,11 @@
+2016年6月28日11:58:10
+
+关于登陆，期望做到的效果：
+用户访问需要登录的http://abc.com/item.html?id=111 页面时，
+如果这个登陆页面时，如果登陆了，那么正常使用；如果没有登陆，那么在这个页面中登陆（重要：此时浏览器地址还是访问的这个地址），登陆后成功时刷新当前页面。
+
+实践一下spring mvc怎样在拦截器选择vm渲染，从而不用跳转浏览器端的连接
+request.getRequestDispatcher("/WEB-INF/vm/admin_login.vm").forward(request,response);
+
+如果使用全部javascript异步请求ajax的方式获取的后台数据的话，spring mvc是用一个拦截器，
+对于ajax请求，如果没有登陆，则返回登陆的状态码，然后由前端出登陆框进行登陆。登陆后再请求原来的ajax请求，这种体验也是符合要求的。

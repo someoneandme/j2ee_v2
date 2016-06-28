@@ -3,7 +3,7 @@
 velocity也支持单独可执行程序来跑
 
 velocity的#parse('./xx.vm') 将另外一个vm包含进来，此时会parse那个vm
-累死的还有#include('./xx.vm') 这个不会parse
+类似的还有#include('./xx.vm') 这个不会parse
 
 实现velocity指定模版不用默认模版的方式：
 新建一个只有$screen_content的空vm文件，
