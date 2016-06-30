@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * 2014年10月14日 20:29:20
+ * 
+ * 注意，需要配置spring配置文件的，注意：
+ * xmlns:task="http://www.springframework.org/schema/task"
+ * http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-3.0.xsd
  */
 @Component
 public class MyTask {
