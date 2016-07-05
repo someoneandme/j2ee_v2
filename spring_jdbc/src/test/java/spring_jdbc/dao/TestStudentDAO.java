@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import entity.Student;
 
@@ -73,7 +74,13 @@ public class TestStudentDAO {
 		student3.setName("nick11");
 		students.add(student3);
 		
-		studentDAO.insertAtomicity(students);
+		boolean result = studentDAO.insertAtomicity(students);
+		
+		// 如果是TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		// 那么下面这行会打印出来，异常也会记录到log中
+		// 如果是通过抛出RuntimeException来抛出异常，那么返回值就不会打印到这一行
+		// 所以，手工让事务回滚也有很不错的使用方法
+		System.out.println("================run done================" + result);
 	}
 	
 	/**

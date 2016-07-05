@@ -104,20 +104,22 @@ public class StudentDAOImpl implements StudentDAO {
 	 * http://stackoverflow.com/questions/7125837/why-does-transaction-roll-back-on-runtimeexception-but-not-sqlexception
 	 */
 	@Transactional
-	public void insertAtomicity(List<Student> students) throws Exception {
+	public boolean insertAtomicity(List<Student> students) {
 		if(students == null || students.isEmpty()) {
-			return;
+			return false;
 		}
 		for(Student student : students) {
 			jdbcTemplate.update("insert into t_student(id,name,age) values(?,?,?)",
 					student.getId(), student.getName(), student.getAge());
 			// 故意插入第一条之后就抛出异常
 			// throw new Exception(); // 这条没有导致回滚
-			// throw new RuntimeException(); // 需要抛出RuntimeException才会回滚
+			//throw new RuntimeException(); // 需要抛出RuntimeException才会回滚
 			
 			// 【重要！】下面这种写法是手工让当前方法所在的事务回滚，非常实用,还有其他控制事务的方法
-//			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); return false;
 		}
+		
+		return true;
 	}
 
 }

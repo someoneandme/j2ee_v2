@@ -22,7 +22,7 @@ public interface StudentDAO {
 	 * @param students
 	 * @throws SQLException
 	 */
-	public void insertAtomicity(List<Student> students) throws Exception;
+	public boolean insertAtomicity(List<Student> students);
 	
 	/**
 	 * 根据student的Id获得student对象
