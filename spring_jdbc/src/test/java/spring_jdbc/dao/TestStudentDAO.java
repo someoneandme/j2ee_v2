@@ -52,7 +52,7 @@ public class TestStudentDAO {
 	 */
 	@Test
 	@Rollback(false)
-	public void testInsertStuduentAtomicity() throws SQLException {
+	public void testInsertStuduentAtomicity() throws Exception {
 		List<Student> students = new ArrayList<Student>();
 		
 		Student student1 = new Student();
@@ -65,7 +65,13 @@ public class TestStudentDAO {
 		student2.setId(3L);
 		student2.setAge(26);
 		student2.setName("nick");
-		students.add(student2);
+//		students.add(student2);// 这个是故意造一个主键id相同的情况，如果这个打开，会造成整个事务回滚
+		
+		Student student3 = new Student();
+		student3.setId(4L);
+		student3.setAge(29);
+		student3.setName("nick11");
+		students.add(student3);
 		
 		studentDAO.insertAtomicity(students);
 	}
@@ -105,5 +111,5 @@ public class TestStudentDAO {
 			System.out.println(st);
 		}
 	}
-	
+		
 }
