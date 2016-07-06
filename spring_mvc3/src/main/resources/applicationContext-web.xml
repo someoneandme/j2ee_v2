@@ -86,7 +86,8 @@
 	            <property name="features">
                     <array value-type="com.alibaba.fastjson.serializer.SerializerFeature">
 <!--                         <value>PrettyFormat</value> -->
-                        <value>WriteDateUseDateFormat</value>
+                        <value>WriteDateUseDateFormat</value> <!-- 标准日期格式配置 -->
+                        <value>WriteNonStringKeyAsString</value> <!-- 实用，将非字符串的key转换为字符串，以方便jquery解析 -->
                     </array>
                 </property>
 	        </bean>
