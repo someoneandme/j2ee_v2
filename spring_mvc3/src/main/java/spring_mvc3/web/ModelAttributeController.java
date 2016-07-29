@@ -27,6 +27,8 @@ public class ModelAttributeController {
 	 * 1. return一个对象，然后@ModelAttribute("xxx")加上名称xxx
 	 * 2. 在注入的model中写入数据，推荐这种方式
 	 * 
+	 * 【重要】对于required是false，实际上写String name更简洁
+	 * 
 	 * @param model
 	 */
 	@ModelAttribute
