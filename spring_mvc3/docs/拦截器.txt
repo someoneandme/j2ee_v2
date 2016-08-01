@@ -2,6 +2,8 @@
 
 spring拦截器可以配置mvc:mapping和mvc:exclude-mapping来配置，很容易组合成不同的拦截。
 
+注意：如果要排除掉一个url，mvc:exclude-mapping应该放在后面，而不是放在最前面。
+
 拦截器我的设想是做在方法注解上
 
 @Login
