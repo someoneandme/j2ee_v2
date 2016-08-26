@@ -1,21 +1,24 @@
-package naming;
+package registry;
+
+import java.util.Random;
 
 import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 
+import util.ZookeeperConf;
+
 /**
  * http://coolxing.iteye.com/blog/1871520 
- * 使用zookeeper作为服务注册中心
- * 利用zookeeper的EPHEMERAL_SEQUENTIAL特性
+ * ## 使用zookeeper作为服务注册中心
+ * 
+ * 利用zookeeper的EPHEMERAL_SEQUENTIAL特性: 节点是自增id增加的，当客户端断线后，会自动删除。
  * 
  * 【重要】
  * 需要确认zookeeper中是否已经存在"/sgroup"节点了, 
  * 如果不存在, 则创建该节点. 
  * 如果存在, 最好先将其删除, 然后再重新创建.
- * create /sgroup test
+ * 【重要】先执行命令：create /sgroup test
  */
 public class AppServer {
 
@@ -29,12 +32,7 @@ public class AppServer {
 	 *            server的ip地址
 	 */
 	public void registerZookeeper(String address) throws Exception {
-		ZooKeeper zk = new ZooKeeper(Config.zookeeperAddr, 10000,
-				new Watcher() {
-					public void process(WatchedEvent event) {
-						// 不做处理
-					}
-				});
+		ZooKeeper zk = ZookeeperConf.getZooKeeper();
 		
 		// 在"/sgroup"下创建子节点
 		// 子节点的类型设置为EPHEMERAL_SEQUENTIAL, 表明这是一个临时节点, 且在子节点的名称后面加上一串数字后缀
@@ -46,23 +44,12 @@ public class AppServer {
 		System.out.println("create: " + createdPath);
 	}
 
-	/**
-	 * server的工作逻辑写在这个方法中 此处不做任何处理, 只让server sleep
-	 */
-	public void handle() throws InterruptedException {
-		Thread.sleep(Long.MAX_VALUE);
-	}
-
-	public static void main(String[] args) throws Exception {
-		// 在参数中指定server的地址
-		if (args.length == 0) {
-			System.err.println("The first argument must be server address");
-			System.exit(1);
-		}
+	public static void main(String[] args) throws Exception {		
+		String ip = "127.0.0.1:" + new Random().nextInt(65500);
 
 		AppServer as = new AppServer();
-		as.registerZookeeper(args[0]);
+		as.registerZookeeper(ip);
 
-		as.handle();
+		Thread.sleep(Long.MAX_VALUE);
 	}
 }

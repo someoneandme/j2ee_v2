@@ -1,4 +1,4 @@
-package naming;
+package registry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,8 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+
+import util.ZookeeperConf;
 
 /**
  * 客户端连接上zookeeper之后，watch节点变化
@@ -23,8 +25,8 @@ public class AppClient {
 	/**
 	 * 连接zookeeper
 	 */
-	public void connectZookeeper() throws Exception {
-		zk = new ZooKeeper(Config.zookeeperAddr, 10000, new Watcher() {
+	public void connectZookeeper() throws Exception {		
+		zk = ZookeeperConf.getZooKeeper(new Watcher() {
 			public void process(WatchedEvent event) {
 				// 如果发生了"/sgroup"节点下的子节点变化事件, 更新server列表, 并重新注册监听
 				if (event.getType() == EventType.NodeChildrenChanged
@@ -64,17 +66,11 @@ public class AppClient {
 		System.out.println("server list updated: " + serverList);
 	}
 
-	/**
-	 * client的工作逻辑写在这个方法中 此处不做任何处理, 只让client sleep
-	 */
-	public void handle() throws InterruptedException {
-		Thread.sleep(Long.MAX_VALUE);
-	}
-
 	public static void main(String[] args) throws Exception {
 		AppClient ac = new AppClient();
 		ac.connectZookeeper();
 
-		ac.handle();
+		// client的工作逻辑写在这个方法中 此处不做任何处理, 只让client sleep
+		Thread.sleep(Long.MAX_VALUE);
 	}
 }
