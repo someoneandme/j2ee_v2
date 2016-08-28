@@ -12,6 +12,7 @@ public class HessianClientTest {
 	public static void main(String[] args) {
 		String url = "http://localhost:8080/hessian/hessian/math";
 		HessianProxyFactory factory = new HessianProxyFactory();
+		factory.setOverloadEnabled(true);// 【重要】这样才支持重载接口（当然不重载也支持）
 		MathService math = null;
 		try {
 			math = (MathService) factory.create(MathService.class, url);
