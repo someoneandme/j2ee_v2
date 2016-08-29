@@ -58,6 +58,7 @@ public class Sender {
 			for(int i = 0; i < 10; i++) {
 				Utils.sendMessage(session, producer, "你好" + i + "" + new Date());
 				Thread.sleep(1000);
+				session.commit(); // 一个session可以多次commit，commit才回发送消息
 			}
 			
 			// 提交，没有提交的话发送的信息不会到activeMQ服务器
