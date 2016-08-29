@@ -5,7 +5,7 @@ package cfg;
  */
 public class Config {
 
-	public static String url = "tcp://vpstx.pugwoo.com:61616";
+	public static String url = "tcp://127.0.0.1:61616";
 	public static String user = "admin";
 	
 	/**

@@ -31,10 +31,12 @@ public class Sender {
 			/**
 			 * 参数说明相见p2p.Sender.java
 			 */
-			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
 
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 20; i++) {
 				Utils.sendMessage(session, producer, "你好" + i);
+			    Thread.sleep(1000);
+			    session.commit(); // 提交，没有提交的话发送的信息不会到activeMQ服务器
 			}
 
 			// 提交，没有提交的话发送的信息不会到activeMQ服务器

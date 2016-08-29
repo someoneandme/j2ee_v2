@@ -6,8 +6,6 @@ import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.jms.TopicConnection;
-import javax.jms.TopicConnectionFactory;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
