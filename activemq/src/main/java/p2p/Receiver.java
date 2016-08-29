@@ -20,6 +20,7 @@ public class Receiver {
 		
 		try {
 			connection = Utils.getConnection();
+			// 没有必要设置clientID
 			connection.start();
 			
 			/**

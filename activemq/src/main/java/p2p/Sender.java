@@ -1,5 +1,7 @@
 package p2p;
 
+import java.util.Date;
+
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
@@ -51,13 +53,15 @@ public class Sender {
 			 * DeliveryMode.PERSISTENT
 			 * 意味着JMS重启后，数据还存在。
 			 */
-			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
 			
-			for(int i = 0; i < 5; i++) {
-				Utils.sendMessage(session, producer, "你好" + i);
+			for(int i = 0; i < 10; i++) {
+				Utils.sendMessage(session, producer, "你好" + i + "" + new Date());
+				Thread.sleep(1000);
 			}
 			
 			// 提交，没有提交的话发送的信息不会到activeMQ服务器
+			// 也就是说，发送时一批同一时刻发送过去的
 			session.commit();
 			
 		} catch (Exception e) {
