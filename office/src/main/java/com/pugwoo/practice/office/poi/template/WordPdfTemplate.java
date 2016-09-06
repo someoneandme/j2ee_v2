@@ -3,6 +3,8 @@ package com.pugwoo.practice.office.poi.template;
 import com.google.common.io.Closeables;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,6 +15,8 @@ import java.util.Map;
 /**
  */
 public class WordPdfTemplate extends WordTemplate {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(WordPdfTemplate.class);
 
     public WordPdfTemplate(InputStream in) {
         super(in);
