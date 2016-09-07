@@ -33,4 +33,6 @@ public class DownloadController {
 				headers, HttpStatus.OK);
 		return response;
 	}
+	
+	// 另一种方式就是直接拿outputstream来写
 }
