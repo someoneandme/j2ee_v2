@@ -25,7 +25,7 @@ import org.springframework.web.context.ServletConfigAware;
 
 /**
  * 用于自动向配置中心注册当前提供的服务的信息，最主要的就是连接地址:
- * http://localhost:8080/hessianweb/remoting/helloServiceExporter
+ * http://localhost:8080/hessianweb/_remote/helloServiceExporter
  * 它是动态的，根据web容器不同而不同
  */
 public class SOAHessianServiceExporter extends HessianServiceExporter implements
