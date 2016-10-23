@@ -27,7 +27,7 @@ import soa.register.SOAHessianServiceExporter;
 
 /**
  * 2015年1月6日 14:54:54
- * 
+ * @author pugwoo
  * 扫描@HessianService注解的bean，它在spring容器起来之后执行
  */
 public class HessianServiceScanner implements BeanFactoryPostProcessor,

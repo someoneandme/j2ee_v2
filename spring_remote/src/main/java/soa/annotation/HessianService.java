@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * 2015年1月6日 15:46:44
+ * @author pugwoo
  * 该注解用于替代掉类似配置文件:
  * 	<bean name="/userService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
