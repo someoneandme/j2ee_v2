@@ -66,7 +66,7 @@
 <!--             <mvc:mapping path=""/> 可以指定对哪些链接做拦截 -->
 <!--             <bean></bean> -->
               
-              <!-- 【注意】 -->
+              <!-- 【注意】 2016年10月30日 14:33:49-->
               <!-- 【特别注意：exclude path的值是从web.xml中配置的servlet-mapping url-pattern中，*号匹配上的部分！】 -->
 
 <!--             <mvc:exclude-mapping path=""/> 可以指定对哪些链接不做拦截 -->
