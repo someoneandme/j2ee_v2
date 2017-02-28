@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -16,6 +17,19 @@ public class ZookeeperConf {
 
 	public static ZooKeeper getZooKeeper() {
 		return getZooKeeper(null);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		ZooKeeper baseZookeeper = getZooKeeper();
+		List<String> children = baseZookeeper.getChildren("/", false);
+		for (String child : children)
+		{
+			System.out.println(child);
+		}
+		
+		byte [] nodeData = baseZookeeper.getData("/", false, null);
+		System.out.println(new String(nodeData));
+		System.out.println("--------get node data ok-----------");
 	}
 	
 	/**

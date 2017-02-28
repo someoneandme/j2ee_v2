@@ -1,6 +1,4 @@
 j2ee_v2
 =======
 
-my practices on j2ee projects.
-
-open with eclipse and maven. , file is encoded with UTF-8.
+这是我练习java企业应用的项目。实际上，应用级别的java工具都被我纳入j2ee的范围。
