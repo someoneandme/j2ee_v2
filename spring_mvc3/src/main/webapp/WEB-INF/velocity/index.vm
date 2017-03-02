@@ -36,12 +36,7 @@
     </p>
     
     <h3>上传文件</h3>
-    <p>
-      <form action="upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="myfile" />
-        <input type="submit" />
-      </form>
-    </p>
+    <p><a href="./upload" target="_blank">点此查看demo</a></p>
     
     <h3>复杂的表单（数组、form）</h3>
     <p><a href="cplx_form" target="blank">复杂的表单</a></p>
